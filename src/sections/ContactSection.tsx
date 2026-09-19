@@ -6,8 +6,10 @@ import { CONTACT, PROJECT_TYPES } from '../data';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
-// Free key from https://web3forms.com — put it in a `.env` file as VITE_WEB3FORMS_KEY=...
-const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY as string | undefined;
+// Free key from https://web3forms.com — set VITE_WEB3FORMS_KEY (or the older NEXT_PUBLIC_WEB3FORMS_KEY).
+const WEB3FORMS_KEY = (import.meta.env.VITE_WEB3FORMS_KEY || import.meta.env.NEXT_PUBLIC_WEB3FORMS_KEY) as
+  | string
+  | undefined;
 
 const fieldClass =
   'w-full rounded-2xl border border-[#0C0C0C]/15 bg-[#F1F4F6] px-4 py-3.5 text-base text-[#0C0C0C] placeholder:text-[#0C0C0C]/45 ' +
