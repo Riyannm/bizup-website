@@ -153,17 +153,6 @@
     .panel .cta{ margin-top:16px; }
   }
 
-  /* the "portal" — grows from a small badge to fill the screen as the intro ends,
-     then dissolves so the real page feels like it opens up from inside it */
-  .portal-wrap{ position:fixed; inset:0; z-index:25; display:flex; align-items:center; justify-content:center; pointer-events:none; }
-  .portal{
-    width:112px; height:112px; border-radius:50%; background:var(--pill-bg);
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 20px 60px -10px rgba(0,0,0,.35);
-    transform:scale(1) rotate(0deg); will-change:transform, opacity;
-  }
-  .portal svg{ width:44px; height:44px; stroke:#fff; stroke-width:2; fill:none; }
-
   .intro-track{ position:relative; z-index:1; height:400vh; min-height:2400px; }
 
   /* rest of the site — normal document flow; left transparent so the fixed video
@@ -340,12 +329,6 @@
     <div class="cta"><a class="pill" href="#contact">Start a project</a></div>
   </section>
 </main>
-
-<div class="portal-wrap" aria-hidden="true">
-  <div class="portal" id="portal">
-    <svg viewBox="0 0 24 24"><path d="M4 17l6-6 4 4 6-8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </div>
-</div>
 
 <div class="intro-track" id="introTrack"></div>
 
@@ -554,8 +537,6 @@
   var meter = document.getElementById("meter");
   var track = document.getElementById("introTrack");
   var panels = [].slice.call(document.querySelectorAll("[data-panel]"));
-  var portal = document.getElementById("portal");
-
   // Cues are fractions (0..1) of the INTRO TRACK's own scroll range, not the whole
   // page — that way the video-scrub sequence always finishes at a fixed point near
   // the top, regardless of how much real content follows it further down the page.
@@ -602,15 +583,6 @@
       el.style.transform = "translate3d(0," + y + "px,0)";
       el.style.pointerEvents = o > 0.6 ? "auto" : "none";
     }
-
-    // the portal grows from a small badge into a screen-filling circle right as the
-    // last panel clears, then dissolves — so the page underneath feels like it opens
-    // up from inside it, rather than just scrolling into view
-    var grow = ramp(introProgress, 0.80, 0.97);
-    var clear = ramp(introProgress, 0.94, 1.0);
-    var scale = 1 + grow * 16;
-    portal.style.transform = "scale(" + scale + ") rotate(" + (grow * 45) + "deg)";
-    portal.style.opacity = grow * (1 - clear);
   }
 
   function frame(){
