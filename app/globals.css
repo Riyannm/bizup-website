@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+:root {
+  --fg: #0d0c0b;
+  --fg-soft: rgba(13, 12, 11, 0.64);
+  --fg-faint: rgba(13, 12, 11, 0.42);
+  --shade: #f2f0ec;
+  --card: #f2f7ef;
+  --card-border: rgba(60, 122, 82, 0.16);
+  --rule: rgba(13, 12, 11, 0.16);
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --pill-bg: #0a0908;
+  --pill-fg: #ffffff;
+  --ok: #3c7a52;
+  --warn: #a9660f;
+
+  /* frosted glass panels — let the persistent 3D backdrop read through */
+  --glass-bg: rgba(242, 247, 239, 0.5);
+  --glass-bg-strong: rgba(242, 247, 239, 0.74);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-border-soft: rgba(60, 122, 82, 0.18);
+
+  /* liquid-metal control gradient stops */
+  --metal-base: #0d0c0b;
+  --metal-mid: #2c2b29;
+  --metal-sheen: rgba(255, 255, 255, 0.85);
+}
+
+@theme inline {
+  --color-fg: var(--fg);
+  --color-fg-soft: var(--fg-soft);
+  --color-fg-faint: var(--fg-faint);
+  --color-shade: var(--shade);
+  --color-card: var(--card);
+  --color-card-border: var(--card-border);
+  --color-rule: var(--rule);
+  --color-pill-bg: var(--pill-bg);
+  --color-pill-fg: var(--pill-fg);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-glass-bg: var(--glass-bg);
+  --color-glass-bg-strong: var(--glass-bg-strong);
+  --color-glass-border: var(--glass-border);
+  --color-glass-border-soft: var(--glass-border-soft);
+  --font-sans: var(--font-inter-tight);
+  --font-heading: var(--font-lexend);
+  --ease-brand: var(--ease);
+}
+
+/* Tailwind's utilities live inside @layer utilities; unlayered rules always
+   win over layered ones regardless of specificity, so these base resets have
+   to be layered too or they'd permanently beat every utility class (e.g. a
+   `text-*` color on an <a>). */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--shade);
+    color: var(--fg);
+    font-family: var(--font-inter-tight), "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-lexend), var(--font-inter-tight), "Helvetica Neue", sans-serif;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+}
