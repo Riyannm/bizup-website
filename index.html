@@ -521,11 +521,13 @@
 (function(){
   "use strict";
 
-  // BizUp's own generated background: an abstract drifting-gradient / connected-nodes
-  // clip in the site's paper/ink palette (1280x720, 8s, 192 frames, all-intra — every
-  // frame is a keyframe, which is why a scroll scrub can land on an exact frame
-  // instantly instead of hunting for one). Served same-origin from /media, so there's
-  // no CORS concern for the preload-to-blob step below.
+  // BizUp's own generated background: drifting gradients, a connected-nodes network,
+  // and periodic wavy "scan" pulses from two of the nodes (echoing a monitoring/alerts
+  // story rather than a literal rock) — all in the site's paper/ink palette.
+  // 1280x720, 10s, 240 frames, all-intra (every frame is a keyframe), which is why a
+  // scroll scrub can land on an exact frame instantly instead of hunting for one.
+  // Served same-origin from /media, so there's no CORS concern for the preload-to-blob
+  // step below.
   var VIDEO_URL = "/media/hero.mp4";
 
   var clip = document.getElementById("clip");
