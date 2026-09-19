@@ -7,7 +7,6 @@
 <title>BizUp Technologies</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://d2ol7oe51mr4n9.cloudfront.net" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -521,10 +520,12 @@
 (function(){
   "use strict";
 
-  // Placeholder demo footage — swap VIDEO_URL for BizUp's own clip before going live.
-  // 1920x1080, 10.04s, 241 frames, all-intra (every frame is a keyframe), which is why
-  // a scroll scrub can land on an exact frame instantly instead of hunting for one.
-  var VIDEO_URL = "https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/45567745-d826-44a2-a5ce-7ef670944e60.mp4";
+  // BizUp's own generated background: an abstract drifting-gradient / connected-nodes
+  // clip in the site's paper/ink palette (1280x720, 8s, 192 frames, all-intra — every
+  // frame is a keyframe, which is why a scroll scrub can land on an exact frame
+  // instantly instead of hunting for one). Served same-origin from /media, so there's
+  // no CORS concern for the preload-to-blob step below.
+  var VIDEO_URL = "/media/hero.mp4";
 
   var clip = document.getElementById("clip");
   var boot = document.getElementById("boot");
