@@ -155,8 +155,9 @@
 
   .intro-track{ position:relative; z-index:1; height:400vh; min-height:2400px; }
 
-  /* rest of the site — normal document flow, solid paper background covers the fixed video as it scrolls up */
-  main.content{ position:relative; z-index:2; background:var(--shade); }
+  /* rest of the site — normal document flow; left transparent so the fixed video
+     keeps showing through behind it, all the way down to the footer */
+  main.content{ position:relative; z-index:2; }
   .wrap{ max-width:1080px; margin:0 auto; padding-inline:22px; }
   section{ padding-block:96px; }
   .sectionhead{ max-width:640px; margin-bottom:44px; }
@@ -553,6 +554,9 @@
   }
 
   var introProgress = 0, pageProgress = 0, seekTo = 0, seekAt = 0, duration = 0, ready = false;
+  var autoPlaying = false; // once the intro's scroll-scrub range is exhausted, let the
+                            // clip keep looping on its own clock instead of freezing on
+                            // the last frame, so it stays alive all the way to the footer
 
   function readScroll(){
     var pageMax = document.documentElement.scrollHeight - window.innerHeight;
@@ -582,11 +586,23 @@
 
   function frame(){
     if (ready && duration){
-      var gap = seekTo - seekAt;
-      if (Math.abs(gap) > 0.0008){
-        seekAt += gap * 0.115;
-        if (clip.readyState >= 2 && !clip.seeking){
-          try { clip.currentTime = seekAt; } catch (e) {}
+      if (introProgress >= 0.995 && !autoPlaying){
+        autoPlaying = true;
+        clip.loop = true;
+        var p = clip.play();
+        if (p && p.catch) p.catch(function(){});
+      } else if (introProgress < 0.995 && autoPlaying){
+        autoPlaying = false;
+        clip.loop = false;
+        clip.pause();
+      }
+      if (!autoPlaying){
+        var gap = seekTo - seekAt;
+        if (Math.abs(gap) > 0.0008){
+          seekAt += gap * 0.115;
+          if (clip.readyState >= 2 && !clip.seeking){
+            try { clip.currentTime = seekAt; } catch (e) {}
+          }
         }
       }
     }
