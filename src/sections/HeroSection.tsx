@@ -1,3 +1,4 @@
+import { ArrowUpRight } from 'lucide-react';
 import FadeIn from '../components/FadeIn';
 import ParticleField from '../components/ParticleField';
 import LookAtComputer from '../components/LookAtComputer';
@@ -41,10 +42,12 @@ export default function HeroSection() {
         {/* left: intro + call to action */}
         <div className="w-full max-w-xl">
           <FadeIn delay={0.15} y={20}>
-            <p className="max-w-md text-sm sm:text-base font-light leading-relaxed text-[#D7E2EA]/55">
-              Hey there, meet BizUp Technologies.
-              <br />
-              A freelance software &amp; automation studio for small and growing businesses.
+            <p className="inline-flex items-center gap-1.5 text-base sm:text-lg font-medium text-[#D7E2EA]">
+              It&rsquo;s Time to BizUp.
+              <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 text-[#4FC3FF]" aria-hidden="true" />
+            </p>
+            <p className="mt-2 max-w-md text-sm sm:text-base font-light leading-relaxed text-[#D7E2EA]/55">
+              Smart digital solutions built for businesses ready to level up.
             </p>
           </FadeIn>
           <FadeIn delay={0.25} y={24}>

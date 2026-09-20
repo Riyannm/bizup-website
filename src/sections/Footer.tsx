@@ -11,7 +11,7 @@ export default function Footer() {
     <footer className="bg-[#0C0C0C] px-5 sm:px-8 md:px-10 pt-14 pb-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <Logo size="lg" withTagline />
+          <Logo className="h-14 w-auto sm:h-16" />
           <p className="mt-3 font-light text-[#D7E2EA]/70">Websites, apps &amp; automation.</p>
         </div>
         <nav aria-label="Footer">

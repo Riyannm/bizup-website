@@ -7,9 +7,11 @@ import {
   Landmark,
   Lock,
   MapPin,
+  CreditCard,
+  Fuel,
   Package,
   ShieldCheck,
-  Truck,
+  ShoppingCart,
   Wrench,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
@@ -322,9 +324,9 @@ function ReportsVisual() {
 /* ---------- 4. Vending & delivery website ---------- */
 
 const SITE_SERVICES = [
-  { icon: Package, label: 'Vending machines' },
-  { icon: Truck, label: 'Delivery' },
-  { icon: Wrench, label: 'Service & restock' },
+  { icon: ShoppingCart, label: 'E-commerce' },
+  { icon: Fuel, label: 'Gas station' },
+  { icon: CreditCard, label: 'POS system' },
 ];
 
 function WebsiteVisual() {
@@ -359,15 +361,15 @@ function WebsiteVisual() {
             transition={{ duration: 0.6 }}
           >
             <div className="font-black uppercase leading-[0.95] text-[#D7E2EA]" style={{ fontSize: 'clamp(1.1rem, 2.6vw, 2.4rem)' }}>
-              Snacks, drinks
-              <br />& delivery, sorted.
+              E-commerce, gas
+              <br />station &amp; POS.
             </div>
             <div className="mt-2 flex flex-col gap-1.5" aria-hidden="true">
               <span className="h-2 w-4/5 rounded-full bg-[#D7E2EA]/15" />
               <span className="h-2 w-3/5 rounded-full bg-[#D7E2EA]/15" />
             </div>
             <div className="mt-3 flex flex-wrap gap-2 text-[10px] sm:text-xs">
-              <span className="rounded-full bg-[#D7E2EA] px-3 py-1 font-medium text-[#0C0C0C]">Request a machine</span>
+              <span className="rounded-full bg-[#D7E2EA] px-3 py-1 font-medium text-[#0C0C0C]">Shop online</span>
               <span className="rounded-full border border-[#D7E2EA]/40 px-3 py-1 text-[#D7E2EA]">Book a delivery</span>
             </div>
           </motion.div>
@@ -402,9 +404,9 @@ function WebsiteVisual() {
         <div className="flex flex-1 flex-col gap-2 rounded-[22px] bg-[#0f0f11] p-3">
           <span className="h-2 w-10 rounded-full bg-[#D7E2EA]/70" />
           <div className="mt-1 text-[11px] font-black uppercase leading-tight text-[#D7E2EA]">
-            Snacks, drinks & delivery, sorted.
+            E-commerce, gas station &amp; POS.
           </div>
-          <span className="rounded-full bg-[#D7E2EA] py-1 text-center text-[9px] font-medium text-[#0C0C0C]">Request a machine</span>
+          <span className="rounded-full bg-[#D7E2EA] py-1 text-center text-[9px] font-medium text-[#0C0C0C]">Shop online</span>
           {SITE_SERVICES.map(({ icon: Icon, label }) => (
             <div key={label} className="flex items-center gap-2 rounded-xl bg-white/[0.04] px-2 py-1.5">
               <Icon className="h-3 w-3 text-[#D7E2EA]" aria-hidden="true" />

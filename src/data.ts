@@ -68,7 +68,7 @@ export const SERVICES = [
     name: 'Web development',
     description:
       'Marketing sites, booking pages, and full web apps that load fast and are easy for you to update.',
-    includes: ['Business & landing sites', 'Customer-facing web apps', 'E-commerce & booking'],
+    includes: ['Business & landing sites', 'Customer-facing web apps', 'E-commerce & online stores', 'POS & gas station systems'],
   },
   {
     name: 'Mobile & software apps',
