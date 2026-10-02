@@ -38,6 +38,11 @@ section[id] {
   outline-offset: 4px;
 }
 
+/* The light outline disappears on white sections. */
+.bg-white :focus-visible {
+  outline-color: #0c0c0c;
+}
+
 .hero-heading {
   background: linear-gradient(180deg, #646973 0%, #bbccd7 100%);
   -webkit-background-clip: text;

@@ -40,7 +40,7 @@ export default function HeroSection() {
 
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col-reverse items-center justify-center gap-8 px-6 md:px-10 pb-14 pt-6 lg:flex-row lg:justify-between lg:gap-12 lg:pb-10">
         {/* left: intro + call to action */}
-        <div className="w-full max-w-xl">
+        <div id="intro" className="w-full max-w-xl">
           <FadeIn delay={0.15} y={20}>
             <p className="inline-flex items-center gap-1.5 text-base sm:text-lg font-medium text-[#D7E2EA]">
               It&rsquo;s Time to BizUp.

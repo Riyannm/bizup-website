@@ -5,6 +5,14 @@ export const CONTACT = {
   whatsappHref: 'https://wa.me/919182464926',
 };
 
+// Shown in the footer and on the legal pages. Empty fields are left out.
+export const BUSINESS = {
+  name: 'BizUp Technologies',
+  location: 'India',
+  address: '',
+  gstin: '',
+};
+
 export const NAV_LINKS = [
   { label: 'Services', href: '#services' },
   { label: 'About', href: '#about' },

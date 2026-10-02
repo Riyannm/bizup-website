@@ -12,8 +12,8 @@ const WEB3FORMS_KEY = (import.meta.env.VITE_WEB3FORMS_KEY || import.meta.env.NEX
   | undefined;
 
 const fieldClass =
-  'w-full rounded-2xl border border-[#0C0C0C]/15 bg-[#F1F4F6] px-4 py-3.5 text-base text-[#0C0C0C] placeholder:text-[#0C0C0C]/45 ' +
-  'transition-colors duration-200 focus:border-[#0C0C0C] focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-[#0C0C0C]/15';
+  'w-full rounded-2xl border border-[#0C0C0C]/50 bg-[#F1F4F6] px-4 py-3.5 text-base text-[#0C0C0C] placeholder:text-[#0C0C0C]/60 ' +
+  'transition-colors duration-200 focus:border-[#0C0C0C] focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-[#0C0C0C]';
 
 const labelClass = 'mb-2 block text-sm font-medium uppercase tracking-wider text-[#0C0C0C]/70';
 
@@ -54,7 +54,7 @@ export default function ContactSection() {
       <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
         <div className="flex flex-col gap-8">
           <FadeIn y={40}>
-            <span className="text-xs sm:text-sm font-medium uppercase tracking-widest text-[#0C0C0C]/55">Get in touch</span>
+            <span className="text-xs sm:text-sm font-medium uppercase tracking-widest text-[#0C0C0C]/70">Get in touch</span>
             <h2
               className="mt-4 font-black uppercase leading-[0.95] tracking-tight"
               style={{ fontSize: 'clamp(2.5rem, 6.5vw, 96px)' }}
@@ -105,13 +105,17 @@ export default function ContactSection() {
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-5 rounded-[32px] sm:rounded-[40px] border border-[#0C0C0C]/10 p-6 sm:p-8">
               <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+              <p className="text-sm text-[#0C0C0C]/70">
+                Fields marked <span aria-hidden="true">*</span>
+                <span className="sr-only">with an asterisk</span> are required.
+              </p>
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="name" className={labelClass}>Name</label>
+                  <label htmlFor="name" className={labelClass}>Name <span aria-hidden="true">*</span></label>
                   <input id="name" name="name" required autoComplete="name" placeholder="Your name" className={fieldClass} />
                 </div>
                 <div>
-                  <label htmlFor="email" className={labelClass}>Email</label>
+                  <label htmlFor="email" className={labelClass}>Email <span aria-hidden="true">*</span></label>
                   <input id="email" name="email" type="email" required autoComplete="email" placeholder="you@company.com" className={fieldClass} />
                 </div>
               </div>
@@ -124,7 +128,7 @@ export default function ContactSection() {
                 </select>
               </div>
               <div>
-                <label htmlFor="message" className={labelClass}>What do you need?</label>
+                <label htmlFor="message" className={labelClass}>What do you need? <span aria-hidden="true">*</span></label>
                 <textarea
                   id="message"
                   name="message"
@@ -133,6 +137,24 @@ export default function ContactSection() {
                   placeholder="A couple of lines about the business and what you're stuck on."
                   className={`${fieldClass} resize-y`}
                 />
+              </div>
+              <div className="flex items-start gap-3">
+                <input
+                  id="consent"
+                  name="consent"
+                  type="checkbox"
+                  value="Agreed"
+                  required
+                  className="mt-1 h-5 w-5 shrink-0 cursor-pointer accent-[#0C0C0C]"
+                />
+                <label htmlFor="consent" className="cursor-pointer text-sm leading-relaxed text-[#0C0C0C]/80">
+                  I agree that BizUp Technologies may use my name, email, and message to reply to this enquiry, as described
+                  in the{' '}
+                  <a href="/privacy" className="font-medium text-[#0C0C0C] underline underline-offset-4">
+                    Privacy Policy
+                  </a>
+                  . I can withdraw this at any time by emailing {CONTACT.email}. <span aria-hidden="true">*</span>
+                </label>
               </div>
               {status === 'error' && (
                 <p role="alert" className="text-sm text-rose-700">

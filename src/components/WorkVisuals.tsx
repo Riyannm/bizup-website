@@ -97,7 +97,7 @@ function CashVisual() {
               <li key={item} className="text-[11px] sm:text-sm">
                 <div className="mb-1 flex items-center justify-between text-[#D7E2EA]/85">
                   <span className="inline-flex items-center gap-1.5">
-                    <Boxes className="h-3.5 w-3.5 text-[#D7E2EA]/50" aria-hidden="true" />
+                    <Boxes className="h-3.5 w-3.5 text-[#D7E2EA]/60" aria-hidden="true" />
                     {item}
                   </span>
                   <span className="tabular-nums text-[#D7E2EA]/60">{qty}</span>
@@ -226,7 +226,7 @@ function RoutesVisual() {
             >
               <div className="min-w-0 flex-1">
                 <div className="font-medium text-[#D7E2EA]">{m.id}</div>
-                <div className="text-[10px] sm:text-xs text-[#D7E2EA]/50">{m.site}</div>
+                <div className="text-[10px] sm:text-xs text-[#D7E2EA]/60">{m.site}</div>
               </div>
               <div className="flex h-7 items-end gap-0.5" aria-hidden="true">
                 {m.bars.map((b, i) => (
@@ -288,7 +288,7 @@ function ReportsVisual() {
                 viewport={inView}
                 transition={{ delay: i * 0.05, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
               />
-              <span className="text-[9px] sm:text-[11px] text-[#D7E2EA]/50">{i + 1}</span>
+              <span className="text-[9px] sm:text-[11px] text-[#D7E2EA]/60">{i + 1}</span>
             </div>
           ))}
         </div>

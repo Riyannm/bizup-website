@@ -71,7 +71,7 @@ export default function ServicesSection() {
       <div className="mx-auto mt-20 sm:mt-24 md:mt-32 grid max-w-5xl gap-10 md:grid-cols-2 md:gap-16">
         {PRINCIPLES.map(({ eyebrow, title, body }, i) => (
           <FadeIn key={eyebrow} delay={i * 0.1} className="flex flex-col gap-3">
-            <span className="text-xs sm:text-sm font-medium uppercase tracking-widest text-[#0C0C0C]/55">{eyebrow}</span>
+            <span className="text-xs sm:text-sm font-medium uppercase tracking-widest text-[#0C0C0C]/70">{eyebrow}</span>
             <h3 className="font-semibold leading-tight" style={{ fontSize: 'clamp(1.35rem, 2.4vw, 2rem)' }}>
               {title}
             </h3>

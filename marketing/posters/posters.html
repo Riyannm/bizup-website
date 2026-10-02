@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>BizUp posters</title>
+<!-- Source for the PNGs in this folder. Re-render with: node marketing/posters/render.mjs -->
+<style>
+  @font-face { font-family: Kanit; font-weight: 300; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-300-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 400; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-400-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 500; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-500-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 600; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-600-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 900; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-900-normal.woff2') format('woff2'); }
+
+  :root { --ink: #0C0C0C; --mist: #D7E2EA; --blue: #4FC3FF; --royal: #5C8CFF; --violet: #8C5CF5; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #333; font-family: Kanit, sans-serif; display: flex; flex-wrap: wrap; gap: 40px; padding: 40px; }
+
+  .poster {
+    position: relative; width: 1080px; height: 1350px; overflow: hidden; flex: none;
+    background: var(--ink); color: var(--mist);
+    display: flex; flex-direction: column; padding: 80px 80px 0;
+  }
+  .poster.light { background: #fff; color: var(--ink); }
+  .stars { position: absolute; inset: 0; }
+  .glow { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.5; }
+  .poster > *:not(.stars):not(.glow) { position: relative; }
+
+  .top { display: flex; align-items: center; justify-content: space-between; }
+  .top img { height: 84px; }
+  .tag { font-size: 22px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.75; }
+
+  .body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .eyebrow { font-size: 30px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue); }
+  .light .eyebrow { color: #1B5FB8; }
+  h1 { font-weight: 900; text-transform: uppercase; line-height: 0.92; letter-spacing: -0.02em; margin-top: 24px; }
+  .grad { background: linear-gradient(90deg, var(--blue), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .sub { font-size: 42px; font-weight: 300; line-height: 1.3; margin-top: 36px; max-width: 840px; opacity: 0.9; }
+
+  .foot {
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    margin: 0 -80px; padding: 34px 80px; border-top: 1px solid rgba(215, 226, 234, 0.18);
+    font-size: 28px; font-weight: 500;
+  }
+  .light .foot { border-top-color: rgba(12, 12, 12, 0.15); }
+  .foot .site { font-weight: 600; font-size: 32px; }
+  .foot .dim { opacity: 0.8; font-weight: 400; }
+
+  .pill { display: inline-flex; align-items: center; gap: 16px; align-self: flex-start; margin-top: 52px; padding: 24px 46px; border-radius: 999px; background: var(--mist); color: var(--ink); font-size: 30px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+  .light .pill { background: var(--ink); color: #fff; }
+
+  /* 1: friendly computer */
+  .pc { position: absolute !important; right: 70px; bottom: 210px; width: 330px; }
+  .pc .head { height: 280px; border-radius: 26px; background: linear-gradient(180deg, #eef2f5, #c3cdd5); padding: 26px 26px 0; box-shadow: 0 0 120px rgba(92, 140, 255, 0.45); }
+  .pc .screen { height: 176px; border-radius: 24px; background: radial-gradient(ellipse at 50% 40%, #1b1f28, #07080a); box-shadow: 0 0 0 6px #aab5be; display: flex; align-items: center; justify-content: center; gap: 56px; }
+  .pc .eye { width: 54px; height: 70px; border-radius: 50%; background: radial-gradient(circle at 45% 40%, #fff, #eef2ff 45%, #c9d6ff); box-shadow: 0 0 20px #9fb6ff, 0 0 54px rgba(92, 140, 255, 0.8); }
+  .pc .panel { display: flex; align-items: center; justify-content: space-between; margin-top: 30px; }
+  .pc .slot { width: 116px; height: 12px; border-radius: 99px; background: rgba(12, 12, 12, 0.6); }
+  .pc .lbl { font-size: 16px; font-weight: 900; letter-spacing: 0.2em; color: #6b7580; }
+  .pc .led { width: 12px; height: 12px; border-radius: 50%; background: #34d399; box-shadow: 0 0 10px #34d399; }
+  .pc .neck { width: 84px; height: 62px; margin: 0 auto; background: linear-gradient(90deg, #7d8792, #c5ced6 45%, #8e99a3); }
+  .pc .base { width: 250px; height: 36px; margin: -8px auto 0; border-radius: 50%; background: radial-gradient(ellipse at 50% 30%, #d7e0e6, #7d8792 75%); }
+
+  /* 2: dashboard card */
+  .dash { margin-top: 56px; border-radius: 40px; border: 1px solid rgba(215, 226, 234, 0.14); background: linear-gradient(135deg, #1a1a1d, #111113); padding: 38px 42px; }
+  .dash .row { display: flex; justify-content: space-between; align-items: center; font-size: 22px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.7; }
+  .dash .ok { letter-spacing: 0; text-transform: none; opacity: 1; font-size: 24px; color: #6ee7b7; background: rgba(52, 211, 153, 0.12); padding: 8px 20px; border-radius: 99px; }
+  .bars { display: flex; align-items: flex-end; gap: 18px; height: 210px; margin-top: 30px; }
+  .bars i { flex: 1; border-radius: 12px; background: linear-gradient(180deg, #BBCCD7, #646973); }
+  .bars i.hi { background: linear-gradient(180deg, var(--blue), var(--violet)); }
+  .note { margin-top: 18px; font-size: 20px; opacity: 0.6; }
+
+  /* 3: services list */
+  .svc { margin-top: 44px; }
+  .svc li { list-style: none; display: flex; align-items: flex-start; gap: 40px; padding: 30px 0; border-top: 2px solid rgba(12, 12, 12, 0.14); }
+  .svc li:last-child { border-bottom: 2px solid rgba(12, 12, 12, 0.14); }
+  .svc b { font-size: 112px; font-weight: 900; line-height: 0.85; width: 170px; flex: none; }
+  .svc h2 { font-size: 42px; font-weight: 600; text-transform: uppercase; line-height: 1.1; }
+  .svc p { font-size: 29px; font-weight: 300; line-height: 1.3; margin-top: 8px; opacity: 0.8; }
+
+  /* 4: chat bubbles */
+  .chat { margin-top: 56px; display: flex; flex-direction: column; gap: 22px; }
+  .chat span { max-width: 78%; padding: 24px 34px; border-radius: 36px; font-size: 32px; font-weight: 400; line-height: 1.25; }
+  .chat .you { align-self: flex-start; background: #1d1d21; border: 1px solid rgba(215, 226, 234, 0.14); border-bottom-left-radius: 8px; }
+  .chat .us { align-self: flex-end; background: linear-gradient(90deg, #2f6fe0, #7a4be0); color: #fff; border-bottom-right-radius: 8px; }
+
+  /* 5: steps */
+  .steps { display: flex; gap: 20px; margin-top: 44px; }
+  .steps div { flex: 1; border-radius: 34px; background: #17171a; border: 1px solid rgba(215, 226, 234, 0.14); padding: 30px 28px; }
+  .steps b { display: block; font-size: 64px; font-weight: 900; line-height: 1; }
+  .steps p { font-size: 27px; font-weight: 400; line-height: 1.2; margin-top: 14px; }
+</style>
+</head>
+<body>
+
+<!-- 1. Brand -->
+<section class="poster" id="p1">
+  <svg class="stars"></svg>
+  <div class="glow" style="width:620px;height:620px;right:-140px;bottom:120px;background:radial-gradient(closest-side,#3b5bdb,#5b2a9e 60%,transparent)"></div>
+  <div class="top"><img src="../../public/logo-horizontal.svg" alt="BizUp Technologies" /><span class="tag">Software &amp; automation studio</span></div>
+  <div class="body">
+    <p class="eyebrow">Websites · Apps · Automation</p>
+    <h1 style="font-size:176px">It&rsquo;s time<br />to <span class="grad">BizUp.</span></h1>
+    <p class="sub" style="max-width:560px">Real software, built around how your business actually works.</p>
+    <span class="pill">Get a free quote ↗</span>
+  </div>
+  <div class="pc" aria-hidden="true">
+    <div class="head"><div class="screen"><i class="eye"></i><i class="eye"></i></div><div class="panel"><i class="slot"></i><span class="lbl">BIZUP</span><i class="led"></i></div></div>
+    <div class="neck"></div><div class="base"></div>
+  </div>
+  <div class="foot"><span class="site">bizuptechnologies.com</span><span class="dim">+91 91824 64926</span></div>
+</section>
+
+<!-- 2. Automation -->
+<section class="poster" id="p2">
+  <svg class="stars"></svg>
+  <div class="glow" style="width:560px;height:560px;left:-180px;top:-120px;background:radial-gradient(closest-side,#3b5bdb,transparent)"></div>
+  <div class="top"><img src="../../public/logo-horizontal.svg" alt="BizUp Technologies" /><span class="tag">Business automation</span></div>
+  <div class="body">
+    <p class="eyebrow">Still tracking it by hand?</p>
+    <h1 style="font-size:116px">No more<br /><span class="grad">spreadsheets.</span></h1>
+    <p class="sub">Dashboards, alerts and reports that replace manual tracking with something that runs itself.</p>
+    <div class="dash" aria-hidden="true">
+      <div class="row"><span>Daily report</span><span class="ok">✓ Sent 7:00 AM</span></div>
+      <div class="bars"><i style="height:58%"></i><i style="height:44%"></i><i style="height:72%"></i><i style="height:52%"></i><i style="height:64%"></i><i style="height:80%"></i><i class="hi" style="height:100%"></i></div>
+      <p class="note">Illustration with sample data</p>
+    </div>
+  </div>
+  <div class="foot"><span class="site">bizuptechnologies.com</span><span class="dim">+91 91824 64926</span></div>
+</section>
+
+<!-- 3. Services (light) -->
+<section class="poster light" id="p3">
+  <div class="top"><img src="../../brand/bizup-logo-horizontal-light-bg.svg" alt="BizUp Technologies" /><span class="tag">What we build</span></div>
+  <div class="body">
+    <h1 style="font-size:150px;margin-top:0">Services</h1>
+    <ul class="svc">
+      <li><b>01</b><div><h2>Web development</h2><p>Business sites, booking pages, online stores and full web apps that load fast.</p></div></li>
+      <li><b>02</b><div><h2>Mobile &amp; software apps</h2><p>Custom tools built around how your team actually works.</p></div></li>
+      <li><b>03</b><div><h2>Business automation</h2><p>Dashboards, alerts and workflows that run themselves.</p></div></li>
+    </ul>
+  </div>
+  <div class="foot"><span class="site">bizuptechnologies.com</span><span class="dim">hello@bizuptechnologies.com</span></div>
+</section>
+
+<!-- 4. Direct communication -->
+<section class="poster" id="p4">
+  <svg class="stars"></svg>
+  <div class="glow" style="width:600px;height:600px;right:-200px;top:260px;background:radial-gradient(closest-side,#5b2a9e,transparent)"></div>
+  <div class="top"><img src="../../public/logo-horizontal.svg" alt="BizUp Technologies" /><span class="tag">How we work</span></div>
+  <div class="body">
+    <p class="eyebrow">No middlemen. No hand-offs.</p>
+    <h1 style="font-size:124px">Talk to the<br />person <span class="grad">building it.</span></h1>
+    <div class="chat" aria-hidden="true">
+      <span class="you">Can we add a low-stock alert?</span>
+      <span class="us">Yes. Let me show you how it would work.</span>
+      <span class="you">Perfect.</span>
+    </div>
+    <p class="sub" style="font-size:34px">Direct communication from the first call to launch, and every fix after that.</p>
+  </div>
+  <div class="foot"><span class="site">bizuptechnologies.com</span><span class="dim">+91 91824 64926</span></div>
+</section>
+
+<!-- 5. Call to action -->
+<section class="poster" id="p5">
+  <svg class="stars"></svg>
+  <div class="glow" style="width:700px;height:700px;left:190px;bottom:-320px;background:radial-gradient(closest-side,#3b5bdb,#5b2a9e 60%,transparent)"></div>
+  <div class="top"><img src="../../public/logo-horizontal.svg" alt="BizUp Technologies" /><span class="tag">Get in touch</span></div>
+  <div class="body">
+    <p class="eyebrow">Free 20-minute call · No obligation</p>
+    <h1 style="font-size:132px">Tell us<br />what&rsquo;s <span class="grad">slow.</span></h1>
+    <p class="sub">We&rsquo;ll tell you what it takes to fix it. Replies within one business day.</p>
+    <div class="steps">
+      <div><b class="grad">01</b><p>Understand the business</p></div>
+      <div><b class="grad">02</b><p>Design &amp; build in the open</p></div>
+      <div><b class="grad">03</b><p>Ship it, then support it</p></div>
+    </div>
+    <span class="pill">WhatsApp +91 91824 64926</span>
+  </div>
+  <div class="foot"><span class="site">bizuptechnologies.com</span><span class="dim">hello@bizuptechnologies.com</span></div>
+</section>
+
+<script>
+  // Fixed-seed starfield so every render is identical.
+  let seed = 7;
+  const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  const colors = ['#5C8CFF', '#8C5CF5', '#D7E2EA', '#45CCFF'];
+  document.querySelectorAll('.stars').forEach((svg) => {
+    svg.setAttribute('viewBox', '0 0 1080 1350');
+    let dots = '';
+    for (let i = 0; i < 260; i++) {
+      dots += `<circle cx="${(rnd() * 1080).toFixed(0)}" cy="${(rnd() * 1350).toFixed(0)}" r="${(0.8 + rnd() * 2.2).toFixed(1)}" fill="${colors[Math.floor(rnd() * 4)]}" opacity="${(0.25 + rnd() * 0.6).toFixed(2)}"/>`;
+    }
+    svg.innerHTML = dots;
+  });
+</script>
+</body>
+</html>

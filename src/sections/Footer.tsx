@@ -1,10 +1,15 @@
 import Logo from '../components/Logo';
+import { BUSINESS, CONTACT } from '../data';
+import { LEGAL_DOCS } from '../legal';
 
+// Rooted at "/" so they also work from the legal pages.
 const LINKS = [
-  { label: 'Services', href: '#services' },
-  { label: 'Work', href: '#work' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Services', href: '/#services' },
+  { label: 'Work', href: '/#work' },
+  { label: 'Contact', href: '/#contact' },
 ];
+
+const linkClass = 'inline-block py-2 text-[#D7E2EA] transition-opacity duration-200 hover:opacity-70';
 
 export default function Footer() {
   return (
@@ -18,7 +23,7 @@ export default function Footer() {
           <ul className="flex gap-6 sm:gap-8">
             {LINKS.map(({ label, href }) => (
               <li key={href}>
-                <a href={href} className="inline-block py-2 text-sm sm:text-base uppercase tracking-wider text-[#D7E2EA] transition-opacity duration-200 hover:opacity-70">
+                <a href={href} className={`${linkClass} text-sm sm:text-base uppercase tracking-wider`}>
                   {label}
                 </a>
               </li>
@@ -26,8 +31,34 @@ export default function Footer() {
           </ul>
         </nav>
       </div>
-      <p className="mx-auto mt-10 max-w-6xl border-t border-[#D7E2EA]/15 pt-6 text-sm font-light text-[#D7E2EA]/60">
-        © {new Date().getFullYear()} BizUp Technologies
+
+      <div className="mx-auto mt-10 flex max-w-6xl flex-col gap-6 border-t border-[#D7E2EA]/15 pt-6 sm:flex-row sm:justify-between">
+        <address className="flex flex-col text-sm font-light not-italic leading-relaxed text-[#D7E2EA]/70">
+          <span className="font-medium text-[#D7E2EA]">{BUSINESS.name}</span>
+          <span>{BUSINESS.address || BUSINESS.location}</span>
+          {BUSINESS.gstin && <span>GSTIN: {BUSINESS.gstin}</span>}
+          <a href={`mailto:${CONTACT.email}`} className={linkClass}>
+            {CONTACT.email}
+          </a>
+          <a href={CONTACT.phoneHref} className={linkClass}>
+            {CONTACT.phoneDisplay}
+          </a>
+        </address>
+        <nav aria-label="Legal">
+          <ul className="flex flex-col sm:items-end">
+            {LEGAL_DOCS.map(({ slug, title }) => (
+              <li key={slug}>
+                <a href={`/${slug}`} className={`${linkClass} text-sm`}>
+                  {title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+
+      <p className="mx-auto mt-8 max-w-6xl text-sm font-light text-[#D7E2EA]/60">
+        © {new Date().getFullYear()} {BUSINESS.name}. All rights reserved.
       </p>
     </footer>
   );
