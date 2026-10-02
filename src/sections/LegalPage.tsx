@@ -8,7 +8,10 @@ import { LEGAL_UPDATED, type LegalDoc } from '../legal';
 export default function LegalPage({ doc }: { doc: LegalDoc }) {
   useEffect(() => {
     document.title = `${doc.title} — ${BUSINESS.name}`;
-  }, [doc.title]);
+    // index.html describes the home page, so point search engines at this page instead.
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', `https://bizuptechnologies.com/${doc.slug}`);
+    document.querySelector('meta[name="description"]')?.setAttribute('content', doc.summary);
+  }, [doc]);
 
   return (
     <>
