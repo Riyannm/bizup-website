@@ -1,14 +1,17 @@
 import { motion } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import { ContactButton, GhostButton } from '../components/Buttons';
+import { useRevealed } from '../loader';
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
 
+// Waits for the loader to open, then rises into place.
 function Rise({ children, delay, className }: { children: React.ReactNode; delay: number; className?: string }) {
+  const revealed = useRevealed();
   return (
     <motion.div
       initial={{ opacity: 0, y: 28, filter: 'blur(8px)' }}
-      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      animate={revealed ? { opacity: 1, y: 0, filter: 'blur(0px)' } : undefined}
       transition={{ duration: 1, delay, ease }}
       className={className}
     >
@@ -31,10 +34,10 @@ export default function HeroSection() {
       <div id="intro" className="mx-auto w-full max-w-6xl">
         <div className="grid items-end gap-8 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
           <div>
-            <Rise delay={1.4}>
+            <Rise delay={0.6}>
               <span className="eyebrow">Websites · Apps · Automation</span>
             </Rise>
-            <Rise delay={1.55}>
+            <Rise delay={0.75}>
               <h1
                 className="display mt-5 font-semibold leading-[1.02] tracking-tight"
                 style={{ fontSize: 'clamp(2.4rem, 5.2vw, 5rem)' }}
@@ -45,7 +48,7 @@ export default function HeroSection() {
               </h1>
             </Rise>
           </div>
-          <Rise delay={1.75} className="flex flex-col gap-6 lg:pb-3">
+          <Rise delay={0.95} className="flex flex-col gap-6 lg:pb-3">
             <p className="max-w-md font-light leading-relaxed text-[#FFFFFF]/70" style={{ fontSize: 'clamp(1rem, 1.4vw, 1.2rem)' }}>
               Smart digital solutions built for businesses ready to level up. You work directly with the person
               building it.
@@ -57,7 +60,7 @@ export default function HeroSection() {
           </Rise>
         </div>
 
-        <Rise delay={2.1} className="mt-12 hidden items-center gap-3 text-xs uppercase tracking-[0.25em] text-[#FFFFFF]/45 sm:flex">
+        <Rise delay={1.3} className="mt-12 hidden items-center gap-3 text-xs uppercase tracking-[0.25em] text-[#FFFFFF]/45 sm:flex">
           <motion.span
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}

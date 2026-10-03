@@ -12,6 +12,7 @@ import {
   WebGLRenderer,
 } from 'three';
 import { buildShapes, type Shape, type ShapeName } from './shapes';
+import { markStageReady, onRevealed } from '../loader';
 
 /**
  * One fixed WebGL canvas behind the whole page. Sections opt in with data attributes:
@@ -102,6 +103,7 @@ export default function ParticleStage() {
     try {
       renderer = new WebGLRenderer({ antialias: false, alpha: true, powerPreference: 'high-performance' });
     } catch {
+      markStageReady();
       return; // No WebGL: the CSS glow behind the page is enough.
     }
 
@@ -234,6 +236,9 @@ export default function ParticleStage() {
     let raf = 0;
     let last = performance.now();
     let disposed = false;
+    // The particles fly in once the loader opens.
+    let introStarted = false;
+    const offRevealed = onRevealed(() => (introStarted = true));
 
     function frame(now: number) {
       raf = requestAnimationFrame(frame);
@@ -248,7 +253,7 @@ export default function ParticleStage() {
       uniforms.uT.value = s - i;
 
       uniforms.uTime.value += dt;
-      if (!reduced) uniforms.uIntro.value = Math.min(1, uniforms.uIntro.value + dt * 0.55);
+      if (!reduced && introStarted) uniforms.uIntro.value = Math.min(1, uniforms.uIntro.value + dt * 0.55);
 
       pointer.x += (pointer.tx - pointer.x) * (1 - Math.exp(-dt * 4));
       pointer.y += (pointer.ty - pointer.y) * (1 - Math.exp(-dt * 4));
@@ -270,10 +275,12 @@ export default function ParticleStage() {
       measure();
       last = performance.now();
       raf = requestAnimationFrame(frame);
+      markStageReady();
     });
 
     return () => {
       disposed = true;
+      offRevealed();
       cancelAnimationFrame(raf);
       resizeObserver.disconnect();
       window.removeEventListener('resize', measure);

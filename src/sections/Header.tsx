@@ -2,13 +2,15 @@ import { motion } from 'framer-motion';
 import { ContactButton } from '../components/Buttons';
 import Logo from '../components/Logo';
 import { NAV_LINKS } from '../data';
+import { useRevealed } from '../loader';
 
 export default function Header() {
+  const revealed = useRevealed();
   return (
     <motion.header
       initial={{ opacity: 0, y: -24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+      animate={revealed ? { opacity: 1, y: 0 } : undefined}
+      transition={{ duration: 0.8, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
       className="fixed inset-x-3 top-3 z-50 sm:inset-x-6 sm:top-5"
     >
       <nav

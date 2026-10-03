@@ -2,6 +2,8 @@ import { MotionConfig } from 'framer-motion';
 import { lazy, Suspense, useEffect } from 'react';
 import Lenis from 'lenis';
 import SkipLink from './components/SkipLink';
+import Loader from './components/Loader';
+import { onRevealed } from './loader';
 import Header from './sections/Header';
 import HeroSection from './sections/HeroSection';
 import MarqueeSection from './sections/MarqueeSection';
@@ -26,12 +28,15 @@ function useSmoothScroll(enabled: boolean) {
   useEffect(() => {
     if (!enabled || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const lenis = new Lenis({ anchors: { offset: -80 }, lerp: 0.1 });
+    lenis.stop();
+    const offRevealed = onRevealed(() => lenis.start());
     let raf = requestAnimationFrame(function loop(time) {
       lenis.raf(time);
       raf = requestAnimationFrame(loop);
     });
     return () => {
       cancelAnimationFrame(raf);
+      offRevealed();
       lenis.destroy();
     };
   }, [enabled]);
@@ -45,6 +50,7 @@ export default function App() {
         <LegalPage doc={legalDoc} />
       ) : (
         <>
+          <Loader />
           <SkipLink href="#intro" />
           <div aria-hidden="true" className="page-glow fixed inset-0 z-0" />
           <Suspense fallback={null}>
