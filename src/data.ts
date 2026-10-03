@@ -21,29 +21,6 @@ export const NAV_LINKS = [
   { label: 'Contact', href: '#contact' },
 ];
 
-/* ---------- Marquee ---------- */
-
-export const MARQUEE_ROWS = {
-  builds: [
-    'Websites',
-    'Web apps',
-    'Mobile apps',
-    'Dashboards',
-    'Automation',
-    'Booking systems',
-    'Inventory tools',
-    'Reports',
-  ],
-  outcomes: [
-    'No more spreadsheets',
-    'No hand-offs',
-    'Built around you',
-    'Replies in 1 business day',
-    'Runs itself',
-    'Real software',
-  ],
-};
-
 /* ---------- About ---------- */
 
 export const ABOUT_TEXT =

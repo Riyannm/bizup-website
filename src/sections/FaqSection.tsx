@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import { useId, useState } from 'react';
 import FadeIn from '../components/FadeIn';
+import PanelBody from '../wheel/PanelBody';
 import { FAQS } from '../data';
 
 function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
@@ -16,9 +17,9 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
           aria-expanded={open}
           aria-controls={id}
           onClick={() => setOpen((v) => !v)}
-          className="flex w-full cursor-pointer items-center justify-between gap-6 py-5 sm:py-6 text-left text-white transition-opacity duration-200 hover:opacity-80"
+          className="flex w-full cursor-pointer items-center justify-between gap-6 py-4 sm:py-5 text-left text-white transition-opacity duration-200 hover:opacity-80"
         >
-          <span className="font-medium" style={{ fontSize: 'clamp(1.05rem, 1.7vw, 1.35rem)' }}>
+          <span className="font-medium" style={{ fontSize: 'clamp(0.95rem, 1.5vw, 1.25rem)' }}>
             {q}
           </span>
           <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/20 text-[#3D7BFF]">
@@ -55,29 +56,24 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
 
 export default function FaqSection() {
   return (
-    <section
-      id="faq"
-      data-stage="ring"
-      data-spin="0.15"
-      data-dim="0.35"
-      data-mobile-dim="0.25"
-      className="relative px-5 py-28 sm:px-8 md:px-10"
-    >
-      <div className="mx-auto max-w-3xl text-center">
-        <FadeIn y={20}>
-          <span className="eyebrow">FAQ</span>
-        </FadeIn>
-        <FadeIn y={30} delay={0.05}>
-          <h2 className="display mt-5 font-semibold leading-[1.05] tracking-tight" style={{ fontSize: 'clamp(2.2rem, 5.4vw, 4.6rem)' }}>
-            Before you reach out.
-          </h2>
-        </FadeIn>
+    <PanelBody>
+      <div className="mx-auto w-full max-w-4xl">
+        <div className="text-center">
+          <FadeIn y={20}>
+            <span className="eyebrow">FAQ</span>
+          </FadeIn>
+          <FadeIn y={30} delay={0.05}>
+            <h2 className="display mt-4 font-semibold leading-[1.05] tracking-tight" style={{ fontSize: 'clamp(2rem, 4.6vw, 4rem)' }}>
+              Before you reach out.
+            </h2>
+          </FadeIn>
+        </div>
+        <ul className="mt-8 flex flex-col gap-2.5 sm:mt-10">
+          {FAQS.map(({ q, a }, i) => (
+            <FaqItem key={q} q={q} a={a} index={i} />
+          ))}
+        </ul>
       </div>
-      <ul className="mx-auto mt-14 flex max-w-4xl flex-col gap-3">
-        {FAQS.map(({ q, a }, i) => (
-          <FaqItem key={q} q={q} a={a} index={i} />
-        ))}
-      </ul>
-    </section>
+    </PanelBody>
   );
 }

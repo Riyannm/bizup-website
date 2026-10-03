@@ -3,7 +3,7 @@
  * points (xyz triples), centred on the origin and normalised so its larger side is SIZE.
  */
 
-export type ShapeName = 'logo' | 'globe' | 'browser' | 'phone' | 'gear' | 'bars' | 'helix' | 'ring' | 'hello';
+export type ShapeName = 'logo' | 'globe' | 'browser' | 'phone' | 'gear' | 'cubes' | 'bars' | 'helix' | 'ring' | 'hello';
 
 export type Shape = { positions: Float32Array; width: number; height: number };
 
@@ -242,6 +242,32 @@ function ring(count: number) {
   return normalise(pts, count);
 }
 
+/** Three nested wireframe cubes, like modules fitting together. */
+function cubes(count: number) {
+  const r = rand(10);
+  const sizes = [1, 0.62, 0.3];
+  const pts: number[] = [];
+  for (let i = 0; i < count; i++) {
+    const size = sizes[i % 3 === 0 ? 0 : i % 3 === 1 ? 1 : 2];
+    // pick one of the 12 edges: fix two axes at ±size, run along the third
+    const axis = Math.floor(r() * 3);
+    const a = (r() < 0.5 ? -1 : 1) * size, b = (r() < 0.5 ? -1 : 1) * size;
+    const t = (r() * 2 - 1) * size;
+    const j = () => (r() - 0.5) * 0.04;
+    const p = axis === 0 ? [t, a, b] : axis === 1 ? [a, t, b] : [a, b, t];
+    pts.push(p[0] + j(), p[1] + j(), p[2] + j());
+  }
+  // tilt so it reads as 3D from the front
+  const out: number[] = [];
+  const cx = Math.cos(0.5), sx = Math.sin(0.5), cy = Math.cos(0.7), sy = Math.sin(0.7);
+  for (let i = 0; i < pts.length; i += 3) {
+    const x = pts[i], y = pts[i + 1], z = pts[i + 2];
+    const x1 = cy * x + sy * z, z1 = -sy * x + cy * z;
+    out.push(x1, cx * y - sx * z1, sx * y + cx * z1);
+  }
+  return normalise(out, count);
+}
+
 export function buildShapes(count: number): Record<ShapeName, Shape> {
   return {
     logo: text('BIZUP', count, 1),
@@ -249,6 +275,7 @@ export function buildShapes(count: number): Record<ShapeName, Shape> {
     browser: browser(count),
     phone: phone(count),
     gear: gear(count),
+    cubes: cubes(count),
     bars: bars(count),
     helix: helix(count),
     ring: ring(count),

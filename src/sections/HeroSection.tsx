@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { ArrowDown } from 'lucide-react';
 import { ContactButton, GhostButton } from '../components/Buttons';
 import { useRevealed } from '../loader';
 
@@ -20,17 +19,10 @@ function Rise({ children, delay, className }: { children: React.ReactNode; delay
   );
 }
 
-// The particles above the text form the word BIZUP (see data-stage).
+// The particles above the text form the word BIZUP (see the panel's data-stage).
 export default function HeroSection() {
   return (
-    <section
-      id="top"
-      data-stage="logo"
-      data-y="0.17"
-      data-mobile-y="0.2"
-      data-mobile-dim="1"
-      className="relative flex min-h-[100svh] flex-col justify-end px-5 pb-12 pt-28 sm:px-8 sm:pb-16 md:px-10"
-    >
+    <div className="flex min-h-[100svh] flex-col justify-end px-5 pb-24 pt-28 sm:px-8 sm:pb-28 md:px-10">
       <div id="intro" className="mx-auto w-full max-w-6xl">
         <div className="grid items-end gap-8 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
           <div>
@@ -54,23 +46,12 @@ export default function HeroSection() {
               building it.
             </p>
             <div className="flex flex-wrap gap-3">
-              <ContactButton href="#contact">Get a free quote</ContactButton>
+              <ContactButton href="#enquiry">Get a free quote</ContactButton>
               <GhostButton href="#work">See our work</GhostButton>
             </div>
           </Rise>
         </div>
-
-        <Rise delay={1.3} className="mt-12 hidden items-center gap-3 text-xs uppercase tracking-[0.25em] text-[#FFFFFF]/45 sm:flex">
-          <motion.span
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-            className="grid h-9 w-9 place-items-center rounded-full border border-white/15"
-          >
-            <ArrowDown className="h-4 w-4" aria-hidden="true" />
-          </motion.span>
-          Scroll
-        </Rise>
       </div>
-    </section>
+    </div>
   );
 }

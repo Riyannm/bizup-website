@@ -32,7 +32,7 @@ export default function Header() {
             </li>
           ))}
         </ul>
-        <ContactButton href="#contact" className="!px-5 !py-2.5 !text-xs sm:!px-6">
+        <ContactButton href="#enquiry" className="!px-5 !py-2.5 !text-xs sm:!px-6">
           Free quote
         </ContactButton>
       </nav>
