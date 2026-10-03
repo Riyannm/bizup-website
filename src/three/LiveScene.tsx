@@ -9,8 +9,10 @@ import {
   DataTexture,
   DirectionalLight,
   DoubleSide,
+  ExtrudeGeometry,
   FogExp2,
   Group,
+  Box3,
   HemisphereLight,
   IcosahedronGeometry,
   MathUtils,
@@ -36,13 +38,14 @@ import {
 } from 'three';
 import { Sky } from 'three/examples/jsm/objects/Sky.js';
 import { Water } from 'three/examples/jsm/objects/Water.js';
-import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
+import { SVGLoader } from 'three/examples/jsm/loaders/SVGLoader.js';
+import logoMarkSvg from '../../brand/bizup-mark-dark-bg.svg?raw';
 import { getDaytime, onDaytime, type Daytime } from './daytime';
 import { markStageReady, onRevealed } from '../loader';
 
 /**
  * A living 3D world behind the page: an ocean with real reflections, sky and sun, drifting
- * clouds, birds, and the BizUp cube monument floating over a rock island. It follows the
+ * clouds, birds, and the BizUp logo in 3D floating over a rock island. It follows the
  * visitor's time of day.
  *
  * Every section carries a camera shot (data-shot="angle,distance,height,frame", see Page.tsx).
@@ -175,6 +178,42 @@ function islandGeometry() {
   return geo;
 }
 
+/**
+ * The BizUp mark from the brand SVG, extruded into a solid 3D logo about `height` units tall,
+ * centred on its own origin. Its three fills become three materials: navy, brand blue, white.
+ */
+function buildLogo(height: number, materials: { navy: MeshPhysicalMaterial; blue: MeshPhysicalMaterial; white: MeshPhysicalMaterial }) {
+  const { paths } = new SVGLoader().parse(logoMarkSvg);
+  const logo = new Group();
+  const inner = new Group();
+  for (const path of paths) {
+    const fill = String((path.userData?.style as { fill?: string } | undefined)?.fill ?? '');
+    const material = fill.includes('bz-blue') ? materials.blue : fill.includes('bz-dark') ? materials.navy : materials.white;
+    // The white arrow sits a touch proud of the rest so it reads as its own piece.
+    const depth = material === materials.white ? 150 : 120;
+    const geo = new ExtrudeGeometry(SVGLoader.createShapes(path), {
+      depth,
+      bevelEnabled: true,
+      bevelThickness: 14,
+      bevelSize: 7,
+      bevelSegments: 2,
+      curveSegments: 6,
+    });
+    const mesh = new Mesh(geo, material);
+    mesh.position.z = -depth / 2;
+    inner.add(mesh);
+  }
+  // SVG y runs down; flip it, then centre and scale.
+  inner.scale.set(1, -1, 1);
+  const box = new Box3().setFromObject(inner);
+  const size = box.getSize(new Vector3());
+  const centre = box.getCenter(new Vector3());
+  inner.position.set(-centre.x, -centre.y, -centre.z);
+  logo.add(inner);
+  logo.scale.setScalar(height / size.y);
+  return logo;
+}
+
 /** A simple bird silhouette: two wings that flap. */
 function makeBird(material: MeshBasicMaterial) {
   const wingGeo = new BufferGeometry();
@@ -262,29 +301,16 @@ export default function LiveScene() {
       scene.add(rock);
     }
 
-    // The monument: the BizUp cube, exploded and breathing.
-    const materials = [
-      new MeshPhysicalMaterial({ color: 0xf1eee8, roughness: 0.32, clearcoat: 0.6, clearcoatRoughness: 0.25 }),
-      new MeshPhysicalMaterial({ color: 0x111113, roughness: 0.2, metalness: 0.3, clearcoat: 1, clearcoatRoughness: 0.06 }),
-      new MeshPhysicalMaterial({ color: 0x0047ab, roughness: 0.18, metalness: 0.15, clearcoat: 1, clearcoatRoughness: 0.05, emissive: 0x1d5cff, emissiveIntensity: 0 }),
-    ];
-    const blockGeo = new RoundedBoxGeometry(1, 1, 1, 3, 0.09);
+    // The monument: the BizUp logo in 3D, in its own navy and brand blue.
+    const logoMaterials = {
+      navy: new MeshPhysicalMaterial({ color: 0x173a6e, roughness: 0.22, metalness: 0.35, clearcoat: 1, clearcoatRoughness: 0.08 }),
+      blue: new MeshPhysicalMaterial({ color: 0x2486ee, roughness: 0.16, metalness: 0.1, clearcoat: 1, clearcoatRoughness: 0.05, emissive: 0x1d6dff, emissiveIntensity: 0 }),
+      white: new MeshPhysicalMaterial({ color: 0xf6f8fb, roughness: 0.3, clearcoat: 0.8, clearcoatRoughness: 0.2, emissive: 0xffffff, emissiveIntensity: 0 }),
+    };
     const monument = new Group();
     monument.position.set(ISLAND.x, MONUMENT_Y, ISLAND.z);
+    monument.add(buildLogo(10.5, logoMaterials));
     scene.add(monument);
-    const cells: { mesh: Mesh; p: Vector3; centre: boolean; i: number }[] = [];
-    let ci = 0;
-    for (let x = -1; x <= 1; x++)
-      for (let y = -1; y <= 1; y++)
-        for (let z = -1; z <= 1; z++) {
-          const edges = Math.abs(x) + Math.abs(y) + Math.abs(z);
-          const m = edges === 3 || edges === 0 ? 2 : ci % 4 === 0 ? 1 : 0;
-          const mesh = new Mesh(blockGeo, materials[m]);
-          mesh.scale.setScalar(2.3);
-          mesh.rotation.set(Math.sin(ci * 1.7) * 0.25, Math.cos(ci * 1.3) * 0.25, 0);
-          monument.add(mesh);
-          cells.push({ mesh, p: new Vector3(x, y, z).multiplyScalar(2.6), centre: edges === 0, i: ci++ });
-        }
     const glowMat = new SpriteMaterial({ map: glowTexture(), color: 0x2f6bff, transparent: true, opacity: 0, blending: AdditiveBlending, depthWrite: false });
     const glow = new Sprite(glowMat);
     glow.scale.setScalar(46);
@@ -409,7 +435,8 @@ export default function LiveScene() {
       starMat.opacity = night;
       birdMat.opacity = 1 - night;
       flyMat.opacity = Math.min(1, live.dusk * 0.5 + night);
-      materials[2].emissiveIntensity = night * 1.6;
+      logoMaterials.blue.emissiveIntensity = night * 1.4;
+      logoMaterials.white.emissiveIntensity = night * 0.35;
       glowMat.opacity = night * 0.55;
       glowLight.intensity = night * 900;
 
@@ -521,14 +548,11 @@ export default function LiveScene() {
       camera.position.copy(camPos);
       camera.lookAt(camLook);
 
-      // Monument breathes, bobs and turns.
+      // The logo floats and sways, always turned toward the camera so it never reads backwards
+      // as the camera circles the island.
       monument.position.y = MONUMENT_Y + Math.sin(time * 0.6) * 0.6;
-      monument.rotation.y = time * 0.08;
-      monument.rotation.x = 0.35;
-      for (const c of cells) {
-        const push = c.centre ? 0 : 0.28 + 0.22 * Math.sin(time * 0.9 + c.i * 0.7);
-        c.mesh.position.copy(c.p).multiplyScalar(1 + push * 0.42);
-      }
+      const facing = Math.atan2(camera.position.x - monument.position.x, camera.position.z - monument.position.z);
+      monument.rotation.set(Math.sin(time * 0.4) * 0.05, facing + Math.sin(time * 0.35) * 0.32, Math.sin(time * 0.5) * 0.03);
       glow.position.y = monument.position.y;
 
       // Birds glide across the sky in a loose V, wings flapping.
