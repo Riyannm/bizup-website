@@ -18,7 +18,7 @@ export default function DaytimeToggle({ className = '' }: { className?: string }
             aria-pressed={active}
             onClick={() => set(d)}
             className={`inline-flex min-h-[40px] cursor-pointer items-center gap-2 rounded-full px-3.5 text-sm font-medium capitalize transition-colors duration-300 sm:px-4 ${
-              active ? 'bg-white text-ink' : 'text-white/85 hover:bg-white/15'
+              active ? 'bg-white text-[#0B0B0C]' : 'text-white/85 hover:bg-white/15'
             }`}
           >
             <Icon className="h-4 w-4" aria-hidden="true" />

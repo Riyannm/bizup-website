@@ -5,7 +5,6 @@ import {
   BufferAttribute,
   BufferGeometry,
   CanvasTexture,
-  CatmullRomCurve3,
   Color,
   DataTexture,
   DirectionalLight,
@@ -44,10 +43,11 @@ import { markStageReady, onRevealed } from '../loader';
 /**
  * A living 3D world behind the page: an ocean with real reflections, sky and sun, drifting
  * clouds, birds, and the BizUp cube monument floating over a rock island. It follows the
- * visitor's time of day, and the camera glides along a path as the page scrolls.
+ * visitor's time of day.
  *
- * Content sections marked [data-cover] hide the world completely; while one fills the
- * screen the scene stops drawing to save battery.
+ * Every section carries a camera shot (data-shot="angle,distance,height,frame", see Page.tsx).
+ * The camera holds a section's shot while it fills the screen and circles the island to the
+ * next one across the boundary, keeping the monument beside each section's panel.
  */
 
 type Preset = {
@@ -92,20 +92,6 @@ const PRESETS: Record<Daytime, Preset> = {
 
 const ISLAND = new Vector3(0, 0, -70);
 const MONUMENT_Y = 14;
-
-// Camera stops along the page: hero → (covered by the content sheet) → closing shot.
-// Wide screens frame the island on the right, beside the text; phones frame it above the text.
-const PATHS = {
-  wide: {
-    pos: [new Vector3(12, 6, -36), new Vector3(30, 10, -10), new Vector3(-26, 15, -18), new Vector3(-8, 20, -24), new Vector3(-16, 3.5, -42)],
-    look: [new Vector3(-17, 11, -70), new Vector3(-4, 12, -70), new Vector3(0, 13, -70), new Vector3(0, 13, -70), new Vector3(-12, 15, -70)],
-  },
-  tall: {
-    pos: [new Vector3(0, 5, -34), new Vector3(18, 9, -20), new Vector3(-16, 13, -26), new Vector3(-4, 16, -30), new Vector3(0, 3, -40)],
-    look: [new Vector3(0, 7, -70), new Vector3(0, 8, -70), new Vector3(0, 8, -70), new Vector3(0, 9, -70), new Vector3(0, 6, -70)],
-  },
-};
-const curves = (k: keyof typeof PATHS) => ({ pos: new CatmullRomCurve3(PATHS[k].pos), look: new CatmullRomCurve3(PATHS[k].look) });
 
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
@@ -446,10 +432,51 @@ export default function LiveScene() {
       pointer.tx = (e.clientX / window.innerWidth) * 2 - 1;
       pointer.ty = (e.clientY / window.innerHeight) * 2 - 1;
     };
-    let path = curves(window.innerWidth < 768 ? 'tall' : 'wide');
     const camPos = new Vector3();
     const camLook = new Vector3();
-    const introFrom = new Vector3(0, 38, 120);
+    const introOffset = new Vector3(0, 30, 70);
+    const up = new Vector3(0, 1, 0);
+    const tmp = new Vector3();
+
+    type ShotSpec = { angle: number; distance: number; height: number; frame: number; top: number; bottom: number };
+    let shots: ShotSpec[] = [];
+    let tall = window.innerWidth < 768;
+    function readShots() {
+      shots = Array.from(document.querySelectorAll<HTMLElement>('[data-shot]')).map((el) => {
+        const [angle, distance, height, frame] = el.dataset.shot!.split(',').map(Number);
+        const r = el.getBoundingClientRect();
+        return { angle, distance, height, frame, top: r.top + window.scrollY, bottom: r.bottom + window.scrollY };
+      });
+    }
+
+    // Which shot we're on: holds while a section fills the screen, blends across the boundary.
+    function shotIndex() {
+      const c = window.scrollY + window.innerHeight / 2;
+      const zone = window.innerHeight * 0.9;
+      for (let i = 0; i < shots.length - 1; i++) {
+        const edge = (shots[i].bottom + shots[i + 1].top) / 2;
+        if (c < edge - zone / 2) return i;
+        if (c <= edge + zone / 2) return i + (c - (edge - zone / 2)) / zone;
+      }
+      return Math.max(shots.length - 1, 0);
+    }
+
+    function placeCamera(s: number, out: Vector3, look: Vector3) {
+      const i = Math.min(Math.floor(s), shots.length - 1);
+      const j = Math.min(i + 1, shots.length - 1);
+      const t = easeInOut(s - i);
+      const a = shots[i], b = shots[j];
+      const angle = MathUtils.degToRad(a.angle + (b.angle - a.angle) * t);
+      const distance = (a.distance + (b.distance - a.distance) * t) * (tall ? 1.15 : 1);
+      const height = a.height + (b.height - a.height) * t;
+      const frame = tall ? 0 : a.frame + (b.frame - a.frame) * t;
+      out.set(ISLAND.x + Math.sin(angle) * distance, height, ISLAND.z + Math.cos(angle) * distance);
+      // Phones look lower so the monument sits high on the screen, above the text.
+      look.set(ISLAND.x, tall ? MONUMENT_Y - 8 : MONUMENT_Y - 2, ISLAND.z);
+      // Shift the aim sideways so the monument lands left or right of centre.
+      tmp.subVectors(look, out).normalize().cross(up).normalize();
+      look.addScaledVector(tmp, -frame * distance * 0.34);
+    }
 
     function measure() {
       const w = window.innerWidth, h = window.innerHeight;
@@ -457,17 +484,8 @@ export default function LiveScene() {
       camera.aspect = w / h;
       camera.fov = w < 768 ? 62 : 48;
       camera.updateProjectionMatrix();
-      path = curves(w < 768 ? 'tall' : 'wide');
-    }
-
-    const covers = () => Array.from(document.querySelectorAll<HTMLElement>('[data-cover]'));
-    let coverEls = covers();
-    function covered() {
-      const h = window.innerHeight;
-      return coverEls.some((el) => {
-        const r = el.getBoundingClientRect();
-        return r.top <= 0 && r.bottom >= h;
-      });
+      tall = w < 768;
+      readShots();
     }
 
     let raf = 0;
@@ -484,20 +502,18 @@ export default function LiveScene() {
       if (introStarted && intro < 1) intro = Math.min(1, intro + dt / 3.2);
 
       applyDaytime(dt);
-      if (!firstFrame && covered()) return;
+      if (shots.length === 0) readShots();
 
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const target = max > 0 ? window.scrollY / max : 0;
-      progress += (target - progress) * (reduced ? 1 : 1 - Math.exp(-dt * 3));
+      const target = shotIndex();
+      progress += (target - progress) * (reduced ? 1 : 1 - Math.exp(-dt * 2.5));
 
       pointer.x += (pointer.tx - pointer.x) * (1 - Math.exp(-dt * 2));
       pointer.y += (pointer.ty - pointer.y) * (1 - Math.exp(-dt * 2));
-      const p = easeInOut(Math.min(Math.max(progress, 0), 1));
-      path.pos.getPoint(p, camPos);
-      path.look.getPoint(p, camLook);
+      placeCamera(Math.max(progress, 0), camPos, camLook);
       camPos.x += Math.sin(time * 0.13) * 0.9 + pointer.x * 2.2;
       camPos.y += Math.sin(time * 0.17) * 0.45 - pointer.y * 1.2;
-      camPos.lerpVectors(introFrom, camPos, easeInOut(intro));
+      // Opening crane shot: start high and far back, settle into the hero shot.
+      camPos.addScaledVector(introOffset, 1 - easeInOut(intro));
       camera.position.copy(camPos);
       camera.lookAt(camLook);
 
@@ -547,10 +563,10 @@ export default function LiveScene() {
       }
     }
 
-    const onResize = () => {
-      measure();
-      coverEls = covers();
-    };
+    const onResize = () => measure();
+    // Section heights change as content loads and FAQ answers open.
+    const resizeObserver = new ResizeObserver(() => readShots());
+    resizeObserver.observe(document.body);
     window.addEventListener('resize', onResize);
     window.addEventListener('pointermove', onPointer, { passive: true });
     measure();
@@ -562,6 +578,7 @@ export default function LiveScene() {
       offRevealed();
       window.removeEventListener('resize', onResize);
       window.removeEventListener('pointermove', onPointer);
+      resizeObserver.disconnect();
       envTarget?.dispose();
       pmrem.dispose();
       renderer.dispose();

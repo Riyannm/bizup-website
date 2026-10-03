@@ -28,9 +28,9 @@ const contactBase =
 
 const TONES = {
   // primary call to action on the paper background
-  ink: 'bg-ink text-white hover:bg-cobalt',
+  ink: 'bg-ink text-paper hover:bg-cobalt hover:text-paper',
   // on dark backgrounds
-  light: 'bg-white text-ink hover:bg-cobalt hover:text-white',
+  light: 'bg-white text-[#0B0B0C] hover:bg-[#0047AB] hover:text-white',
 };
 
 type ContactButtonProps = (AnchorProps | NativeButtonProps) & { tone?: keyof typeof TONES; arrow?: boolean };
@@ -51,7 +51,7 @@ export function ContactButton({ children = 'Get a free quote', tone = 'ink', arr
 const ghostBase =
   'inline-flex items-center justify-center gap-2 rounded-full border border-ink/20 text-ink font-medium ' +
   'px-6 py-3 text-[15px] sm:text-base min-h-[48px] whitespace-nowrap cursor-pointer ' +
-  'transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-white';
+  'transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-paper';
 
 export function GhostButton({ children, ...props }: AnchorProps | NativeButtonProps) {
   return (

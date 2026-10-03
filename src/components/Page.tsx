@@ -3,16 +3,27 @@ import { useEffect, type ReactNode } from 'react';
 import { onRevealed } from '../loader';
 import Outro from '../sections/Outro';
 
+/**
+ * Camera shot for a section: the camera circles the island at `angle` degrees, `distance` out and
+ * `height` up. `frame` puts the monument on the right (positive) or left (negative) of the screen, or centred (0),
+ * so it sits beside the section's panel. See LiveScene.
+ */
+export type Shot = { angle: number; distance: number; height: number; frame: number };
+
 export type PanelDef = {
   id: string;
   label: string;
+  shot: Shot;
   node: ReactNode;
 };
 
+export const shotAttrs = (s: Shot) => ({
+  'data-shot': `${s.angle},${s.distance},${s.height},${s.frame}`,
+});
+
 /**
- * The home page: the hero over the live scene, then the content sheet (marked data-cover so the
- * scene can stop drawing behind it), then a closing shot of the scene. Smooth scrolling starts
- * once the loader opens.
+ * The home page: every section floats over the live scene, each with its own camera shot, then a
+ * closing shot. Smooth scrolling starts once the loader opens.
  */
 export default function Page({ panels }: { panels: PanelDef[] }) {
   useEffect(() => {
@@ -34,20 +45,14 @@ export default function Page({ panels }: { panels: PanelDef[] }) {
     };
   }, []);
 
-  const [hero, ...rest] = panels;
-  const section = (panel: PanelDef) => (
-    <section key={panel.id} id={panel.id} aria-label={panel.label} className="relative">
-      {panel.node}
-    </section>
-  );
-
   return (
-    <>
-      {section(hero)}
-      <div data-cover className="relative z-10 rounded-t-[32px] bg-paper shadow-[0_-40px_80px_-30px_rgba(0,0,0,0.45)] sm:rounded-t-[48px]">
-        {rest.map(section)}
-      </div>
+    <div className="on-scene">
+      {panels.map((panel) => (
+        <section key={panel.id} id={panel.id} aria-label={panel.label} className="relative" {...shotAttrs(panel.shot)}>
+          {panel.node}
+        </section>
+      ))}
       <Outro />
-    </>
+    </div>
   );
 }

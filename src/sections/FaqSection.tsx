@@ -19,7 +19,7 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
           onClick={() => setOpen((v) => !v)}
           className="group flex w-full cursor-pointer items-center justify-between gap-6 py-5 sm:py-6 text-left transition-colors duration-200 hover:text-cobalt"
         >
-          <span className="font-medium tracking-tight" style={{ fontSize: 'clamp(1.05rem, 1.8vw, 1.5rem)' }}>
+          <span className="font-medium tracking-tight" style={{ fontSize: 'clamp(1rem, 1.5vw, 1.25rem)' }}>
             {q}
           </span>
           <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-ink/15 transition-colors duration-300 group-hover:border-cobalt group-hover:text-cobalt">
@@ -56,26 +56,18 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
 
 export default function FaqSection() {
   return (
-    <PanelBody>
-      <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
-        <div>
-          <FadeIn y={16}>
-            <span className="label">
-              <b>(07)</b> FAQ
-            </span>
-          </FadeIn>
-          <FadeIn y={30} delay={0.05}>
-            <h2 className="headline mt-6" style={{ fontSize: 'clamp(2.4rem, 5vw, 4.4rem)' }}>
-              Before you <em>reach out</em>.
-            </h2>
-          </FadeIn>
-        </div>
-        <ul className="border-t border-ink/15">
-          {FAQS.map(({ q, a }, i) => (
-            <FaqItem key={q} q={q} a={a} index={i} />
-          ))}
-        </ul>
-      </div>
+    <PanelBody side="right">
+      <span className="label">
+        <b>(07)</b> FAQ
+      </span>
+      <h2 className="headline mt-6" style={{ fontSize: 'clamp(2.4rem, 4.6vw, 4rem)' }}>
+        Before you <em>reach out</em>.
+      </h2>
+      <ul className="mt-8 border-t border-ink/15">
+        {FAQS.map(({ q, a }, i) => (
+          <FaqItem key={q} q={q} a={a} index={i} />
+        ))}
+      </ul>
     </PanelBody>
   );
 }

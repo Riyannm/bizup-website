@@ -18,70 +18,60 @@ function Accented({ text, word }: { text: string; word: string }) {
   );
 }
 
+// Panels alternate sides as the camera circles the island.
 export function ServicePanel({ index }: { index: number }) {
   const service = SERVICES[index];
   return (
-    <PanelBody className={index > 0 ? '!pt-0' : ''}>
-      <div className="grid gap-8 border-t border-ink/15 pt-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:pt-14">
-        <div>
-          <FadeIn y={16}>
-            <span className="label">
-              <b>(03.{index + 1})</b> What we build
-            </span>
-          </FadeIn>
-          <FadeIn y={30} delay={0.05}>
-            <h2 className="headline mt-6" style={{ fontSize: 'clamp(2.6rem, 6vw, 5.4rem)' }}>
-              <Accented text={service.name} word={ACCENTS[index]} />
-            </h2>
-          </FadeIn>
-        </div>
-        <div className="lg:pt-12">
-          <FadeIn y={20} delay={0.12}>
-            <p className="text-lg leading-relaxed text-ink/65 sm:text-xl">{service.description}</p>
-          </FadeIn>
-          {service.includes.length > 0 && (
-            <FadeIn as="ul" y={20} delay={0.2} className="mt-8 border-t border-ink/10">
-              {service.includes.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-center justify-between border-b border-ink/10 py-3.5 text-[15px] font-medium sm:text-base"
-                >
-                  {item}
-                  <ArrowUpRight className="h-4 w-4 text-cobalt" aria-hidden="true" />
-                </li>
-              ))}
-            </FadeIn>
-          )}
-          <FadeIn y={10} delay={0.25}>
-            <p className="mt-8 text-sm text-ink/45 tabular-nums">
-              {String(index + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
-            </p>
-          </FadeIn>
-        </div>
+    <PanelBody side={index % 2 === 0 ? 'right' : 'left'}>
+      <div className="flex items-baseline justify-between gap-4">
+        <span className="label">
+          <b>(03.{index + 1})</b> What we build
+        </span>
+        <span className="text-sm tabular-nums text-ink/45">
+          {String(index + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
+        </span>
       </div>
+      <h2 className="headline mt-6" style={{ fontSize: 'clamp(2.4rem, 5vw, 4.6rem)' }}>
+        <Accented text={service.name} word={ACCENTS[index]} />
+      </h2>
+      <p className="mt-6 text-lg leading-relaxed text-ink/70 sm:text-xl">{service.description}</p>
+      {service.includes.length > 0 && (
+        <ul className="mt-8 border-t border-ink/15">
+          {service.includes.map((item, i) => (
+            <FadeIn
+              as="li"
+              key={item}
+              delay={0.25 + i * 0.07}
+              y={12}
+              className="flex items-center justify-between border-b border-ink/15 py-3.5 text-[15px] font-medium sm:text-base"
+            >
+              {item}
+              <ArrowUpRight className="h-4 w-4 text-cobalt" aria-hidden="true" />
+            </FadeIn>
+          ))}
+        </ul>
+      )}
     </PanelBody>
   );
 }
 
 export function PrinciplesPanel() {
   return (
-    <PanelBody>
-      <FadeIn y={16}>
+    <PanelBody glass={false}>
+      <div className="card rounded-[28px] p-6 sm:rounded-[36px] sm:p-10 lg:w-[62%]">
         <span className="label">
           <b>(04)</b> How we work
         </span>
-      </FadeIn>
-      <FadeIn y={30} delay={0.05}>
-        <h2 className="headline mt-6 max-w-3xl" style={{ fontSize: 'clamp(2.4rem, 5.4vw, 4.8rem)' }}>
+        <h2 className="headline mt-6" style={{ fontSize: 'clamp(2.4rem, 5vw, 4.6rem)' }}>
           Built around <em>your</em> business.
         </h2>
-      </FadeIn>
-      <div className="mt-10 grid gap-4 md:mt-12 md:grid-cols-2">
+      </div>
+      <div className="mt-4 grid gap-4 md:grid-cols-2">
         {PRINCIPLES.map((p, i) => (
-          <FadeIn key={p.title} delay={0.1 + i * 0.1} y={30} className="card rounded-[24px] p-6 sm:rounded-[28px] sm:p-8">
+          <FadeIn key={p.title} delay={0.15 + i * 0.12} y={30} className="card rounded-[24px] p-6 sm:rounded-[28px] sm:p-8">
             <span className="text-xs font-medium uppercase tracking-[0.14em] text-cobalt">{p.eyebrow}</span>
             <h3 className="mt-3 text-lg font-semibold leading-snug tracking-tight sm:text-xl">{p.title}</h3>
-            <p className="mt-3 text-[15px] leading-relaxed text-ink/60">{p.body}</p>
+            <p className="mt-3 text-[15px] leading-relaxed text-ink/65">{p.body}</p>
           </FadeIn>
         ))}
       </div>

@@ -7,10 +7,12 @@ export default {
         sans: ['"Inter Tight"', 'system-ui', 'sans-serif'],
         serif: ['"Instrument Serif"', 'Georgia', 'serif'],
       },
+      // Colours are CSS variables so a section can flip them: .on-scene turns ink light and paper dark
+      // for content sitting over the live 3D scene (see index.css).
       colors: {
-        paper: '#F4F2EE',
-        ink: '#0B0B0C',
-        cobalt: '#0047AB',
+        paper: 'rgb(var(--paper) / <alpha-value>)',
+        ink: 'rgb(var(--ink) / <alpha-value>)',
+        cobalt: 'rgb(var(--cobalt) / <alpha-value>)',
       },
     },
   },
