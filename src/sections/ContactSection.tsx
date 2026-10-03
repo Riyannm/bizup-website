@@ -8,9 +8,7 @@ import PanelBody from '../components/PanelBody';
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
 // Free key from https://web3forms.com — set VITE_WEB3FORMS_KEY (or the older NEXT_PUBLIC_WEB3FORMS_KEY).
-const WEB3FORMS_KEY = (import.meta.env.VITE_WEB3FORMS_KEY || import.meta.env.NEXT_PUBLIC_WEB3FORMS_KEY) as
-  | string
-  | undefined;
+const WEB3FORMS_KEY = (import.meta.env.VITE_WEB3FORMS_KEY || import.meta.env.NEXT_PUBLIC_WEB3FORMS_KEY) as string | undefined;
 
 const fieldClass =
   'w-full rounded-2xl border border-ink/10 bg-paper px-4 py-3 text-base text-ink placeholder:text-ink/40 ' +
@@ -87,16 +85,30 @@ export function EnquiryPanel() {
               </p>
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="name" className={labelClass}>Name <span aria-hidden="true">*</span></label>
+                  <label htmlFor="name" className={labelClass}>
+                    Name <span aria-hidden="true">*</span>
+                  </label>
                   <input id="name" name="name" required autoComplete="name" placeholder="Your name" className={fieldClass} />
                 </div>
                 <div>
-                  <label htmlFor="email" className={labelClass}>Email <span aria-hidden="true">*</span></label>
-                  <input id="email" name="email" type="email" required autoComplete="email" placeholder="you@company.com" className={fieldClass} />
+                  <label htmlFor="email" className={labelClass}>
+                    Email <span aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    placeholder="you@company.com"
+                    className={fieldClass}
+                  />
                 </div>
               </div>
               <div>
-                <label htmlFor="project_type" className={labelClass}>Project type</label>
+                <label htmlFor="project_type" className={labelClass}>
+                  Project type
+                </label>
                 <select id="project_type" name="project_type" defaultValue={PROJECT_TYPES[0]} className={`${fieldClass} cursor-pointer`}>
                   {PROJECT_TYPES.map((t) => (
                     <option key={t}>{t}</option>
@@ -104,7 +116,9 @@ export function EnquiryPanel() {
                 </select>
               </div>
               <div>
-                <label htmlFor="message" className={labelClass}>What do you need? <span aria-hidden="true">*</span></label>
+                <label htmlFor="message" className={labelClass}>
+                  What do you need? <span aria-hidden="true">*</span>
+                </label>
                 <textarea
                   id="message"
                   name="message"
@@ -124,8 +138,7 @@ export function EnquiryPanel() {
                   className="mt-1 h-5 w-5 shrink-0 cursor-pointer accent-[#0047AB]"
                 />
                 <label htmlFor="consent" className="cursor-pointer text-sm leading-relaxed text-ink/70">
-                  I agree that BizUp Technologies may use my name, email, and message to reply to this enquiry, as described
-                  in the{' '}
+                  I agree that BizUp Technologies may use my name, email, and message to reply to this enquiry, as described in the{' '}
                   <a href="/privacy" className="font-medium text-cobalt underline underline-offset-4">
                     Privacy Policy
                   </a>
@@ -157,42 +170,46 @@ export function EnquiryPanel() {
 // The blocks lock together into one finished cube beside this section.
 export default function ContactSection() {
   return (
-    <PanelBody visual>
-      <div className="lg:max-w-[55%]">
-        <FadeIn y={16}>
-          <span className="label">
-            <b>(08)</b> Get in touch
-          </span>
-        </FadeIn>
-        <FadeIn y={30} delay={0.05}>
-          <h2 className="headline mt-6" style={{ fontSize: 'clamp(2.8rem, 7vw, 6.4rem)' }}>
-            Tell us what&apos;s <em>slow</em>.
-          </h2>
-        </FadeIn>
-        <FadeIn y={20} delay={0.1}>
-          <p className="mt-5 text-lg text-ink/60 sm:text-xl">We&apos;ll tell you what it takes to fix it.</p>
-        </FadeIn>
-        <FadeIn as="ul" delay={0.15} y={20} className="mt-10 border-t border-ink/15">
-          {[
-            { icon: Mail, label: CONTACT.email, href: `mailto:${CONTACT.email}` },
-            { icon: Phone, label: CONTACT.phoneDisplay, href: CONTACT.phoneHref },
-            { icon: MessageCircle, label: `WhatsApp ${CONTACT.phoneDisplay}`, href: CONTACT.whatsappHref },
-          ].map(({ icon: Icon, label, href }) => (
-            <li key={href} className="border-b border-ink/15">
-              <a
-                href={href}
-                {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                className="group flex min-h-[56px] items-center gap-4 py-2 text-base font-medium transition-colors duration-200 hover:text-cobalt sm:text-lg"
-              >
-                <Icon className="h-5 w-5 shrink-0 text-cobalt" aria-hidden="true" />
-                <span className="break-all">{label}</span>
-              </a>
-            </li>
-          ))}
-        </FadeIn>
-        <FadeIn y={20} delay={0.2} className="mt-8">
-          <ContactButton href="#enquiry">Send a message</ContactButton>
-        </FadeIn>
+    <PanelBody>
+      <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-end lg:gap-16">
+        <div>
+          <FadeIn y={16}>
+            <span className="label">
+              <b>(08)</b> Get in touch
+            </span>
+          </FadeIn>
+          <FadeIn y={30} delay={0.05}>
+            <h2 className="headline mt-6" style={{ fontSize: 'clamp(2.8rem, 7vw, 6.4rem)' }}>
+              Tell us what&apos;s <em>slow</em>.
+            </h2>
+          </FadeIn>
+          <FadeIn y={20} delay={0.1}>
+            <p className="mt-5 text-lg text-ink/60 sm:text-xl">We&apos;ll tell you what it takes to fix it.</p>
+          </FadeIn>
+        </div>
+        <div>
+          <FadeIn as="ul" delay={0.15} y={20} className="border-t border-ink/15">
+            {[
+              { icon: Mail, label: CONTACT.email, href: `mailto:${CONTACT.email}` },
+              { icon: Phone, label: CONTACT.phoneDisplay, href: CONTACT.phoneHref },
+              { icon: MessageCircle, label: `WhatsApp ${CONTACT.phoneDisplay}`, href: CONTACT.whatsappHref },
+            ].map(({ icon: Icon, label, href }) => (
+              <li key={href} className="border-b border-ink/15">
+                <a
+                  href={href}
+                  {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  className="group flex min-h-[56px] items-center gap-4 py-2 text-base font-medium transition-colors duration-200 hover:text-cobalt sm:text-lg"
+                >
+                  <Icon className="h-5 w-5 shrink-0 text-cobalt" aria-hidden="true" />
+                  <span className="break-all">{label}</span>
+                </a>
+              </li>
+            ))}
+          </FadeIn>
+          <FadeIn y={20} delay={0.2} className="mt-8">
+            <ContactButton href="#enquiry">Send a message</ContactButton>
+          </FadeIn>
+        </div>
       </div>
     </PanelBody>
   );

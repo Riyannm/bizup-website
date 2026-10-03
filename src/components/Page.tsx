@@ -1,20 +1,19 @@
 import Lenis from 'lenis';
 import { useEffect, type ReactNode } from 'react';
 import { onRevealed } from '../loader';
+import Outro from '../sections/Outro';
 
 export type PanelDef = {
   id: string;
   label: string;
-  /** data-stage, data-side, ... for the 3D block stage (see BlockStage). */
-  stage: Record<string, string>;
   node: ReactNode;
 };
 
-function stageAttrs(stage: Record<string, string>) {
-  return Object.fromEntries(Object.entries(stage).map(([k, v]) => [`data-${k}`, v]));
-}
-
-/** The home page: one full-screen section per panel, with smooth scrolling once the loader opens. */
+/**
+ * The home page: the hero over the live scene, then the content sheet (marked data-cover so the
+ * scene can stop drawing behind it), then a closing shot of the scene. Smooth scrolling starts
+ * once the loader opens.
+ */
 export default function Page({ panels }: { panels: PanelDef[] }) {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -35,13 +34,20 @@ export default function Page({ panels }: { panels: PanelDef[] }) {
     };
   }, []);
 
+  const [hero, ...rest] = panels;
+  const section = (panel: PanelDef) => (
+    <section key={panel.id} id={panel.id} aria-label={panel.label} className="relative">
+      {panel.node}
+    </section>
+  );
+
   return (
     <>
-      {panels.map((panel) => (
-        <section key={panel.id} id={panel.id} aria-label={panel.label} {...stageAttrs(panel.stage)} className="relative">
-          {panel.node}
-        </section>
-      ))}
+      {section(hero)}
+      <div data-cover className="relative z-10 rounded-t-[32px] bg-paper shadow-[0_-40px_80px_-30px_rgba(0,0,0,0.45)] sm:rounded-t-[48px]">
+        {rest.map(section)}
+      </div>
+      <Outro />
     </>
   );
 }

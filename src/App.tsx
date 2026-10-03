@@ -13,8 +13,8 @@ import { LEGAL_DOCS } from './legal';
 const path = window.location.pathname.replace(/\/+$/, '');
 const legalDoc = LEGAL_DOCS.find((doc) => `/${doc.slug}` === path);
 
-// The WebGL stage loads after the page text, so content and search engines never wait on it.
-const BlockStage = lazy(() => import('./three/BlockStage'));
+// The live 3D scene loads after the page text, so content and search engines never wait on it.
+const LiveScene = lazy(() => import('./three/LiveScene'));
 
 export default function App() {
   return (
@@ -26,8 +26,10 @@ export default function App() {
         <>
           <Loader />
           <SkipLink href="#intro" />
+          {/* Stands in for the scene until it loads, or if WebGL isn't available. */}
+          <div aria-hidden="true" className="fixed inset-0 -z-10 bg-gradient-to-b from-[#f3b48c] via-[#e9a07c] to-[#2a1a1c]" />
           <Suspense fallback={null}>
-            <BlockStage />
+            <LiveScene />
           </Suspense>
           <Header />
           <main className="relative z-10" style={{ overflowX: 'clip' }}>

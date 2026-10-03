@@ -11,19 +11,21 @@ export default function ProcessSection() {
 
   return (
     <PanelBody>
-      <div className="lg:max-w-[52%]">
-        <FadeIn y={16}>
-          <span className="label">
-            <b>(06)</b> Process
-          </span>
-        </FadeIn>
-        <FadeIn y={30} delay={0.05}>
-          <h2 className="headline mt-6" style={{ fontSize: 'clamp(2.4rem, 5.4vw, 4.8rem)' }}>
-            From first call to <em>launch</em>.
-          </h2>
-        </FadeIn>
+      <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+        <div>
+          <FadeIn y={16}>
+            <span className="label">
+              <b>(06)</b> Process
+            </span>
+          </FadeIn>
+          <FadeIn y={30} delay={0.05}>
+            <h2 className="headline mt-6" style={{ fontSize: 'clamp(2.4rem, 5.4vw, 4.8rem)' }}>
+              From first call to <em>launch</em>.
+            </h2>
+          </FadeIn>
+        </div>
 
-        <ol ref={listRef} className="relative mt-10 flex flex-col gap-8 pl-16 sm:mt-12 sm:gap-10">
+        <ol ref={listRef} className="relative flex flex-col gap-8 pl-16 sm:gap-10 lg:pt-4">
           <span aria-hidden="true" className="absolute bottom-2 left-[21px] top-2 w-px bg-ink/10" />
           <motion.span
             aria-hidden="true"

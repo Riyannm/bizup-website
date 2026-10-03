@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { ContactButton, GhostButton } from '../components/Buttons';
-import StageSlot from '../components/StageSlot';
+import DaytimeToggle from '../components/DaytimeToggle';
 import { useRevealed } from '../loader';
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -36,34 +36,43 @@ function Fade({ children, delay, className }: { children: React.ReactNode; delay
   );
 }
 
-// The 3D blocks sit to the right (see the panel's data-stage).
+// Sits over the live scene (see LiveScene), so the type is white with a soft shade behind it.
 export default function HeroSection() {
   return (
-    <div className="mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pb-8 pt-20 sm:px-8 sm:pb-16 md:px-10">
-      <StageSlot className="h-[28svh] shrink-0" />
-      <div id="intro">
-        <Fade delay={0.35}>
-          <span className="label">
-            <b>(01)</b> BizUp Technologies
-          </span>
-        </Fade>
-        <h1 className="headline mt-5 max-w-4xl" style={{ fontSize: 'clamp(2.75rem, 7.6vw, 7.6rem)' }}>
-          <Line delay={0.4}>Software that</Line>
-          <Line delay={0.5}>
-            <em>runs</em> your
-          </Line>
-          <Line delay={0.6}>business.</Line>
-        </h1>
-        <div className="mt-6 flex flex-col gap-5 border-t border-ink/10 pt-5 sm:mt-10 sm:gap-8 sm:pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <Fade delay={0.85}>
-            <p className="max-w-md text-[15px] leading-relaxed text-ink/65 sm:text-[17px]">
-              Websites, apps and automation for small and growing businesses. You work directly with the person
-              building it.
-            </p>
+    <div className="relative min-h-[100svh]">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-[65%] bg-gradient-to-t from-black/55 via-black/20 to-transparent" />
+      <div className="relative mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pb-8 pt-24 text-white sm:px-8 sm:pb-12 md:px-10">
+        <div id="intro" className="[text-shadow:0_2px_24px_rgba(0,0,0,0.25)]">
+          <Fade delay={0.35}>
+            <span className="label !text-white/80 [&>b]:!text-white">
+              <b>(01)</b> BizUp Technologies
+            </span>
           </Fade>
-          <Fade delay={0.95} className="flex flex-wrap gap-3">
-            <ContactButton href="#enquiry">Get a free quote</ContactButton>
-            <GhostButton href="#work">See our work</GhostButton>
+          <h1 className="headline mt-5 max-w-4xl [&_em]:!text-white" style={{ fontSize: 'clamp(2.75rem, 7.6vw, 7.6rem)' }}>
+            <Line delay={0.4}>Software that</Line>
+            <Line delay={0.5}>
+              <em>runs</em> your
+            </Line>
+            <Line delay={0.6}>business.</Line>
+          </h1>
+          <div className="mt-6 flex flex-col gap-5 border-t border-white/25 pt-5 sm:mt-10 sm:gap-8 sm:pt-6 lg:flex-row lg:items-center lg:justify-between">
+            <Fade delay={0.85}>
+              <p className="max-w-md text-[15px] leading-relaxed text-white/85 sm:text-[17px]">
+                Websites, apps and automation for small and growing businesses. You work directly with the person
+                building it.
+              </p>
+            </Fade>
+            <Fade delay={0.95} className="flex flex-wrap items-center gap-3">
+              <ContactButton href="#enquiry" tone="light">
+                Get a free quote
+              </ContactButton>
+              <GhostButton href="#work" className="!border-white/40 !text-white hover:!bg-white hover:!text-ink">
+                See our work
+              </GhostButton>
+            </Fade>
+          </div>
+          <Fade delay={1.1} className="mt-6 flex justify-start lg:justify-end">
+            <DaytimeToggle />
           </Fade>
         </div>
       </div>

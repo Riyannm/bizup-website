@@ -119,7 +119,8 @@ export default function Loader() {
     const start = performance.now();
     let value = 0;
     let raf = requestAnimationFrame(function tick(now) {
-      const cap = Math.min(100, ((now - start) / MIN_MS) * 100);
+      // rAF timestamps can be slightly earlier than `start`, so keep the cap at or above zero.
+      const cap = Math.min(100, Math.max(0, ((now - start) / MIN_MS) * 100));
       value += (Math.min(target.current, cap) - value) * 0.08;
       if (target.current === 100 && cap >= 100 && value > 99.4) value = 100;
       setShown(value);
