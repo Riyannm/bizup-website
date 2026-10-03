@@ -13,9 +13,9 @@ const WEB3FORMS_KEY = (import.meta.env.VITE_WEB3FORMS_KEY || import.meta.env.NEX
 
 const fieldClass =
   'w-full rounded-2xl border border-white/15 bg-white/[0.04] px-4 py-3.5 text-base text-white placeholder:text-white/40 ' +
-  'transition-colors duration-200 focus:border-[#4FC3FF] focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-[#4FC3FF]/40';
+  'transition-colors duration-200 focus:border-[#3D7BFF] focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-[#3D7BFF]/40';
 
-const labelClass = 'mb-2 block text-sm font-medium uppercase tracking-wider text-[#E6EEF5]/60';
+const labelClass = 'mb-2 block text-sm font-medium uppercase tracking-wider text-[#FFFFFF]/60';
 
 export default function ContactSection() {
   const [status, setStatus] = useState<Status>('idle');
@@ -64,7 +64,7 @@ export default function ContactSection() {
           </h2>
         </FadeIn>
         <FadeIn y={20} delay={0.1}>
-          <p className="mt-4 font-light text-[#E6EEF5]/70" style={{ fontSize: 'clamp(1.1rem, 2vw, 1.6rem)' }}>
+          <p className="mt-4 font-light text-[#FFFFFF]/70" style={{ fontSize: 'clamp(1.1rem, 2vw, 1.6rem)' }}>
             We&apos;ll tell you what it takes to fix it.
           </p>
         </FadeIn>
@@ -78,7 +78,7 @@ export default function ContactSection() {
       >
         <div className="flex flex-col gap-8">
           <FadeIn delay={0.1} y={20}>
-            <p className="max-w-md font-light leading-relaxed text-[#E6EEF5]/70" style={{ fontSize: 'clamp(1rem, 1.4vw, 1.15rem)' }}>
+            <p className="max-w-md font-light leading-relaxed text-[#FFFFFF]/70" style={{ fontSize: 'clamp(1rem, 1.4vw, 1.15rem)' }}>
               Free 20-minute call, no obligation. Replies within one business day.
             </p>
           </FadeIn>
@@ -94,7 +94,7 @@ export default function ContactSection() {
                   {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                   className="group inline-flex min-h-[44px] items-center gap-3 text-base sm:text-lg font-medium text-white transition-opacity duration-200 hover:opacity-75"
                 >
-                  <span className="glass grid h-11 w-11 place-items-center rounded-full text-[#4FC3FF]">
+                  <span className="glass grid h-11 w-11 place-items-center rounded-full text-[#3D7BFF]">
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <span className="break-all">{label}</span>
@@ -110,14 +110,14 @@ export default function ContactSection() {
               role="status"
               className="flex h-full min-h-[420px] flex-col items-center justify-center gap-4 glass rounded-[32px] sm:rounded-[40px] p-8 text-center"
             >
-              <CheckCircle2 className="h-12 w-12 text-[#4FC3FF]" aria-hidden="true" />
+              <CheckCircle2 className="h-12 w-12 text-[#3D7BFF]" aria-hidden="true" />
               <p className="text-2xl font-semibold text-white">Message sent.</p>
-              <p className="max-w-xs font-light text-[#E6EEF5]/70">Thanks! You&apos;ll hear back within one business day.</p>
+              <p className="max-w-xs font-light text-[#FFFFFF]/70">Thanks! You&apos;ll hear back within one business day.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="glass flex flex-col gap-5 rounded-[32px] sm:rounded-[40px] p-6 sm:p-8">
               <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
-              <p className="text-sm text-[#E6EEF5]/60">
+              <p className="text-sm text-[#FFFFFF]/60">
                 Fields marked <span aria-hidden="true">*</span>
                 <span className="sr-only">with an asterisk</span> are required.
               </p>
@@ -133,7 +133,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <label htmlFor="project_type" className={labelClass}>Project type</label>
-                <select id="project_type" name="project_type" defaultValue={PROJECT_TYPES[0]} className={`${fieldClass} cursor-pointer [color-scheme:dark] [&>option]:bg-[#0B1220]`}>
+                <select id="project_type" name="project_type" defaultValue={PROJECT_TYPES[0]} className={`${fieldClass} cursor-pointer [color-scheme:dark] [&>option]:bg-[#111111]`}>
                   {PROJECT_TYPES.map((t) => (
                     <option key={t}>{t}</option>
                   ))}
@@ -157,12 +157,12 @@ export default function ContactSection() {
                   type="checkbox"
                   value="Agreed"
                   required
-                  className="mt-1 h-5 w-5 shrink-0 cursor-pointer accent-[#4FC3FF]"
+                  className="mt-1 h-5 w-5 shrink-0 cursor-pointer accent-[#3D7BFF]"
                 />
-                <label htmlFor="consent" className="cursor-pointer text-sm leading-relaxed text-[#E6EEF5]/75">
+                <label htmlFor="consent" className="cursor-pointer text-sm leading-relaxed text-[#FFFFFF]/75">
                   I agree that BizUp Technologies may use my name, email, and message to reply to this enquiry, as described
                   in the{' '}
-                  <a href="/privacy" className="font-medium text-[#4FC3FF] underline underline-offset-4">
+                  <a href="/privacy" className="font-medium text-[#3D7BFF] underline underline-offset-4">
                     Privacy Policy
                   </a>
                   . I can withdraw this at any time by emailing {CONTACT.email}. <span aria-hidden="true">*</span>

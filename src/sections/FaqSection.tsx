@@ -21,7 +21,7 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
           <span className="font-medium" style={{ fontSize: 'clamp(1.05rem, 1.7vw, 1.35rem)' }}>
             {q}
           </span>
-          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/20 text-[#4FC3FF]">
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/20 text-[#3D7BFF]">
             <Plus
               className="h-5 w-5 transition-transform duration-300"
               style={{ transform: open ? 'rotate(45deg)' : 'none' }}
@@ -41,7 +41,7 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
             className="overflow-hidden"
           >
             <p
-              className="max-w-3xl pb-6 sm:pb-8 pr-14 font-light leading-relaxed text-[#E6EEF5]/70"
+              className="max-w-3xl pb-6 sm:pb-8 pr-14 font-light leading-relaxed text-[#FFFFFF]/70"
               style={{ fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)' }}
             >
               {a}

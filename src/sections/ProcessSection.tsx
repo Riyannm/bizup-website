@@ -32,15 +32,15 @@ export default function ProcessSection() {
             <motion.span
               aria-hidden="true"
               style={{ scaleY: reduced ? 1 : scrollYProgress }}
-              className="absolute bottom-2 left-[19px] top-2 w-px origin-top bg-gradient-to-b from-[#4FC3FF] to-[#1E7BEA] shadow-[0_0_12px_#4FC3FF]"
+              className="absolute bottom-2 left-[19px] top-2 w-px origin-top bg-gradient-to-b from-[#3D7BFF] to-[#0047AB] shadow-[0_0_12px_#3D7BFF]"
             />
             {PROCESS.map((step, i) => (
               <FadeIn as="li" key={step.title} delay={i * 0.1} y={24} className="relative">
-                <span className="glass absolute -left-14 top-0 grid h-10 w-10 place-items-center rounded-full text-sm font-medium tabular-nums text-[#4FC3FF] sm:-left-16">
+                <span className="glass absolute -left-14 top-0 grid h-10 w-10 place-items-center rounded-full text-sm font-medium tabular-nums text-[#3D7BFF] sm:-left-16">
                   0{i + 1}
                 </span>
                 <h3 className="text-xl font-medium text-white sm:text-2xl">{step.title}</h3>
-                <p className="mt-3 max-w-md font-light leading-relaxed text-[#E6EEF5]/70">{step.body}</p>
+                <p className="mt-3 max-w-md font-light leading-relaxed text-[#FFFFFF]/70">{step.body}</p>
               </FadeIn>
             ))}
           </ol>

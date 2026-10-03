@@ -23,7 +23,7 @@ export default function Header() {
             <li key={href}>
               <a
                 href={href}
-                className="inline-flex min-h-[44px] items-center rounded-full px-4 text-sm uppercase tracking-widest text-[#E6EEF5]/75 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white"
+                className="inline-flex min-h-[44px] items-center rounded-full px-4 text-sm uppercase tracking-widest text-[#FFFFFF]/75 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white"
               >
                 {label}
               </a>

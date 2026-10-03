@@ -4,7 +4,7 @@ import { MARQUEE_ROWS } from '../data';
 const TEXT_SIZE = { fontSize: 'clamp(2.75rem, 8vw, 7.5rem)' };
 
 function Dot() {
-  return <span className="inline-block h-3 w-3 shrink-0 rounded-full bg-[#4FC3FF]/60 shadow-[0_0_12px_#4FC3FF] sm:h-4 sm:w-4" />;
+  return <span className="inline-block h-3 w-3 shrink-0 rounded-full bg-[#3D7BFF]/60 shadow-[0_0_12px_#3D7BFF] sm:h-4 sm:w-4" />;
 }
 
 function Row({
@@ -25,7 +25,7 @@ function Row({
             className={`whitespace-nowrap font-black uppercase leading-none tracking-tight ${variant === 'solid' ? 'display' : ''}`}
             style={
               variant === 'outline'
-                ? { ...TEXT_SIZE, color: 'transparent', WebkitTextStroke: '1.5px rgba(79, 195, 255, 0.45)' }
+                ? { ...TEXT_SIZE, color: 'transparent', WebkitTextStroke: '1.5px rgba(61,123,255,0.45)' }
                 : TEXT_SIZE
             }
           >

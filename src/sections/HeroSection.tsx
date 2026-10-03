@@ -46,7 +46,7 @@ export default function HeroSection() {
             </Rise>
           </div>
           <Rise delay={1.75} className="flex flex-col gap-6 lg:pb-3">
-            <p className="max-w-md font-light leading-relaxed text-[#E6EEF5]/70" style={{ fontSize: 'clamp(1rem, 1.4vw, 1.2rem)' }}>
+            <p className="max-w-md font-light leading-relaxed text-[#FFFFFF]/70" style={{ fontSize: 'clamp(1rem, 1.4vw, 1.2rem)' }}>
               Smart digital solutions built for businesses ready to level up. You work directly with the person
               building it.
             </p>
@@ -57,7 +57,7 @@ export default function HeroSection() {
           </Rise>
         </div>
 
-        <Rise delay={2.1} className="mt-12 hidden items-center gap-3 text-xs uppercase tracking-[0.25em] text-[#E6EEF5]/45 sm:flex">
+        <Rise delay={2.1} className="mt-12 hidden items-center gap-3 text-xs uppercase tracking-[0.25em] text-[#FFFFFF]/45 sm:flex">
           <motion.span
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}

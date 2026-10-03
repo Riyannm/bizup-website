@@ -13,9 +13,9 @@
 html,
 body,
 #root {
-  background: #05070c;
+  background: #000000;
   font-family: 'Kanit', sans-serif;
-  color: #e6eef5;
+  color: #FFFFFF;
 }
 
 html {
@@ -34,13 +34,13 @@ section[id] {
 }
 
 :focus-visible {
-  outline: 2px solid #d7e2ea;
+  outline: 2px solid #FFFFFF;
   outline-offset: 4px;
 }
 
 /* The light outline disappears on white sections. */
 .bg-white :focus-visible {
-  outline-color: #0c0c0c;
+  outline-color: #000000;
 }
 
 .hero-heading {
@@ -62,21 +62,21 @@ html.lenis body {
 }
 
 .display {
-  background: linear-gradient(180deg, #ffffff 0%, #9cc4e4 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #a9c0ff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .accent-text {
-  background: linear-gradient(90deg, #4fc3ff 0%, #1e7bea 100%);
+  background: linear-gradient(90deg, #3D7BFF 0%, #0047AB 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .glass {
-  background: linear-gradient(160deg, rgba(22, 30, 46, 0.78), rgba(9, 12, 20, 0.82));
+  background: linear-gradient(160deg, rgba(26, 26, 30, 0.8), rgba(6, 6, 8, 0.86));
   border: 1px solid rgba(255, 255, 255, 0.09);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
@@ -84,9 +84,9 @@ html.lenis body {
 /* Soft brand-blue light behind the particles. */
 .page-glow {
   background:
-    radial-gradient(60% 50% at 75% 20%, rgba(30, 123, 234, 0.16), transparent 70%),
-    radial-gradient(50% 45% at 15% 80%, rgba(79, 195, 255, 0.08), transparent 70%),
-    #05070c;
+    radial-gradient(60% 50% at 75% 20%, rgba(0, 71, 171, 0.3), transparent 70%),
+    radial-gradient(50% 45% at 15% 80%, rgba(61,123,255,0.08), transparent 70%),
+    #000000;
 }
 
 .eyebrow {
@@ -97,7 +97,7 @@ html.lenis body {
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #4fc3ff;
+  color: #3D7BFF;
 }
 .eyebrow::before {
   content: '';

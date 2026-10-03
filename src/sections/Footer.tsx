@@ -9,15 +9,15 @@ const LINKS = [
   { label: 'Contact', href: '/#contact' },
 ];
 
-const linkClass = 'inline-block py-2 text-[#D7E2EA] transition-opacity duration-200 hover:opacity-70';
+const linkClass = 'inline-block py-2 text-[#FFFFFF] transition-opacity duration-200 hover:opacity-70';
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 border-t border-white/[0.06] bg-[#05070C]/80 backdrop-blur-sm px-5 sm:px-8 md:px-10 pt-14 pb-10">
+    <footer className="relative z-10 border-t border-white/[0.06] bg-[#000000]/80 backdrop-blur-sm px-5 sm:px-8 md:px-10 pt-14 pb-10">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <Logo className="h-14 w-auto sm:h-16" />
-          <p className="mt-3 font-light text-[#D7E2EA]/70">Websites, apps &amp; automation.</p>
+          <p className="mt-3 font-light text-[#FFFFFF]/70">Websites, apps &amp; automation.</p>
         </div>
         <nav aria-label="Footer">
           <ul className="flex gap-6 sm:gap-8">
@@ -32,9 +32,9 @@ export default function Footer() {
         </nav>
       </div>
 
-      <div className="mx-auto mt-10 flex max-w-6xl flex-col gap-6 border-t border-[#D7E2EA]/15 pt-6 sm:flex-row sm:justify-between">
-        <address className="flex flex-col text-sm font-light not-italic leading-relaxed text-[#D7E2EA]/70">
-          <span className="font-medium text-[#D7E2EA]">{BUSINESS.name}</span>
+      <div className="mx-auto mt-10 flex max-w-6xl flex-col gap-6 border-t border-[#FFFFFF]/15 pt-6 sm:flex-row sm:justify-between">
+        <address className="flex flex-col text-sm font-light not-italic leading-relaxed text-[#FFFFFF]/70">
+          <span className="font-medium text-[#FFFFFF]">{BUSINESS.name}</span>
           <span>{BUSINESS.address || BUSINESS.location}</span>
           {BUSINESS.gstin && <span>GSTIN: {BUSINESS.gstin}</span>}
           <a href={`mailto:${CONTACT.email}`} className={linkClass}>
@@ -57,7 +57,7 @@ export default function Footer() {
         </nav>
       </div>
 
-      <p className="mx-auto mt-8 max-w-6xl text-sm font-light text-[#D7E2EA]/60">
+      <p className="mx-auto mt-8 max-w-6xl text-sm font-light text-[#FFFFFF]/60">
         © {new Date().getFullYear()} {BUSINESS.name}. All rights reserved.
       </p>
     </footer>

@@ -15,16 +15,16 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             <span className="accent-text font-black leading-none tabular-nums" style={{ fontSize: 'clamp(2.6rem, 6vw, 4.5rem)' }}>
               {String(index + 1).padStart(2, '0')}
             </span>
-            <span className="text-xs uppercase tracking-[0.2em] text-[#E6EEF5]/55">{project.category}</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-[#FFFFFF]/55">{project.category}</span>
             <h3 className="font-semibold leading-tight tracking-tight text-white" style={{ fontSize: 'clamp(1.4rem, 2.6vw, 2.2rem)' }}>
               {project.name}
             </h3>
-            <p className="font-light leading-relaxed text-[#E6EEF5]/70" style={{ fontSize: 'clamp(0.95rem, 1.2vw, 1.05rem)' }}>
+            <p className="font-light leading-relaxed text-[#FFFFFF]/70" style={{ fontSize: 'clamp(0.95rem, 1.2vw, 1.05rem)' }}>
               {project.description}
             </p>
             <ul className="mt-1 flex flex-wrap gap-2" aria-label="Features">
               {project.features.map((f) => (
-                <li key={f} className="rounded-full border border-white/15 bg-white/[0.03] px-3 py-1 text-xs text-[#E6EEF5]/80">
+                <li key={f} className="rounded-full border border-white/15 bg-white/[0.03] px-3 py-1 text-xs text-[#FFFFFF]/80">
                   {f}
                 </li>
               ))}
@@ -56,7 +56,7 @@ export default function ProjectsSection() {
             </h2>
           </FadeIn>
           <FadeIn y={20} delay={0.1}>
-            <p className="mt-5 font-light leading-relaxed text-[#E6EEF5]/70" style={{ fontSize: 'clamp(1rem, 1.5vw, 1.2rem)' }}>
+            <p className="mt-5 font-light leading-relaxed text-[#FFFFFF]/70" style={{ fontSize: 'clamp(1rem, 1.5vw, 1.2rem)' }}>
               Client names are kept private, but every build below is real, working software. The previews use sample
               data.
             </p>

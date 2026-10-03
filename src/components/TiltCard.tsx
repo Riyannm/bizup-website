@@ -12,7 +12,7 @@ export default function TiltCard({ children, className = '' }: { children: React
   const rotateX = useTransform(springY, [0, 1], [6, -6]);
   const glowX = useTransform(springX, (v) => `${v * 100}%`);
   const glowY = useTransform(springY, (v) => `${v * 100}%`);
-  const glow = useMotionTemplate`radial-gradient(500px circle at ${glowX} ${glowY}, rgba(79,195,255,0.12), transparent 45%)`;
+  const glow = useMotionTemplate`radial-gradient(500px circle at ${glowX} ${glowY}, rgba(61,123,255,0.12), transparent 45%)`;
 
   function onMove(e: PointerEvent<HTMLDivElement>) {
     if (reduced || e.pointerType !== 'mouse') return;

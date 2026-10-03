@@ -24,7 +24,7 @@ export default function AboutSection() {
           <dl className="mt-12 grid grid-cols-2 gap-3 sm:gap-4">
             {ABOUT_FACTS.map(({ label, value }, i) => (
               <FadeIn key={label} delay={i * 0.08} y={24} className="glass rounded-3xl p-5 sm:p-6">
-                <dt className="text-[11px] uppercase tracking-[0.2em] text-[#4FC3FF]">{label}</dt>
+                <dt className="text-[11px] uppercase tracking-[0.2em] text-[#3D7BFF]">{label}</dt>
                 <dd className="mt-2 text-base font-medium text-white sm:text-lg">{value}</dd>
               </FadeIn>
             ))}

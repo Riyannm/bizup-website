@@ -65,8 +65,9 @@ const vertexShader = /* glsl */ `
     gl_Position = projectionMatrix * mv;
     gl_PointSize = uSize * uPR * (0.45 + aRand.y) * (10.0 / -mv.z);
 
-    vColor = mix(vec3(0.118, 0.482, 0.918), vec3(0.31, 0.765, 1.0), aRand.z);
-    if (aRand.w > 0.92) vColor = vec3(0.88, 0.96, 1.0);
+    // Cobalt blue with white sparkles.
+    vColor = mix(vec3(0.0, 0.28, 0.67), vec3(0.24, 0.48, 1.0), aRand.z);
+    if (aRand.w > 0.78) vColor = vec3(1.0);
     vAlpha = mix(uOpacity.x, uOpacity.y, t) * (0.5 + 0.5 * aRand.x) * intro;
   }
 `;
