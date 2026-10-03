@@ -39,13 +39,17 @@ import {
 import { Sky } from 'three/examples/jsm/objects/Sky.js';
 import { Water } from 'three/examples/jsm/objects/Water.js';
 import { SVGLoader } from 'three/examples/jsm/loaders/SVGLoader.js';
+import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
+import { BLOCKS, FORMATIONS, extent, type Block, type FormationName } from './formations';
 import logoMarkSvg from '../../brand/bizup-mark-dark-bg.svg?raw';
 import { getDaytime, onDaytime, type Daytime } from './daytime';
 import { markStageReady, onRevealed } from '../loader';
 
 /**
  * A living 3D world behind the page: an ocean with real reflections, sky and sun, drifting
- * clouds, birds, and the BizUp logo in 3D floating over a rock island. It follows the
+ * clouds, birds, and the BizUp logo in 3D floating over a rock island. Away from the hero the
+ * logo breaks into glossy blocks in its own colours that build an object for each section
+ * (see formations.ts), and come back together into the logo at the end. It follows the
  * visitor's time of day.
  *
  * Every section carries a camera shot (data-shot="angle,distance,height,frame", see Page.tsx).
@@ -309,8 +313,35 @@ export default function LiveScene() {
     };
     const monument = new Group();
     monument.position.set(ISLAND.x, MONUMENT_Y, ISLAND.z);
-    monument.add(buildLogo(10.5, logoMaterials));
+    const logo = buildLogo(10.5, logoMaterials);
+    const logoScale = logo.scale.x;
+    monument.add(logo);
     scene.add(monument);
+
+    // The blocks the logo breaks into, in its own colours: white, navy, brand blue.
+    const blockMaterials = [logoMaterials.white, logoMaterials.navy, logoMaterials.blue];
+    const blockGeo = new RoundedBoxGeometry(1, 1, 1, 3, 0.09);
+    const blockRig = new Group();
+    monument.add(blockRig);
+    const blocks = Array.from({ length: BLOCKS }, () => {
+      const mesh = new Mesh(blockGeo, blockMaterials[0]);
+      blockRig.add(mesh);
+      return mesh;
+    });
+    // Each formation is fitted to about the logo's height.
+    const fit = Object.fromEntries(
+      Object.entries(FORMATIONS).map(([name, f]) => {
+        const e = extent(f);
+        return [name, 12 / Math.max(e.w, e.h)];
+      })
+    ) as Record<FormationName, number>;
+    // "The logo" as a formation: every block gathered at the centre, too small to see.
+    const gathered: Block[] = Array.from({ length: BLOCKS }, (_, i) => ({
+      p: [Math.sin(i * 2.3) * 0.4, Math.cos(i * 1.7) * 0.4, Math.sin(i) * 0.4],
+      s: [0.001, 0.001, 0.001],
+      r: [i, i * 0.5, 0],
+      m: 2,
+    }));
     const glowMat = new SpriteMaterial({ map: glowTexture(), color: 0x2f6bff, transparent: true, opacity: 0, blending: AdditiveBlending, depthWrite: false });
     const glow = new Sprite(glowMat);
     glow.scale.setScalar(46);
@@ -465,14 +496,23 @@ export default function LiveScene() {
     const up = new Vector3(0, 1, 0);
     const tmp = new Vector3();
 
-    type ShotSpec = { angle: number; distance: number; height: number; frame: number; top: number; bottom: number };
+    type ShotSpec = {
+      angle: number;
+      distance: number;
+      height: number;
+      frame: number;
+      object: 'logo' | FormationName;
+      top: number;
+      bottom: number;
+    };
     let shots: ShotSpec[] = [];
     let tall = window.innerWidth < 768;
     function readShots() {
       shots = Array.from(document.querySelectorAll<HTMLElement>('[data-shot]')).map((el) => {
         const [angle, distance, height, frame] = el.dataset.shot!.split(',').map(Number);
         const r = el.getBoundingClientRect();
-        return { angle, distance, height, frame, top: r.top + window.scrollY, bottom: r.bottom + window.scrollY };
+        const object = (el.dataset.object && el.dataset.object in FORMATIONS ? el.dataset.object : 'logo') as ShotSpec['object'];
+        return { angle, distance, height, frame, object, top: r.top + window.scrollY, bottom: r.bottom + window.scrollY };
       });
     }
 
@@ -486,6 +526,53 @@ export default function LiveScene() {
         if (c <= edge + zone / 2) return i + (c - (edge - zone / 2)) / zone;
       }
       return Math.max(shots.length - 1, 0);
+    }
+
+    // The logo shrinks away as blocks fly out and build the next section's object; blocks
+    // re-form from one object into the next, lifting and turning as they go.
+    function placeObjects(s: number) {
+      if (shots.length === 0) return;
+      const i = Math.min(Math.floor(s), shots.length - 1);
+      const j = Math.min(i + 1, shots.length - 1);
+      const t = s - i;
+      const a = shots[i].object, b = shots[j].object;
+      const g = easeInOut(t);
+
+      const logoWeight = (a === 'logo' ? 1 - g : 0) + (b === 'logo' ? g : 0);
+      logo.visible = logoWeight > 0.01;
+      logo.scale.setScalar(logoScale * Math.max(logoWeight, 0.001));
+      logo.rotation.y = (1 - logoWeight) * 1.6;
+
+      const fa = a === 'logo' ? null : FORMATIONS[a];
+      const fb = b === 'logo' ? null : FORMATIONS[b];
+      blockRig.visible = !!(fa || fb);
+      if (!blockRig.visible) return;
+      const blocksA = fa ? fa.build(time) : gathered;
+      const blocksB = fb ? (fb === fa ? blocksA : fb.build(time)) : gathered;
+      for (let k = 0; k < BLOCKS; k++) placeBlock(blocks[k], blocksA[k], blocksB[k], t, k);
+      const sa = a === 'logo' ? fit[b as FormationName] : fit[a];
+      const sb = b === 'logo' ? fit[a as FormationName] : fit[b];
+      blockRig.scale.setScalar(sa + (sb - sa) * g);
+      const ta = (fa ?? fb)!.tilt, tb = (fb ?? fa)!.tilt;
+      blockRig.rotation.set(ta[0] + (tb[0] - ta[0]) * g, ta[1] + (tb[1] - ta[1]) * g, 0);
+    }
+
+    function placeBlock(mesh: Mesh, a: Block, b: Block, t: number, k: number) {
+      const local = reduced ? t : Math.min(1, Math.max(0, (t - (k / BLOCKS) * 0.35) / 0.65));
+      const e = easeInOut(local);
+      const lift = reduced ? 0 : Math.sin(Math.PI * e);
+      mesh.position.set(
+        a.p[0] + (b.p[0] - a.p[0]) * e,
+        a.p[1] + (b.p[1] - a.p[1]) * e + lift * 0.35,
+        a.p[2] + (b.p[2] - a.p[2]) * e + lift * 1.1
+      );
+      mesh.rotation.set(
+        a.r[0] + (b.r[0] - a.r[0]) * e + lift * 0.9,
+        a.r[1] + (b.r[1] - a.r[1]) * e + lift * 1.4,
+        a.r[2] + (b.r[2] - a.r[2]) * e
+      );
+      mesh.scale.set(a.s[0] + (b.s[0] - a.s[0]) * e, a.s[1] + (b.s[1] - a.s[1]) * e, a.s[2] + (b.s[2] - a.s[2]) * e);
+      mesh.material = blockMaterials[e < 0.5 ? a.m : b.m];
     }
 
     function placeCamera(s: number, out: Vector3, look: Vector3) {
@@ -554,6 +641,7 @@ export default function LiveScene() {
       const facing = Math.atan2(camera.position.x - monument.position.x, camera.position.z - monument.position.z);
       monument.rotation.set(Math.sin(time * 0.4) * 0.05, facing + Math.sin(time * 0.35) * 0.32, Math.sin(time * 0.5) * 0.03);
       glow.position.y = monument.position.y;
+      placeObjects(Math.max(progress, 0));
 
       // Birds glide across the sky in a loose V, wings flapping.
       const lap = (time * 0.022) % 1;

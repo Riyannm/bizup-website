@@ -2,13 +2,21 @@ import Lenis from 'lenis';
 import { useEffect, type ReactNode } from 'react';
 import { onRevealed } from '../loader';
 import Outro from '../sections/Outro';
+import type { FormationName } from '../three/formations';
 
 /**
  * Camera shot for a section: the camera circles the island at `angle` degrees, `distance` out and
  * `height` up. `frame` puts the monument on the right (positive) or left (negative) of the screen, or centred (0),
  * so it sits beside the section's panel. See LiveScene.
  */
-export type Shot = { angle: number; distance: number; height: number; frame: number };
+export type Shot = {
+  angle: number;
+  distance: number;
+  height: number;
+  frame: number;
+  /** What floats over the island: the 3D logo, or a block formation (see formations.ts). */
+  object?: 'logo' | FormationName;
+};
 
 export type PanelDef = {
   id: string;
@@ -19,6 +27,7 @@ export type PanelDef = {
 
 export const shotAttrs = (s: Shot) => ({
   'data-shot': `${s.angle},${s.distance},${s.height},${s.frame}`,
+  'data-object': s.object ?? 'logo',
 });
 
 /**
