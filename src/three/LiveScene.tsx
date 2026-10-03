@@ -195,7 +195,7 @@ function buildLogo(height: number, materials: { navy: MeshPhysicalMaterial; blue
     const material = fill.includes('bz-blue') ? materials.blue : fill.includes('bz-dark') ? materials.navy : materials.white;
     // The white arrow sits a touch proud of the rest so it reads as its own piece.
     const depth = material === materials.white ? 150 : 120;
-    const geo = new ExtrudeGeometry(SVGLoader.createShapes(path), {
+    const geo = new ExtrudeGeometry(path.toShapes(), {
       depth,
       bevelEnabled: true,
       bevelThickness: 14,
@@ -549,7 +549,10 @@ export default function LiveScene() {
       if (!blockRig.visible) return;
       const blocksA = fa ? fa.build(time) : gathered;
       const blocksB = fb ? (fb === fa ? blocksA : fb.build(time)) : gathered;
-      for (let k = 0; k < BLOCKS; k++) placeBlock(blocks[k], blocksA[k], blocksB[k], t, k);
+      // Same object in the next section (the four Work slides): the blocks hold still and only
+      // the camera moves, instead of lifting and landing back in the same spot.
+      const same = fa !== null && fa === fb;
+      for (let k = 0; k < BLOCKS; k++) placeBlock(blocks[k], blocksA[k], blocksB[k], same ? 0 : t, k);
       const sa = a === 'logo' ? fit[b as FormationName] : fit[a];
       const sb = b === 'logo' ? fit[a as FormationName] : fit[b];
       blockRig.scale.setScalar(sa + (sb - sa) * g);
