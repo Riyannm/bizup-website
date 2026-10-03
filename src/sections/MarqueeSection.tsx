@@ -4,7 +4,7 @@ import { MARQUEE_ROWS } from '../data';
 const TEXT_SIZE = { fontSize: 'clamp(2.75rem, 8vw, 7.5rem)' };
 
 function Dot() {
-  return <span className="inline-block h-3 w-3 shrink-0 rounded-full bg-[#D7E2EA]/40 sm:h-4 sm:w-4" />;
+  return <span className="inline-block h-3 w-3 shrink-0 rounded-full bg-[#4FC3FF]/60 shadow-[0_0_12px_#4FC3FF] sm:h-4 sm:w-4" />;
 }
 
 function Row({
@@ -22,10 +22,10 @@ function Row({
       {tripled.map((item, i) => (
         <div key={i} className="flex shrink-0 items-center gap-6 sm:gap-10">
           <span
-            className={`whitespace-nowrap font-black uppercase leading-none tracking-tight ${variant === 'solid' ? 'hero-heading' : ''}`}
+            className={`whitespace-nowrap font-black uppercase leading-none tracking-tight ${variant === 'solid' ? 'display' : ''}`}
             style={
               variant === 'outline'
-                ? { ...TEXT_SIZE, color: 'transparent', WebkitTextStroke: '1.5px rgba(215, 226, 234, 0.55)' }
+                ? { ...TEXT_SIZE, color: 'transparent', WebkitTextStroke: '1.5px rgba(79, 195, 255, 0.45)' }
                 : TEXT_SIZE
             }
           >
@@ -79,7 +79,7 @@ export default function MarqueeSection() {
   return (
     <section
       ref={sectionRef}
-      className="flex flex-col gap-4 sm:gap-6 bg-[#0C0C0C] pt-24 sm:pt-32 md:pt-40 pb-16 sm:pb-20"
+      className="flex flex-col relative gap-4 sm:gap-6 py-16 sm:py-24"
     >
       <h2 className="sr-only">What we build: {MARQUEE_ROWS.builds.join(', ')}</h2>
       <div aria-hidden="true" className="flex flex-col gap-4 sm:gap-6">

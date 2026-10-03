@@ -1,49 +1,51 @@
+import { motion, useReducedMotion, useScroll } from 'framer-motion';
+import { useRef } from 'react';
 import FadeIn from '../components/FadeIn';
 import { PROCESS } from '../data';
 
 export default function ProcessSection() {
+  const listRef = useRef<HTMLOListElement>(null);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: listRef, offset: ['start 0.7', 'end 0.6'] });
+
   return (
     <section
       id="process"
-      className="relative z-20 -mt-10 sm:-mt-12 md:-mt-14 bg-white text-[#0C0C0C] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] px-5 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-32 pb-32 sm:pb-36 md:pb-44"
+      data-stage="helix"
+      data-side="right"
+      data-spin="0.35"
+      className="relative flex min-h-[100svh] items-center px-5 py-28 sm:px-8 md:px-10"
     >
-      <FadeIn y={40}>
-        <h2
-          className="text-center font-black uppercase leading-none tracking-tight"
-          style={{ fontSize: 'clamp(3rem, 12vw, 160px)' }}
-        >
-          Process
-        </h2>
-      </FadeIn>
-      <FadeIn delay={0.1} y={20}>
-        <p
-          className="mx-auto mt-6 mb-16 sm:mb-20 md:mb-24 max-w-xl text-center font-light leading-relaxed text-[#0C0C0C]/70"
-          style={{ fontSize: 'clamp(1rem, 1.6vw, 1.25rem)' }}
-        >
-          From first call to launch, in three stages.
-        </p>
-      </FadeIn>
-
-      <ol className="mx-auto grid max-w-6xl gap-4 sm:gap-6 md:grid-cols-3">
-        {PROCESS.map(({ title, body }, i) => (
-          <FadeIn
-            as="li"
-            key={title}
-            delay={i * 0.12}
-            className="flex flex-col gap-4 rounded-[32px] sm:rounded-[40px] bg-[#F1F4F6] p-7 sm:p-9"
-          >
-            <span className="font-black leading-none text-[#0C0C0C]" style={{ fontSize: 'clamp(3rem, 6vw, 88px)' }}>
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <h3 className="font-medium uppercase" style={{ fontSize: 'clamp(1.1rem, 1.8vw, 1.6rem)' }}>
-              {title}
-            </h3>
-            <p className="font-light leading-relaxed text-[#0C0C0C]/70" style={{ fontSize: 'clamp(0.95rem, 1.3vw, 1.1rem)' }}>
-              {body}
-            </p>
+      <div className="mx-auto w-full max-w-6xl">
+        <div className="lg:max-w-[52%]">
+          <FadeIn y={20}>
+            <span className="eyebrow">How it works</span>
           </FadeIn>
-        ))}
-      </ol>
+          <FadeIn y={30} delay={0.05}>
+            <h2 className="display mt-5 font-semibold leading-[1.05] tracking-tight" style={{ fontSize: 'clamp(2.2rem, 5.4vw, 4.6rem)' }}>
+              From first call to launch.
+            </h2>
+          </FadeIn>
+
+          <ol ref={listRef} className="relative mt-14 flex flex-col gap-12 pl-14 sm:pl-16">
+            <span aria-hidden="true" className="absolute bottom-2 left-[19px] top-2 w-px bg-white/10" />
+            <motion.span
+              aria-hidden="true"
+              style={{ scaleY: reduced ? 1 : scrollYProgress }}
+              className="absolute bottom-2 left-[19px] top-2 w-px origin-top bg-gradient-to-b from-[#4FC3FF] to-[#1E7BEA] shadow-[0_0_12px_#4FC3FF]"
+            />
+            {PROCESS.map((step, i) => (
+              <FadeIn as="li" key={step.title} delay={i * 0.1} y={24} className="relative">
+                <span className="glass absolute -left-14 top-0 grid h-10 w-10 place-items-center rounded-full text-sm font-medium tabular-nums text-[#4FC3FF] sm:-left-16">
+                  0{i + 1}
+                </span>
+                <h3 className="text-xl font-medium text-white sm:text-2xl">{step.title}</h3>
+                <p className="mt-3 max-w-md font-light leading-relaxed text-[#E6EEF5]/70">{step.body}</p>
+              </FadeIn>
+            ))}
+          </ol>
+        </div>
+      </div>
     </section>
   );
 }

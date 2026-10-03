@@ -13,9 +13,9 @@
 html,
 body,
 #root {
-  background: #0c0c0c;
+  background: #05070c;
   font-family: 'Kanit', sans-serif;
-  color: #d7e2ea;
+  color: #e6eef5;
 }
 
 html {
@@ -48,4 +48,60 @@ section[id] {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* ---------- 3D redesign ---------- */
+
+/* Lenis drives the smooth scroll; native smooth scrolling would fight it. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.display {
+  background: linear-gradient(180deg, #ffffff 0%, #9cc4e4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.accent-text {
+  background: linear-gradient(90deg, #4fc3ff 0%, #1e7bea 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glass {
+  background: linear-gradient(160deg, rgba(22, 30, 46, 0.78), rgba(9, 12, 20, 0.82));
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Soft brand-blue light behind the particles. */
+.page-glow {
+  background:
+    radial-gradient(60% 50% at 75% 20%, rgba(30, 123, 234, 0.16), transparent 70%),
+    radial-gradient(50% 45% at 15% 80%, rgba(79, 195, 255, 0.08), transparent 70%),
+    #05070c;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #4fc3ff;
+}
+.eyebrow::before {
+  content: '';
+  width: 1.75rem;
+  height: 1px;
+  background: currentColor;
 }

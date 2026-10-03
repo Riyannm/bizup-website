@@ -1,74 +1,72 @@
-import { ArrowUpRight } from 'lucide-react';
-import FadeIn from '../components/FadeIn';
-import ParticleField from '../components/ParticleField';
-import LookAtComputer from '../components/LookAtComputer';
-import { ContactButton } from '../components/Buttons';
-import Logo from '../components/Logo';
-import { NAV_LINKS } from '../data';
+import { motion } from 'framer-motion';
+import { ArrowDown } from 'lucide-react';
+import { ContactButton, GhostButton } from '../components/Buttons';
 
+const ease = [0.25, 0.1, 0.25, 1] as const;
+
+function Rise({ children, delay, className }: { children: React.ReactNode; delay: number; className?: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 28, filter: 'blur(8px)' }}
+      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      transition={{ duration: 1, delay, ease }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// The particles above the text form the word BIZUP (see data-stage).
 export default function HeroSection() {
   return (
-    <section className="relative flex min-h-screen flex-col" style={{ overflowX: 'clip' }}>
-      {/* Drifting dots fill the whole hero, behind everything else. */}
-      <div className="absolute inset-0 z-0">
-        <ParticleField />
-      </div>
-
-      <FadeIn
-        as="nav"
-        delay={0}
-        y={-20}
-        aria-label="Primary"
-        className="relative z-20 flex flex-col gap-2 px-6 md:px-10 pt-6 md:pt-8 sm:flex-row sm:items-center sm:gap-10 md:gap-14"
-      >
-        <a href="#" aria-label="BizUp Technologies, back to top" className="self-start">
-          <Logo />
-        </a>
-        <ul className="flex flex-wrap gap-x-6 gap-y-1 sm:gap-x-8 md:gap-x-10">
-          {NAV_LINKS.map(({ label, href }) => (
-            <li key={href}>
-              <a
-                href={href}
-                className="inline-block py-2 text-xs sm:text-sm md:text-base font-medium uppercase tracking-wider text-[#D7E2EA] transition-opacity duration-200 hover:opacity-70"
+    <section
+      id="top"
+      data-stage="logo"
+      data-y="0.17"
+      data-mobile-y="0.2"
+      data-mobile-dim="1"
+      className="relative flex min-h-[100svh] flex-col justify-end px-5 pb-12 pt-28 sm:px-8 sm:pb-16 md:px-10"
+    >
+      <div id="intro" className="mx-auto w-full max-w-6xl">
+        <div className="grid items-end gap-8 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
+          <div>
+            <Rise delay={1.4}>
+              <span className="eyebrow">Websites · Apps · Automation</span>
+            </Rise>
+            <Rise delay={1.55}>
+              <h1
+                className="display mt-5 font-semibold leading-[1.02] tracking-tight"
+                style={{ fontSize: 'clamp(2.4rem, 5.2vw, 5rem)' }}
               >
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </FadeIn>
-
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col-reverse items-center justify-center gap-8 px-6 md:px-10 pb-14 pt-6 lg:flex-row lg:justify-between lg:gap-12 lg:pb-10">
-        {/* left: intro + call to action */}
-        <div id="intro" className="w-full max-w-xl">
-          <FadeIn delay={0.15} y={20}>
-            <p className="inline-flex items-center gap-1.5 text-base sm:text-lg font-medium text-[#D7E2EA]">
-              It&rsquo;s Time to BizUp.
-              <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 text-[#4FC3FF]" aria-hidden="true" />
+                Software that runs
+                <br />
+                your business.
+              </h1>
+            </Rise>
+          </div>
+          <Rise delay={1.75} className="flex flex-col gap-6 lg:pb-3">
+            <p className="max-w-md font-light leading-relaxed text-[#E6EEF5]/70" style={{ fontSize: 'clamp(1rem, 1.4vw, 1.2rem)' }}>
+              Smart digital solutions built for businesses ready to level up. You work directly with the person
+              building it.
             </p>
-            <p className="mt-2 max-w-md text-sm sm:text-base font-light leading-relaxed text-[#D7E2EA]/55">
-              Smart digital solutions built for businesses ready to level up.
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.25} y={24}>
-            <h1
-              className="mt-5 font-medium leading-[1.1] tracking-tight text-[#D7E2EA]"
-              style={{ fontSize: 'clamp(1.9rem, 3.8vw, 3.6rem)' }}
-            >
-              Glad you stopped in.
-              <br />
-              <span className="hero-heading font-semibold">Now, what are we building?</span>
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.4} y={20} className="mt-8">
-            <ContactButton href="#contact">Get a free quote</ContactButton>
-          </FadeIn>
+            <div className="flex flex-wrap gap-3">
+              <ContactButton href="#contact">Get a free quote</ContactButton>
+              <GhostButton href="#work">See our work</GhostButton>
+            </div>
+          </Rise>
         </div>
 
-        {/* right: the computer that looks at you */}
-        <FadeIn delay={0.3} y={30} duration={0.9} className="flex shrink-0 justify-center">
-          <LookAtComputer />
-        </FadeIn>
+        <Rise delay={2.1} className="mt-12 hidden items-center gap-3 text-xs uppercase tracking-[0.25em] text-[#E6EEF5]/45 sm:flex">
+          <motion.span
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            className="grid h-9 w-9 place-items-center rounded-full border border-white/15"
+          >
+            <ArrowDown className="h-4 w-4" aria-hidden="true" />
+          </motion.span>
+          Scroll
+        </Rise>
       </div>
     </section>
   );

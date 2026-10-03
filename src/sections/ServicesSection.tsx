@@ -1,85 +1,112 @@
 import { Check } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import FadeIn from '../components/FadeIn';
 import { PRINCIPLES, SERVICES } from '../data';
 
-export default function ServicesSection() {
-  return (
-    <section
-      id="services"
-      className="relative bg-white text-[#0C0C0C] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] px-5 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-32 pb-32 sm:pb-36 md:pb-44"
-    >
-      <FadeIn y={40}>
-        <h2
-          className="mb-6 text-center font-black uppercase leading-none tracking-tight"
-          style={{ fontSize: 'clamp(3rem, 12vw, 160px)' }}
-        >
-          Services
-        </h2>
-      </FadeIn>
-      <FadeIn delay={0.1} y={20}>
-        <p
-          className="mx-auto mb-16 sm:mb-20 md:mb-28 max-w-xl text-center font-light leading-relaxed text-[#0C0C0C]/70"
-          style={{ fontSize: 'clamp(1rem, 1.6vw, 1.25rem)' }}
-        >
-          Most clients start with one of these and grow into the others as the business scales.
-        </p>
-      </FadeIn>
+const SHAPES = ['browser', 'phone', 'gear'] as const;
+const SHORT = ['Web', 'Apps', 'Automation'];
 
-      <ul className="mx-auto max-w-5xl">
-        {SERVICES.map(({ name, description, includes }, i) => (
-          <FadeIn
-            as="li"
-            key={name}
-            delay={i * 0.1}
-            className="flex items-start gap-5 sm:gap-8 md:gap-12 py-8 sm:py-10 md:py-12"
-            style={{ borderTop: '1px solid rgba(12, 12, 12, 0.15)', borderBottom: i === SERVICES.length - 1 ? '1px solid rgba(12, 12, 12, 0.15)' : undefined }}
+export default function ServicesSection() {
+  const [active, setActive] = useState(0);
+  const blocks = useRef<(HTMLElement | null)[]>([]);
+
+  // Highlight the tab for whichever service crosses the middle of the screen.
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.index));
+        });
+      },
+      { rootMargin: '-50% 0px -50% 0px' },
+    );
+    blocks.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section id="services" className="relative px-5 pt-28 sm:px-8 md:px-10">
+      <div className="mx-auto max-w-6xl">
+        <FadeIn y={20}>
+          <span className="eyebrow">What we build</span>
+        </FadeIn>
+        <FadeIn y={30} delay={0.05}>
+          <h2 className="display mt-5 max-w-3xl font-semibold leading-[1.05] tracking-tight" style={{ fontSize: 'clamp(2.2rem, 5.4vw, 4.6rem)' }}>
+            Websites, apps &amp; automation.
+          </h2>
+        </FadeIn>
+
+        <div className="sticky top-[84px] z-20 mt-10 sm:top-[96px]">
+          <ul className="glass inline-flex gap-1 rounded-full p-1.5" aria-label="Services">
+            {SERVICES.map((s, i) => (
+              <li key={s.name}>
+                <a
+                  href={`#service-${i + 1}`}
+                  aria-current={active === i ? 'true' : undefined}
+                  className={`inline-flex min-h-[40px] items-center gap-2 rounded-full px-4 text-xs font-medium uppercase tracking-widest transition-colors duration-300 sm:px-5 sm:text-sm ${
+                    active === i ? 'bg-white text-[#05070C]' : 'text-[#E6EEF5]/70 hover:text-white'
+                  }`}
+                >
+                  <span className="tabular-nums opacity-60">0{i + 1}</span>
+                  {SHORT[i]}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {SERVICES.map((service, i) => (
+          <article
+            key={service.name}
+            id={`service-${i + 1}`}
+            ref={(el) => {
+              blocks.current[i] = el;
+            }}
+            data-index={i}
+            data-stage={SHAPES[i]}
+            data-side="right"
+            className="flex min-h-[100svh] items-center py-24"
           >
-            <span
-              className="shrink-0 font-black leading-none tabular-nums text-[#0C0C0C]"
-              style={{ fontSize: 'clamp(3rem, 10vw, 140px)' }}
-            >
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <div className="flex flex-col gap-2 sm:gap-3 pt-1 sm:pt-3">
-              <h3 className="font-medium uppercase" style={{ fontSize: 'clamp(1rem, 2.2vw, 2.1rem)' }}>
-                {name}
-              </h3>
-              <p
-                className="max-w-2xl font-light leading-relaxed"
-                style={{ fontSize: 'clamp(0.95rem, 1.6vw, 1.25rem)', opacity: 0.7 }}
-              >
-                {description}
-              </p>
-              {includes.length > 0 && (
-                <ul className="mt-2 flex flex-wrap gap-2" aria-label={`${name} includes`}>
-                  {includes.map((item) => (
-                    <li
-                      key={item}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-[#0C0C0C]/15 px-3 py-1 text-xs sm:text-sm"
-                    >
-                      <Check className="h-3.5 w-3.5" aria-hidden="true" />
+            <div className="lg:max-w-[50%]">
+              <FadeIn y={30}>
+                <span
+                  className="block font-black leading-none tabular-nums"
+                  style={{ fontSize: 'clamp(4rem, 11vw, 9rem)', color: 'transparent', WebkitTextStroke: '1.5px rgba(79,195,255,0.55)' }}
+                >
+                  0{i + 1}
+                </span>
+                <h3 className="mt-4 font-semibold tracking-tight text-white" style={{ fontSize: 'clamp(1.9rem, 4vw, 3.4rem)' }}>
+                  {service.name}
+                </h3>
+              </FadeIn>
+              <FadeIn y={20} delay={0.1}>
+                <p className="mt-5 max-w-lg font-light leading-relaxed text-[#E6EEF5]/70" style={{ fontSize: 'clamp(1.05rem, 1.5vw, 1.3rem)' }}>
+                  {service.description}
+                </p>
+              </FadeIn>
+              {service.includes.length > 0 && (
+                <FadeIn as="ul" y={20} delay={0.2} className="mt-8 grid gap-2.5 sm:grid-cols-2">
+                  {service.includes.map((item) => (
+                    <li key={item} className="glass flex items-center gap-3 rounded-2xl px-4 py-3 text-sm text-[#E6EEF5]/90">
+                      <Check className="h-4 w-4 shrink-0 text-[#4FC3FF]" aria-hidden="true" />
                       {item}
                     </li>
                   ))}
-                </ul>
+                </FadeIn>
               )}
             </div>
-          </FadeIn>
+          </article>
         ))}
-      </ul>
 
-      <div className="mx-auto mt-20 sm:mt-24 md:mt-32 grid max-w-5xl gap-10 md:grid-cols-2 md:gap-16">
-        {PRINCIPLES.map(({ eyebrow, title, body }, i) => (
-          <FadeIn key={eyebrow} delay={i * 0.1} className="flex flex-col gap-3">
-            <span className="text-xs sm:text-sm font-medium uppercase tracking-widest text-[#0C0C0C]/70">{eyebrow}</span>
-            <h3 className="font-semibold leading-tight" style={{ fontSize: 'clamp(1.35rem, 2.4vw, 2rem)' }}>
-              {title}
-            </h3>
-            <p className="font-light leading-relaxed text-[#0C0C0C]/70" style={{ fontSize: 'clamp(0.95rem, 1.4vw, 1.125rem)' }}>
-              {body}
-            </p>
-          </FadeIn>
-        ))}
+        <div className="grid gap-4 pb-28 md:grid-cols-2">
+          {PRINCIPLES.map((p, i) => (
+            <FadeIn key={p.title} delay={i * 0.1} y={30} className="glass rounded-[28px] p-7 sm:rounded-[36px] sm:p-10">
+              <span className="eyebrow">{p.eyebrow}</span>
+              <h3 className="mt-4 text-xl font-medium leading-snug text-white sm:text-2xl">{p.title}</h3>
+              <p className="mt-4 font-light leading-relaxed text-[#E6EEF5]/65">{p.body}</p>
+            </FadeIn>
+          ))}
+        </div>
       </div>
     </section>
   );

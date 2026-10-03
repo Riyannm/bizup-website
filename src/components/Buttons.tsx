@@ -27,6 +27,9 @@ const contactBase =
   'cursor-pointer transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-60';
 
 const TONES = {
+  // primary call to action
+  brand:
+    'bg-gradient-to-r from-[#1E7BEA] to-[#4FC3FF] text-white shadow-[0_0_40px_-8px_rgba(79,195,255,0.7)] hover:shadow-[0_0_56px_-6px_rgba(79,195,255,0.9)] transition-shadow',
   // on dark sections
   light: 'bg-[#D7E2EA] text-[#0C0C0C] hover:bg-white',
   // on white sections
@@ -35,7 +38,7 @@ const TONES = {
 
 type ContactButtonProps = (AnchorProps | NativeButtonProps) & { tone?: keyof typeof TONES; arrow?: boolean };
 
-export function ContactButton({ children = 'Get a free quote', tone = 'light', arrow = true, ...props }: ContactButtonProps) {
+export function ContactButton({ children = 'Get a free quote', tone = 'brand', arrow = true, ...props }: ContactButtonProps) {
   return (
     <Pill base={`${contactBase} ${TONES[tone]}`} {...props}>
       {children}
@@ -50,9 +53,9 @@ export function ContactButton({ children = 'Get a free quote', tone = 'light', a
 }
 
 const ghostBase =
-  'inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#D7E2EA] text-[#D7E2EA] font-medium uppercase tracking-widest ' +
+  'inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/[0.03] backdrop-blur-md text-[#E6EEF5] font-medium uppercase tracking-widest ' +
   'px-8 py-3 sm:px-10 sm:py-3.5 text-sm sm:text-base min-h-[44px] whitespace-nowrap cursor-pointer ' +
-  'transition-colors duration-200 hover:bg-[#D7E2EA]/10';
+  'transition-colors duration-200 hover:border-[#4FC3FF]/60 hover:bg-white/[0.06]';
 
 export function GhostButton({ children, ...props }: AnchorProps | NativeButtonProps) {
   return (
