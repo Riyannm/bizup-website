@@ -10,19 +10,19 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
   const id = useId();
 
   return (
-    <FadeIn as="li" delay={index * 0.06} y={20} className="glass rounded-3xl px-5 sm:px-8">
+    <FadeIn as="li" delay={index * 0.06} y={20} className="border-b border-ink/15">
       <h3>
         <button
           type="button"
           aria-expanded={open}
           aria-controls={id}
           onClick={() => setOpen((v) => !v)}
-          className="flex w-full cursor-pointer items-center justify-between gap-6 py-4 sm:py-5 text-left text-white transition-opacity duration-200 hover:opacity-80"
+          className="group flex w-full cursor-pointer items-center justify-between gap-6 py-5 sm:py-6 text-left transition-colors duration-200 hover:text-cobalt"
         >
-          <span className="font-medium" style={{ fontSize: 'clamp(0.95rem, 1.5vw, 1.25rem)' }}>
+          <span className="font-medium tracking-tight" style={{ fontSize: 'clamp(1.05rem, 1.8vw, 1.5rem)' }}>
             {q}
           </span>
-          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/20 text-[#3D7BFF]">
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-ink/15 transition-colors duration-300 group-hover:border-cobalt group-hover:text-cobalt">
             <Plus
               className="h-5 w-5 transition-transform duration-300"
               style={{ transform: open ? 'rotate(45deg)' : 'none' }}
@@ -42,7 +42,7 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
             className="overflow-hidden"
           >
             <p
-              className="max-w-3xl pb-6 sm:pb-8 pr-14 font-light leading-relaxed text-[#FFFFFF]/70"
+              className="max-w-3xl pb-6 sm:pb-8 pr-14 leading-relaxed text-ink/65"
               style={{ fontSize: 'clamp(0.95rem, 1.4vw, 1.15rem)' }}
             >
               {a}
@@ -57,18 +57,20 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
 export default function FaqSection() {
   return (
     <PanelBody>
-      <div className="mx-auto w-full max-w-4xl">
-        <div className="text-center">
-          <FadeIn y={20}>
-            <span className="eyebrow">FAQ</span>
+      <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
+        <div>
+          <FadeIn y={16}>
+            <span className="label">
+              <b>(07)</b> FAQ
+            </span>
           </FadeIn>
           <FadeIn y={30} delay={0.05}>
-            <h2 className="display mt-4 font-semibold leading-[1.05] tracking-tight" style={{ fontSize: 'clamp(2rem, 4.6vw, 4rem)' }}>
-              Before you reach out.
+            <h2 className="headline mt-6" style={{ fontSize: 'clamp(2.4rem, 5vw, 4.4rem)' }}>
+              Before you <em>reach out</em>.
             </h2>
           </FadeIn>
         </div>
-        <ul className="mt-8 flex flex-col gap-2.5 sm:mt-10">
+        <ul className="border-t border-ink/15">
           {FAQS.map(({ q, a }, i) => (
             <FaqItem key={q} q={q} a={a} index={i} />
           ))}

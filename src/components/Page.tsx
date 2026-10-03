@@ -5,7 +5,7 @@ import { onRevealed } from '../loader';
 export type PanelDef = {
   id: string;
   label: string;
-  /** data-stage, data-side, ... for the particle stage (see ParticleStage). */
+  /** data-stage, data-side, ... for the 3D block stage (see BlockStage). */
   stage: Record<string, string>;
   node: ReactNode;
 };

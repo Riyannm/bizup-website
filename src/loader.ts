@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 /**
  * Tracks the intro loader. The 3D stage reports when its shapes are ready, the loader
- * plays out, then the rest of the page (hero text, particle fly-in) starts.
+ * plays out, then the rest of the page (hero text, 3D blocks rising in) starts.
  */
 
 let stageReady = false;

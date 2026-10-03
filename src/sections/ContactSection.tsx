@@ -13,10 +13,10 @@ const WEB3FORMS_KEY = (import.meta.env.VITE_WEB3FORMS_KEY || import.meta.env.NEX
   | undefined;
 
 const fieldClass =
-  'w-full rounded-2xl border border-white/15 bg-white/[0.04] px-4 py-3 text-base text-white placeholder:text-white/40 ' +
-  'transition-colors duration-200 focus:border-[#3D7BFF] focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-[#3D7BFF]/40';
+  'w-full rounded-2xl border border-ink/10 bg-paper px-4 py-3 text-base text-ink placeholder:text-ink/40 ' +
+  'transition-colors duration-200 focus:border-cobalt focus:bg-white focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-cobalt/25';
 
-const labelClass = 'mb-2 block text-sm font-medium uppercase tracking-wider text-[#FFFFFF]/60';
+const labelClass = 'mb-2 block text-xs font-medium uppercase tracking-[0.14em] text-ink/55';
 
 export function EnquiryPanel() {
   const [status, setStatus] = useState<Status>('idle');
@@ -52,15 +52,17 @@ export function EnquiryPanel() {
       <div className="grid items-center gap-8 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
         <div>
           <FadeIn y={20}>
-            <span className="eyebrow">Send a message</span>
+            <span className="label">
+              <b>(09)</b> Send a message
+            </span>
           </FadeIn>
           <FadeIn y={30} delay={0.05}>
-            <h2 className="display mt-4 font-semibold leading-[1.05] tracking-tight" style={{ fontSize: 'clamp(1.9rem, 4vw, 3.6rem)' }}>
-              What do you need built?
+            <h2 className="headline mt-6" style={{ fontSize: 'clamp(2.4rem, 5vw, 4.4rem)' }}>
+              What do you need <em>built</em>?
             </h2>
           </FadeIn>
           <FadeIn y={20} delay={0.1}>
-            <p className="mt-4 max-w-md font-light leading-relaxed text-white/70" style={{ fontSize: 'clamp(0.95rem, 1.3vw, 1.1rem)' }}>
+            <p className="mt-5 max-w-md leading-relaxed text-ink/60" style={{ fontSize: 'clamp(0.95rem, 1.3vw, 1.1rem)' }}>
               Free 20-minute call, no obligation. Replies within one business day.
             </p>
           </FadeIn>
@@ -70,16 +72,16 @@ export function EnquiryPanel() {
           {status === 'sent' ? (
             <div
               role="status"
-              className="flex h-full min-h-[380px] flex-col items-center justify-center gap-4 glass rounded-[32px] sm:rounded-[40px] p-8 text-center"
+              className="flex h-full min-h-[380px] flex-col items-center justify-center gap-4 card rounded-[32px] sm:rounded-[40px] p-8 text-center"
             >
-              <CheckCircle2 className="h-12 w-12 text-[#3D7BFF]" aria-hidden="true" />
-              <p className="text-2xl font-semibold text-white">Message sent.</p>
-              <p className="max-w-xs font-light text-[#FFFFFF]/70">Thanks! You&apos;ll hear back within one business day.</p>
+              <CheckCircle2 className="h-12 w-12 text-cobalt" aria-hidden="true" />
+              <p className="text-2xl font-semibold">Message sent.</p>
+              <p className="max-w-xs text-ink/60">Thanks! You&apos;ll hear back within one business day.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="glass flex flex-col gap-4 rounded-[28px] sm:rounded-[36px] p-5 sm:p-7">
+            <form onSubmit={handleSubmit} className="card flex flex-col gap-4 rounded-[28px] sm:rounded-[36px] p-5 sm:p-7">
               <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
-              <p className="text-sm text-[#FFFFFF]/60">
+              <p className="text-sm text-ink/55">
                 Fields marked <span aria-hidden="true">*</span>
                 <span className="sr-only">with an asterisk</span> are required.
               </p>
@@ -95,7 +97,7 @@ export function EnquiryPanel() {
               </div>
               <div>
                 <label htmlFor="project_type" className={labelClass}>Project type</label>
-                <select id="project_type" name="project_type" defaultValue={PROJECT_TYPES[0]} className={`${fieldClass} cursor-pointer [color-scheme:dark] [&>option]:bg-[#111111]`}>
+                <select id="project_type" name="project_type" defaultValue={PROJECT_TYPES[0]} className={`${fieldClass} cursor-pointer`}>
                   {PROJECT_TYPES.map((t) => (
                     <option key={t}>{t}</option>
                   ))}
@@ -119,19 +121,19 @@ export function EnquiryPanel() {
                   type="checkbox"
                   value="Agreed"
                   required
-                  className="mt-1 h-5 w-5 shrink-0 cursor-pointer accent-[#3D7BFF]"
+                  className="mt-1 h-5 w-5 shrink-0 cursor-pointer accent-[#0047AB]"
                 />
-                <label htmlFor="consent" className="cursor-pointer text-sm leading-relaxed text-[#FFFFFF]/75">
+                <label htmlFor="consent" className="cursor-pointer text-sm leading-relaxed text-ink/70">
                   I agree that BizUp Technologies may use my name, email, and message to reply to this enquiry, as described
                   in the{' '}
-                  <a href="/privacy" className="font-medium text-[#3D7BFF] underline underline-offset-4">
+                  <a href="/privacy" className="font-medium text-cobalt underline underline-offset-4">
                     Privacy Policy
                   </a>
                   . I can withdraw this at any time by emailing {CONTACT.email}. <span aria-hidden="true">*</span>
                 </label>
               </div>
               {status === 'error' && (
-                <p role="alert" className="text-sm text-rose-300">
+                <p role="alert" className="text-sm text-rose-700">
                   Something went wrong sending that. Please try again, or email {CONTACT.email}.
                 </p>
               )}
@@ -152,46 +154,46 @@ export function EnquiryPanel() {
   );
 }
 
-// The particles above the heading spell HELLO.
+// The blocks lock together into one finished cube beside this section.
 export default function ContactSection() {
   return (
-    <PanelBody className="items-center !justify-end text-center">
-      <FadeIn y={20}>
-        <span className="eyebrow">Get in touch</span>
-      </FadeIn>
-      <FadeIn y={30} delay={0.05}>
-        <h2 className="display mt-4 font-semibold leading-[1.05] tracking-tight" style={{ fontSize: 'clamp(2.3rem, 6vw, 5rem)' }}>
-          Tell us what&apos;s slow.
-        </h2>
-      </FadeIn>
-      <FadeIn y={20} delay={0.1}>
-        <p className="mt-3 font-light text-white/70" style={{ fontSize: 'clamp(1.05rem, 2vw, 1.5rem)' }}>
-          We&apos;ll tell you what it takes to fix it.
-        </p>
-      </FadeIn>
-      <FadeIn as="ul" delay={0.15} y={20} className="mt-8 flex flex-col flex-wrap items-center justify-center gap-x-8 gap-y-2 sm:flex-row">
-        {[
-          { icon: Mail, label: CONTACT.email, href: `mailto:${CONTACT.email}` },
-          { icon: Phone, label: CONTACT.phoneDisplay, href: CONTACT.phoneHref },
-          { icon: MessageCircle, label: `WhatsApp: ${CONTACT.phoneDisplay}`, href: CONTACT.whatsappHref },
-        ].map(({ icon: Icon, label, href }) => (
-          <li key={href}>
-            <a
-              href={href}
-              {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-              className="group inline-flex min-h-[44px] items-center gap-3 text-base sm:text-lg font-medium text-white transition-opacity duration-200 hover:opacity-75"
-            >
-              <span className="glass grid h-11 w-11 place-items-center rounded-full text-[#3D7BFF]">
-                <Icon className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <span className="break-all">{label}</span>
-            </a>
-          </li>
-        ))}
-      </FadeIn>
-      <FadeIn y={20} delay={0.2} className="mt-8">
-        <ContactButton href="#enquiry">Send a message</ContactButton>
-      </FadeIn>
+    <PanelBody>
+      <div className="lg:max-w-[55%]">
+        <FadeIn y={16}>
+          <span className="label">
+            <b>(08)</b> Get in touch
+          </span>
+        </FadeIn>
+        <FadeIn y={30} delay={0.05}>
+          <h2 className="headline mt-6" style={{ fontSize: 'clamp(2.8rem, 7vw, 6.4rem)' }}>
+            Tell us what&apos;s <em>slow</em>.
+          </h2>
+        </FadeIn>
+        <FadeIn y={20} delay={0.1}>
+          <p className="mt-5 text-lg text-ink/60 sm:text-xl">We&apos;ll tell you what it takes to fix it.</p>
+        </FadeIn>
+        <FadeIn as="ul" delay={0.15} y={20} className="mt-10 border-t border-ink/15">
+          {[
+            { icon: Mail, label: CONTACT.email, href: `mailto:${CONTACT.email}` },
+            { icon: Phone, label: CONTACT.phoneDisplay, href: CONTACT.phoneHref },
+            { icon: MessageCircle, label: `WhatsApp ${CONTACT.phoneDisplay}`, href: CONTACT.whatsappHref },
+          ].map(({ icon: Icon, label, href }) => (
+            <li key={href} className="border-b border-ink/15">
+              <a
+                href={href}
+                {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                className="group flex min-h-[56px] items-center gap-4 py-2 text-base font-medium transition-colors duration-200 hover:text-cobalt sm:text-lg"
+              >
+                <Icon className="h-5 w-5 shrink-0 text-cobalt" aria-hidden="true" />
+                <span className="break-all">{label}</span>
+              </a>
+            </li>
+          ))}
+        </FadeIn>
+        <FadeIn y={20} delay={0.2} className="mt-8">
+          <ContactButton href="#enquiry">Send a message</ContactButton>
+        </FadeIn>
+      </div>
     </PanelBody>
   );
 }

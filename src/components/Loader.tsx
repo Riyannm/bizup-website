@@ -75,7 +75,7 @@ export default function Loader() {
               initial={false}
               animate={open && !reduced ? { y: half === 'top' ? '-100%' : '100%' } : { y: 0 }}
               transition={{ duration: 1, ease, delay: 0.15 }}
-              className={`absolute inset-x-0 h-1/2 bg-black ${half === 'top' ? 'top-0' : 'bottom-0'}`}
+              className={`absolute inset-x-0 h-1/2 bg-paper ${half === 'top' ? 'top-0' : 'bottom-0'}`}
             >
               <div
                 aria-hidden="true"
@@ -83,8 +83,8 @@ export default function Loader() {
                 style={{
                   background:
                     half === 'top'
-                      ? 'radial-gradient(60% 90% at 50% 100%, rgba(0,71,171,0.28), transparent 70%)'
-                      : 'radial-gradient(60% 90% at 50% 0%, rgba(0,71,171,0.28), transparent 70%)',
+                      ? 'radial-gradient(60% 90% at 50% 100%, rgba(0,71,171,0.07), transparent 70%)'
+                      : 'radial-gradient(60% 90% at 50% 0%, rgba(0,71,171,0.07), transparent 70%)',
                 }}
               />
             </motion.div>
@@ -93,7 +93,7 @@ export default function Loader() {
           {/* The line the halves split along. */}
           <motion.div
             aria-hidden="true"
-            className="absolute left-0 top-1/2 h-px -translate-y-1/2 bg-[#3D7BFF] shadow-[0_0_16px_2px_rgba(61,123,255,0.8)]"
+            className="absolute left-0 top-1/2 h-px -translate-y-1/2 bg-cobalt"
             style={{ width: `${shown}%` }}
             animate={open ? { opacity: 0 } : { opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.6 }}
@@ -106,20 +106,20 @@ export default function Loader() {
           >
             <div className="absolute left-1/2 h-[220px] w-[220px] -translate-x-1/2" style={{ top: 'calc(50% - 248px)' }}>
               <svg viewBox="0 0 220 220" className="absolute inset-0 h-full w-full -rotate-90" aria-hidden="true">
-                <circle cx="110" cy="110" r="96" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="2" />
+                <circle cx="110" cy="110" r="96" fill="none" stroke="rgba(11,11,12,0.08)" strokeWidth="2" />
                 <circle
                   cx="110"
                   cy="110"
                   r="96"
                   fill="none"
-                  stroke="#3D7BFF"
+                  stroke="#0047AB"
                   strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeDasharray={RING}
                   strokeDashoffset={RING * (1 - shown / 100)}
-                  style={{ filter: 'drop-shadow(0 0 6px rgba(61,123,255,0.9))' }}
+                  
                 />
-                <circle cx="110" cy="110" r="78" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1" strokeDasharray="2 7" />
+                <circle cx="110" cy="110" r="78" fill="none" stroke="rgba(11,11,12,0.18)" strokeWidth="1" strokeDasharray="2 7" />
               </svg>
               {!reduced && (
                 <>
@@ -129,7 +129,7 @@ export default function Loader() {
                     animate={{ rotate: 360 }}
                     transition={{ duration: 2.4, repeat: Infinity, ease: 'linear' }}
                   >
-                    <span className="absolute left-1/2 top-[14px] h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-[0_0_14px_4px_rgba(61,123,255,0.9)]" />
+                    <span className="absolute left-1/2 top-[14px] h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cobalt" />
                   </motion.div>
                   <motion.div
                     aria-hidden="true"
@@ -137,7 +137,7 @@ export default function Loader() {
                     animate={{ rotate: -360 }}
                     transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
                   >
-                    <span className="absolute bottom-0 left-1/2 h-1.5 w-1.5 -translate-x-1/2 translate-y-1/2 rounded-full bg-[#3D7BFF]" />
+                    <span className="absolute bottom-0 left-1/2 h-1.5 w-1.5 -translate-x-1/2 translate-y-1/2 rounded-full bg-ink" />
                   </motion.div>
                 </>
               )}
@@ -153,11 +153,11 @@ export default function Loader() {
             </div>
 
             <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 translate-y-6 flex-col items-center">
-              <span className="font-black leading-none tabular-nums text-white" style={{ fontSize: 'clamp(3.5rem, 9vw, 6rem)' }}>
+              <span className="headline tabular-nums" style={{ fontSize: 'clamp(3.5rem, 9vw, 6rem)' }}>
                 {String(pct).padStart(3, '0')}
-                <span className="ml-1 text-[0.35em] font-medium text-[#3D7BFF]">%</span>
+                <span className="ml-1 font-serif text-[0.45em] italic font-normal text-cobalt">%</span>
               </span>
-              <span className="mt-4 text-xs uppercase tracking-[0.4em] text-white/55">It&rsquo;s time to BizUp</span>
+              <span className="mt-4 text-xs font-medium uppercase tracking-[0.3em] text-ink/50">It&rsquo;s time to BizUp</span>
             </div>
           </motion.div>
         </motion.div>

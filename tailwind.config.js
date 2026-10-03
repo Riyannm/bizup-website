@@ -4,11 +4,13 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Kanit', 'sans-serif'],
+        sans: ['"Inter Tight"', 'system-ui', 'sans-serif'],
+        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
       },
       colors: {
-        ink: '#0C0C0C',
-        mist: '#D7E2EA',
+        paper: '#F4F2EE',
+        ink: '#0B0B0C',
+        cobalt: '#0047AB',
       },
     },
   },

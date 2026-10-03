@@ -2,16 +2,32 @@ import { motion } from 'framer-motion';
 import { ContactButton, GhostButton } from '../components/Buttons';
 import { useRevealed } from '../loader';
 
-const ease = [0.25, 0.1, 0.25, 1] as const;
+const ease = [0.22, 1, 0.36, 1] as const;
 
-// Waits for the loader to open, then rises into place.
-function Rise({ children, delay, className }: { children: React.ReactNode; delay: number; className?: string }) {
+// Waits for the loader to open, then slides up from behind a mask.
+function Line({ children, delay }: { children: React.ReactNode; delay: number }) {
+  const revealed = useRevealed();
+  return (
+    <span className="block overflow-hidden pb-[0.08em]">
+      <motion.span
+        className="block"
+        initial={{ y: '110%' }}
+        animate={revealed ? { y: '0%' } : undefined}
+        transition={{ duration: 1.1, delay, ease }}
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+}
+
+function Fade({ children, delay, className }: { children: React.ReactNode; delay: number; className?: string }) {
   const revealed = useRevealed();
   return (
     <motion.div
-      initial={{ opacity: 0, y: 28, filter: 'blur(8px)' }}
-      animate={revealed ? { opacity: 1, y: 0, filter: 'blur(0px)' } : undefined}
-      transition={{ duration: 1, delay, ease }}
+      initial={{ opacity: 0, y: 16 }}
+      animate={revealed ? { opacity: 1, y: 0 } : undefined}
+      transition={{ duration: 0.9, delay, ease }}
       className={className}
     >
       {children}
@@ -19,37 +35,34 @@ function Rise({ children, delay, className }: { children: React.ReactNode; delay
   );
 }
 
-// The particles above the text form the word BIZUP (see the panel's data-stage).
+// The 3D blocks sit to the right (see the panel's data-stage).
 export default function HeroSection() {
   return (
-    <div className="flex min-h-[100svh] flex-col justify-end px-5 pb-24 pt-28 sm:px-8 sm:pb-28 md:px-10">
-      <div id="intro" className="mx-auto w-full max-w-6xl">
-        <div className="grid items-end gap-8 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
-          <div>
-            <Rise delay={0.6}>
-              <span className="eyebrow">Websites · Apps · Automation</span>
-            </Rise>
-            <Rise delay={0.75}>
-              <h1
-                className="display mt-5 font-semibold leading-[1.02] tracking-tight"
-                style={{ fontSize: 'clamp(2.4rem, 5.2vw, 5rem)' }}
-              >
-                Software that runs
-                <br />
-                your business.
-              </h1>
-            </Rise>
-          </div>
-          <Rise delay={0.95} className="flex flex-col gap-6 lg:pb-3">
-            <p className="max-w-md font-light leading-relaxed text-[#FFFFFF]/70" style={{ fontSize: 'clamp(1rem, 1.4vw, 1.2rem)' }}>
-              Smart digital solutions built for businesses ready to level up. You work directly with the person
+    <div className="mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pb-14 pt-28 sm:px-8 sm:pb-16 md:px-10">
+      <div id="intro">
+        <Fade delay={0.35}>
+          <span className="label">
+            <b>(01)</b> BizUp Technologies
+          </span>
+        </Fade>
+        <h1 className="headline mt-5 max-w-4xl" style={{ fontSize: 'clamp(3rem, 7.6vw, 7.6rem)' }}>
+          <Line delay={0.4}>Software that</Line>
+          <Line delay={0.5}>
+            <em>runs</em> your
+          </Line>
+          <Line delay={0.6}>business.</Line>
+        </h1>
+        <div className="mt-10 flex flex-col gap-8 border-t border-ink/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <Fade delay={0.85}>
+            <p className="max-w-md text-[17px] leading-relaxed text-ink/65">
+              Websites, apps and automation for small and growing businesses. You work directly with the person
               building it.
             </p>
-            <div className="flex flex-wrap gap-3">
-              <ContactButton href="#enquiry">Get a free quote</ContactButton>
-              <GhostButton href="#work">See our work</GhostButton>
-            </div>
-          </Rise>
+          </Fade>
+          <Fade delay={0.95} className="flex flex-wrap gap-3">
+            <ContactButton href="#enquiry">Get a free quote</ContactButton>
+            <GhostButton href="#work">See our work</GhostButton>
+          </Fade>
         </div>
       </div>
     </div>

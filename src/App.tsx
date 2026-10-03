@@ -14,20 +14,20 @@ const path = window.location.pathname.replace(/\/+$/, '');
 const legalDoc = LEGAL_DOCS.find((doc) => `/${doc.slug}` === path);
 
 // The WebGL stage loads after the page text, so content and search engines never wait on it.
-const ParticleStage = lazy(() => import('./three/ParticleStage'));
+const BlockStage = lazy(() => import('./three/BlockStage'));
 
 export default function App() {
   return (
     <MotionConfig reducedMotion="user">
+      <div className="grain">
       {legalDoc ? (
         <LegalPage doc={legalDoc} />
       ) : (
         <>
           <Loader />
           <SkipLink href="#intro" />
-          <div aria-hidden="true" className="page-glow fixed inset-0 z-0" />
           <Suspense fallback={null}>
-            <ParticleStage />
+            <BlockStage />
           </Suspense>
           <Header />
           <main className="relative z-10" style={{ overflowX: 'clip' }}>
@@ -36,6 +36,7 @@ export default function App() {
         </>
       )}
       <Footer />
+      </div>
     </MotionConfig>
   );
 }

@@ -9,29 +9,30 @@ import ContactSection, { EnquiryPanel } from './sections/ContactSection';
 import { PROJECTS, SERVICES } from './data';
 
 /**
- * The home page sections, in order. `stage` sets the particle shape behind each one
- * (see ParticleStage for the attributes).
+ * The home page sections, in order. `stage` sets the 3D block formation beside each one
+ * (see BlockStage for the attributes).
  */
-const SERVICE_SHAPES = ['browser', 'phone', 'gear'];
+const SERVICE_SHAPES = ['browser', 'phone', 'conveyor'];
 
 export const PANELS: PanelDef[] = [
-  { id: 'top', label: 'Home', stage: { stage: 'logo', y: '0.17', 'mobile-y': '0.2', 'mobile-dim': '1' }, node: <HeroSection /> },
-  { id: 'about', label: 'About', stage: { stage: 'globe', side: 'right', spin: '0.12' }, node: <AboutSection /> },
+  { id: 'top', label: 'Home', stage: { stage: 'sculpture', side: 'right', y: '0.06', size: '0.82', spin: '0.12', 'mobile-y': '0.24', 'mobile-dim': '1' }, node: <HeroSection /> },
+  { id: 'about', label: 'About', stage: { stage: 'globe', side: 'right', spin: '0.15' }, node: <AboutSection /> },
   ...SERVICES.map((s, i) => ({
     id: i === 0 ? 'services' : `service-${i + 1}`,
     label: s.name,
-    stage: { stage: SERVICE_SHAPES[i], side: 'right' },
+    stage: { stage: SERVICE_SHAPES[i], side: 'right', ...(i === 2 ? { size: '1.35' } : {}) },
     node: <ServicePanel index={i} />,
   })),
-  { id: 'how-we-work', label: 'How we work', stage: { stage: 'cubes', side: 'right', spin: '0.2', dim: '0.5', 'mobile-dim': '0.25', y: '0.18' }, node: <PrinciplesPanel /> },
+  { id: 'how-we-work', label: 'How we work', stage: { stage: 'stack', side: 'right', spin: '0.1', y: '0.05' }, node: <PrinciplesPanel /> },
+  // The project cards fill the screen, so the blocks step aside while they're showing.
   ...PROJECTS.map((p, i) => ({
     id: i === 0 ? 'work' : `work-${i + 1}`,
     label: p.name,
-    stage: { stage: 'bars', spin: '0.1', dim: '0.28', 'mobile-dim': '0.2' },
+    stage: { stage: 'bars', side: 'right', dim: '0', 'mobile-dim': '0' },
     node: <ProjectPanel index={i} />,
   })),
-  { id: 'process', label: 'Process', stage: { stage: 'helix', side: 'right', spin: '0.35' }, node: <ProcessSection /> },
-  { id: 'faq', label: 'FAQ', stage: { stage: 'ring', spin: '0.15', dim: '0.3', 'mobile-dim': '0.2' }, node: <FaqSection /> },
-  { id: 'contact', label: 'Contact', stage: { stage: 'hello', y: '0.17', 'mobile-y': '0.2', 'mobile-dim': '1' }, node: <ContactSection /> },
-  { id: 'enquiry', label: 'Send a message', stage: { stage: 'hello', dim: '0.14', 'mobile-dim': '0.1', y: '0.17' }, node: <EnquiryPanel /> },
+  { id: 'process', label: 'Process', stage: { stage: 'stairs', side: 'right' }, node: <ProcessSection /> },
+  { id: 'faq', label: 'FAQ', stage: { stage: 'orbit', side: 'left', y: '-0.2' }, node: <FaqSection /> },
+  { id: 'contact', label: 'Contact', stage: { stage: 'cube', side: 'right', spin: '0.2', size: '0.62' }, node: <ContactSection /> },
+  { id: 'enquiry', label: 'Send a message', stage: { stage: 'cube', side: 'right', spin: '0.2', size: '0.62', dim: '0', 'mobile-dim': '0' }, node: <EnquiryPanel /> },
 ];
