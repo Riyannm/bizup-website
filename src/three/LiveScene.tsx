@@ -467,12 +467,16 @@ export default function LiveScene() {
       const t = easeInOut(s - i);
       const a = shots[i], b = shots[j];
       const angle = MathUtils.degToRad(a.angle + (b.angle - a.angle) * t);
-      const distance = (a.distance + (b.distance - a.distance) * t) * (tall ? 1.15 : 1);
+      // Short phones have less room above the text, so the monument sits further back (smaller) and higher.
+      const short = tall && window.innerHeight < 760;
+      const distance = (a.distance + (b.distance - a.distance) * t) * (short ? 1.45 : tall ? 1.15 : 1);
       const height = a.height + (b.height - a.height) * t;
       const frame = tall ? 0 : a.frame + (b.frame - a.frame) * t;
       out.set(ISLAND.x + Math.sin(angle) * distance, height, ISLAND.z + Math.cos(angle) * distance);
-      // Phones look lower so the monument sits high on the screen, above the text.
-      look.set(ISLAND.x, tall ? MONUMENT_Y - 8 : MONUMENT_Y - 2, ISLAND.z);
+      // Phones aim below the monument so it sits about a quarter of the way down the screen,
+      // above the text, whatever the screen's height.
+      const drop = tall ? Math.tan(MathUtils.degToRad(camera.fov) * (short ? 0.33 : 0.26)) * distance : 2;
+      look.set(ISLAND.x, MONUMENT_Y - drop, ISLAND.z);
       // Shift the aim sideways so the monument lands left or right of centre.
       tmp.subVectors(look, out).normalize().cross(up).normalize();
       look.addScaledVector(tmp, -frame * distance * 0.34);
