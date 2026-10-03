@@ -157,7 +157,7 @@ export function EnquiryPanel() {
 // The blocks lock together into one finished cube beside this section.
 export default function ContactSection() {
   return (
-    <PanelBody>
+    <PanelBody visual>
       <div className="lg:max-w-[55%]">
         <FadeIn y={16}>
           <span className="label">

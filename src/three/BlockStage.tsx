@@ -27,13 +27,16 @@ import { markStageReady, onRevealed } from '../loader';
  *   data-dim / data-mobile-dim   canvas opacity while this section is showing (phones default to 0)
  *   data-spin="0.2"        slow turn around the vertical axis
  *   data-size="0.8"        scale relative to the default fit
+ * On phones the canvas can't sit beside the text, so blocks only show in sections that contain a
+ * [data-stage-anchor] slot: they fit inside it and scroll with it. Elsewhere they hide.
  */
 
 const FOV = 30;
 const DISTANCE = 16;
 const STAGGER = 0.35;
 
-type Layout = { x: number; y: number; scale: number; opacity: number; spin: number };
+/** `anchor`: page y of a [data-stage-anchor] slot the blocks sit in and scroll with (phones). */
+type Layout = { x: number; y: number; scale: number; opacity: number; spin: number; anchor: number | null };
 type Stage = { el: HTMLElement; name: FormationName };
 
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
@@ -143,11 +146,18 @@ export default function BlockStage() {
         targetW = viewW * 0.6;
         maxH = viewH * 0.3;
       }
+      const spin = parseFloat(d.spin ?? '0');
+      const slot = wide ? null : stage.el.querySelector<HTMLElement>('[data-stage-anchor]');
+      if (slot && slot.offsetHeight > 0) {
+        const r = slot.getBoundingClientRect();
+        const toWorld = viewH / window.innerHeight;
+        const fit = Math.min((viewW * 0.62) / size.w, (r.height * 0.82 * toWorld) / size.h);
+        return { x: 0, y: 0, scale: fit, opacity: 1, spin, anchor: r.top + window.scrollY + r.height / 2 };
+      }
       const scale = Math.min(targetW / size.w, maxH / size.h) * parseFloat(d.size ?? '1');
-      const yFrac = parseFloat((wide ? d.y : d.mobileY ?? '0.25') ?? '0');
-      // On phones the blocks only show where a section asks for them (the hero); elsewhere they'd sit behind text.
-      const opacity = parseFloat((wide ? d.dim : d.mobileDim ?? '0') ?? '1');
-      return { x, y: yFrac * viewH, scale, opacity, spin: parseFloat(d.spin ?? '0') };
+      const yFrac = parseFloat((wide ? d.y : '0.25') ?? '0');
+      const opacity = wide ? parseFloat(d.dim ?? '1') : 0;
+      return { x, y: yFrac * viewH, scale, opacity, spin, anchor: null };
     }
 
     function measure() {
@@ -226,13 +236,17 @@ export default function BlockStage() {
       const g = easeInOut(t);
       pointer.x += (pointer.tx - pointer.x) * (1 - Math.exp(-dt * 3));
       pointer.y += (pointer.ty - pointer.y) * (1 - Math.exp(-dt * 3));
-      rig.position.set(lerp(la.x, lb.x, g), lerp(la.y, lb.y, g), 0);
+      // Anchored layouts (phones) follow their slot as the page scrolls. Between two slots the blocks
+      // fade out in the old one and back in at the new one, so they never travel across text.
+      const yOf = (l: Layout) => (l.anchor === null ? l.y : ((window.innerHeight / 2 - (l.anchor - window.scrollY)) / window.innerHeight) * viewH);
+      const hop = la.anchor !== null || lb.anchor !== null;
+      rig.position.set(lerp(la.x, lb.x, g), hop ? yOf(g < 0.5 ? la : lb) : lerp(yOf(la), yOf(lb), g), 0);
       rig.scale.setScalar(lerp(la.scale, lb.scale, g));
       rig.rotation.set(lerp(fa.tilt[0], fb.tilt[0], g) + pointer.y * 0.12, lerp(fa.tilt[1], fb.tilt[1], g) + pointer.x * 0.25, 0);
       spinAngle += dt * lerp(la.spin, lb.spin, g) * (reduced ? 0 : 1);
       spinner.rotation.y = spinAngle;
       floor.position.y = lerp(bottoms[stages[i].name], bottoms[stages[j].name], g) - 0.05;
-      const opacity = lerp(la.opacity, lb.opacity, g);
+      const opacity = hop ? (g < 0.5 ? la.opacity : lb.opacity) * Math.abs(Math.cos(Math.PI * g)) : lerp(la.opacity, lb.opacity, g);
       renderer.domElement.style.opacity = String(opacity);
       if (opacity > 0.01) renderer.render(scene, camera);
     }

@@ -21,7 +21,7 @@ function Accented({ text, word }: { text: string; word: string }) {
 export function ServicePanel({ index }: { index: number }) {
   const service = SERVICES[index];
   return (
-    <PanelBody>
+    <PanelBody visual>
       <div className="lg:max-w-[50%]">
         <FadeIn y={16}>
           <span className="label">

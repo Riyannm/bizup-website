@@ -15,7 +15,7 @@ import { PROJECTS, SERVICES } from './data';
 const SERVICE_SHAPES = ['browser', 'phone', 'conveyor'];
 
 export const PANELS: PanelDef[] = [
-  { id: 'top', label: 'Home', stage: { stage: 'sculpture', side: 'right', y: '0.06', size: '0.82', spin: '0.12', 'mobile-y': '0.24', 'mobile-dim': '1' }, node: <HeroSection /> },
+  { id: 'top', label: 'Home', stage: { stage: 'sculpture', side: 'right', y: '0.06', size: '0.82', spin: '0.12' }, node: <HeroSection /> },
   { id: 'about', label: 'About', stage: { stage: 'globe', side: 'right', spin: '0.15' }, node: <AboutSection /> },
   ...SERVICES.map((s, i) => ({
     id: i === 0 ? 'services' : `service-${i + 1}`,
@@ -28,11 +28,11 @@ export const PANELS: PanelDef[] = [
   ...PROJECTS.map((p, i) => ({
     id: i === 0 ? 'work' : `work-${i + 1}`,
     label: p.name,
-    stage: { stage: 'bars', side: 'right', dim: '0', 'mobile-dim': '0' },
+    stage: { stage: 'bars', side: 'right', dim: '0' },
     node: <ProjectPanel index={i} />,
   })),
   { id: 'process', label: 'Process', stage: { stage: 'stairs', side: 'right' }, node: <ProcessSection /> },
   { id: 'faq', label: 'FAQ', stage: { stage: 'orbit', side: 'left', y: '-0.2' }, node: <FaqSection /> },
   { id: 'contact', label: 'Contact', stage: { stage: 'cube', side: 'right', spin: '0.2', size: '0.62' }, node: <ContactSection /> },
-  { id: 'enquiry', label: 'Send a message', stage: { stage: 'cube', side: 'right', spin: '0.2', size: '0.62', dim: '0', 'mobile-dim': '0' }, node: <EnquiryPanel /> },
+  { id: 'enquiry', label: 'Send a message', stage: { stage: 'cube', side: 'right', spin: '0.2', size: '0.62', dim: '0' }, node: <EnquiryPanel /> },
 ];

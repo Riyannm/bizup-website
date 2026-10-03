@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ContactButton, GhostButton } from '../components/Buttons';
+import StageSlot from '../components/StageSlot';
 import { useRevealed } from '../loader';
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -38,23 +39,24 @@ function Fade({ children, delay, className }: { children: React.ReactNode; delay
 // The 3D blocks sit to the right (see the panel's data-stage).
 export default function HeroSection() {
   return (
-    <div className="mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pb-14 pt-28 sm:px-8 sm:pb-16 md:px-10">
+    <div className="mx-auto flex min-h-[100svh] w-full max-w-6xl flex-col justify-end px-5 pb-8 pt-20 sm:px-8 sm:pb-16 md:px-10">
+      <StageSlot className="h-[28svh] shrink-0" />
       <div id="intro">
         <Fade delay={0.35}>
           <span className="label">
             <b>(01)</b> BizUp Technologies
           </span>
         </Fade>
-        <h1 className="headline mt-5 max-w-4xl" style={{ fontSize: 'clamp(3rem, 7.6vw, 7.6rem)' }}>
+        <h1 className="headline mt-5 max-w-4xl" style={{ fontSize: 'clamp(2.75rem, 7.6vw, 7.6rem)' }}>
           <Line delay={0.4}>Software that</Line>
           <Line delay={0.5}>
             <em>runs</em> your
           </Line>
           <Line delay={0.6}>business.</Line>
         </h1>
-        <div className="mt-10 flex flex-col gap-8 border-t border-ink/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-6 flex flex-col gap-5 border-t border-ink/10 pt-5 sm:mt-10 sm:gap-8 sm:pt-6 sm:flex-row sm:items-center sm:justify-between">
           <Fade delay={0.85}>
-            <p className="max-w-md text-[17px] leading-relaxed text-ink/65">
+            <p className="max-w-md text-[15px] leading-relaxed text-ink/65 sm:text-[17px]">
               Websites, apps and automation for small and growing businesses. You work directly with the person
               building it.
             </p>
