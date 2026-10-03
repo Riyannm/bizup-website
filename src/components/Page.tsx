@@ -27,21 +27,41 @@ export const shotAttrs = (s: Shot) => ({
  */
 export default function Page({ panels }: { panels: PanelDef[] }) {
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const lenis = new Lenis({ anchors: true, lerp: 0.1 });
-    lenis.stop();
-    let raf = requestAnimationFrame(function loop(time) {
-      lenis.raf(time);
-      raf = requestAnimationFrame(loop);
-    });
-    const offRevealed = onRevealed(() => {
-      lenis.start();
-      if (window.location.hash) lenis.scrollTo(window.location.hash, { immediate: true });
-    });
+    // Every visit starts at the top with the intro, even from an old link ending in #work.
+    if (window.location.hash) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+      window.scrollTo(0, 0);
+    }
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const lenis = reduced ? null : new Lenis({ lerp: 0.1 });
+    lenis?.stop();
+    let raf = lenis
+      ? requestAnimationFrame(function loop(time) {
+          lenis.raf(time);
+          raf = requestAnimationFrame(loop);
+        })
+      : 0;
+    const offRevealed = onRevealed(() => lenis?.start());
+
+    // In-page links (#work, /#contact from the footer...) scroll there without adding the
+    // #section to the address, so a reload or a shared link doesn't land mid-page.
+    const onClick = (e: MouseEvent) => {
+      const a = (e.target as HTMLElement).closest('a');
+      const href = a?.getAttribute('href');
+      if (!href || !(href.startsWith('#') || href.startsWith('/#'))) return;
+      const target = document.getElementById(href.slice(href.indexOf('#') + 1));
+      if (!target) return;
+      e.preventDefault();
+      if (lenis) lenis.scrollTo(target);
+      else target.scrollIntoView();
+    };
+    document.addEventListener('click', onClick);
+
     return () => {
+      document.removeEventListener('click', onClick);
       offRevealed();
       cancelAnimationFrame(raf);
-      lenis.destroy();
+      lenis?.destroy();
     };
   }, []);
 
