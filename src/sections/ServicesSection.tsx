@@ -1,6 +1,6 @@
 import { Check } from 'lucide-react';
 import FadeIn from '../components/FadeIn';
-import PanelBody from '../wheel/PanelBody';
+import PanelBody from '../components/PanelBody';
 import { PRINCIPLES, SERVICES } from '../data';
 
 export function ServicePanel({ index }: { index: number }) {

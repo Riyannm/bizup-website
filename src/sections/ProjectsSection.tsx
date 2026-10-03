@@ -1,7 +1,7 @@
 import FadeIn from '../components/FadeIn';
 import WorkVisual from '../components/WorkVisuals';
 import { GhostButton } from '../components/Buttons';
-import PanelBody from '../wheel/PanelBody';
+import PanelBody from '../components/PanelBody';
 import { PROJECTS } from '../data';
 
 

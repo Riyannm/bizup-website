@@ -13,7 +13,6 @@ import {
 } from 'three';
 import { buildShapes, type Shape, type ShapeName } from './shapes';
 import { markStageReady, onRevealed } from '../loader';
-import { wheel } from '../wheel/state';
 
 /**
  * One fixed WebGL canvas behind the whole page. Sections opt in with data attributes:
@@ -214,7 +213,7 @@ export default function ParticleStage() {
       uniforms.uB.value.copy(lb.offset);
       uniforms.uOpacity.value.set(la.opacity, lb.opacity);
       uniforms.uSpin.value.set(la.spin, lb.spin);
-      // Two rooms with the same shape just glide between layouts instead of bursting apart.
+      // Two sections with the same shape just glide between layouts instead of bursting apart.
       uniforms.uScatter.value = reduced || stages[a].shape === stages[b].shape ? 0 : 1.4;
     }
 
@@ -249,25 +248,18 @@ export default function ParticleStage() {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
 
-      // On the page wheel the shapes follow the wheel's turn; otherwise they follow scroll position.
-      const onWheel = wheel.active;
-      sTarget = onWheel ? Math.min(wheel.getTurn(), stages.length - 1) : scrollTarget();
+      sTarget = scrollTarget();
       s = reduced ? sTarget : s + (sTarget - s) * (1 - Math.exp(-dt * 6));
       const i = Math.min(Math.floor(s), stages.length - 1);
       setPair(i, Math.min(i + 1, stages.length - 1));
-      const raw = s - i;
-      // Hold each shape while its room faces the front; morph through the middle of the turn.
-      const hold = Math.min(Math.max((raw - 0.15) / 0.7, 0), 1);
-      uniforms.uT.value = onWheel ? hold : raw;
+      uniforms.uT.value = s - i;
 
       uniforms.uTime.value += dt;
       if (!reduced && introStarted) uniforms.uIntro.value = Math.min(1, uniforms.uIntro.value + dt * 0.55);
 
       pointer.x += (pointer.tx - pointer.x) * (1 - Math.exp(-dt * 4));
       pointer.y += (pointer.ty - pointer.y) * (1 - Math.exp(-dt * 4));
-      // Lean the shapes into the direction the wheel is turning.
-      const sway = wheel.active ? Math.max(-0.6, Math.min(0.6, (sTarget - s) * 1.2)) : 0;
-      if (!reduced) uniforms.uTilt.value.set(pointer.x * 0.25 - sway, -pointer.y * 0.15);
+      if (!reduced) uniforms.uTilt.value.set(pointer.x * 0.25, -pointer.y * 0.15);
       if (pointer.active) uniforms.uMouse.value.set((pointer.tx * viewW) / 2, (pointer.ty * viewH) / 2);
 
       renderer.render(scene, camera);

@@ -1,25 +1,14 @@
-import { motion, useReducedMotion, useTransform } from 'framer-motion';
+import { motion, useReducedMotion, useScroll } from 'framer-motion';
+import { useRef } from 'react';
 import FadeIn from '../components/FadeIn';
-import PanelBody from '../wheel/PanelBody';
-import { usePanel } from '../wheel/state';
+import PanelBody from '../components/PanelBody';
 import { PROCESS } from '../data';
 
-function Line() {
-  const panel = usePanel();
-  const reduced = useReducedMotion();
-  // Fills as the panel turns to the front.
-  const fill = useTransform(panel!.local, [-0.6, 0], [0, 1], { clamp: true });
-  return (
-    <motion.span
-      aria-hidden="true"
-      style={{ scaleY: reduced ? 1 : fill }}
-      className="absolute bottom-2 left-[19px] top-2 w-px origin-top bg-gradient-to-b from-[#3D7BFF] to-[#0047AB] shadow-[0_0_12px_#3D7BFF]"
-    />
-  );
-}
-
 export default function ProcessSection() {
-  const panel = usePanel();
+  const listRef = useRef<HTMLOListElement>(null);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: listRef, offset: ['start 0.75', 'end 0.55'] });
+
   return (
     <PanelBody>
       <div className="lg:max-w-[52%]">
@@ -32,15 +21,15 @@ export default function ProcessSection() {
           </h2>
         </FadeIn>
 
-        <ol className="relative mt-8 flex flex-col gap-7 pl-14 sm:mt-12 sm:gap-10 sm:pl-16">
+        <ol ref={listRef} className="relative mt-8 flex flex-col gap-7 pl-14 sm:mt-12 sm:gap-10 sm:pl-16">
           <span aria-hidden="true" className="absolute bottom-2 left-[19px] top-2 w-px bg-white/10" />
-          {panel ? (
-            <Line />
-          ) : (
-            <span aria-hidden="true" className="absolute bottom-2 left-[19px] top-2 w-px bg-gradient-to-b from-[#3D7BFF] to-[#0047AB]" />
-          )}
+          <motion.span
+            aria-hidden="true"
+            style={{ scaleY: reduced ? 1 : scrollYProgress }}
+            className="absolute bottom-2 left-[19px] top-2 w-px origin-top bg-gradient-to-b from-[#3D7BFF] to-[#0047AB] shadow-[0_0_12px_#3D7BFF]"
+          />
           {PROCESS.map((step, i) => (
-            <FadeIn as="li" key={step.title} delay={0.15 + i * 0.12} y={24} className="relative">
+            <FadeIn as="li" key={step.title} delay={0.1 + i * 0.12} y={24} className="relative">
               <span className="glass absolute -left-14 top-0 grid h-10 w-10 place-items-center rounded-full text-sm font-medium tabular-nums text-[#3D7BFF] sm:-left-16">
                 0{i + 1}
               </span>

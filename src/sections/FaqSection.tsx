@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import { useId, useState } from 'react';
 import FadeIn from '../components/FadeIn';
-import PanelBody from '../wheel/PanelBody';
+import PanelBody from '../components/PanelBody';
 import { FAQS } from '../data';
 
 function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {

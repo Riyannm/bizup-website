@@ -3,7 +3,7 @@ import { useState, type FormEvent } from 'react';
 import FadeIn from '../components/FadeIn';
 import { ContactButton } from '../components/Buttons';
 import { CONTACT, PROJECT_TYPES } from '../data';
-import PanelBody from '../wheel/PanelBody';
+import PanelBody from '../components/PanelBody';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 

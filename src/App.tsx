@@ -3,7 +3,7 @@ import { lazy, Suspense } from 'react';
 import SkipLink from './components/SkipLink';
 import Loader from './components/Loader';
 import Header from './sections/Header';
-import PageWheel from './wheel/PageWheel';
+import Page from './components/Page';
 import { PANELS } from './panels';
 import Footer from './sections/Footer';
 import LegalPage from './sections/LegalPage';
@@ -31,7 +31,7 @@ export default function App() {
           </Suspense>
           <Header />
           <main className="relative z-10" style={{ overflowX: 'clip' }}>
-            <PageWheel panels={PANELS} />
+            <Page panels={PANELS} />
           </main>
         </>
       )}

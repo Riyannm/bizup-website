@@ -1,6 +1,6 @@
 import FadeIn from '../components/FadeIn';
 import ScrollText from '../components/ScrollText';
-import PanelBody from '../wheel/PanelBody';
+import PanelBody from '../components/PanelBody';
 import { ABOUT_FACTS, ABOUT_TEXT } from '../data';
 
 export default function AboutSection() {
