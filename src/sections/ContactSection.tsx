@@ -181,7 +181,8 @@ export default function ContactSection() {
       <FadeIn as="ul" delay={0.2} y={20} className="mt-8 border-t border-ink/15">
         {[
           { icon: Mail, label: CONTACT.email, href: `mailto:${CONTACT.email}` },
-          { icon: Phone, label: CONTACT.phoneDisplay, href: CONTACT.phoneHref },
+          { icon: Phone, label: `${CONTACT.phoneDisplay} · India`, href: CONTACT.phoneHref },
+          { icon: Phone, label: `${CONTACT.phoneUsDisplay} · USA`, href: CONTACT.phoneUsHref },
           { icon: MessageCircle, label: `WhatsApp ${CONTACT.phoneDisplay}`, href: CONTACT.whatsappHref },
         ].map(({ icon: Icon, label, href }) => (
           <li key={href} className="border-b border-ink/15">

@@ -3,6 +3,8 @@ export const CONTACT = {
   phoneDisplay: '+91 91824 64926',
   phoneHref: 'tel:+919182464926',
   whatsappHref: 'https://wa.me/919182464926',
+  phoneUsDisplay: '+1 (469) 348-3250',
+  phoneUsHref: 'tel:+14693483250',
 };
 
 // Shown in the footer and on the legal pages. Empty fields are left out.

@@ -75,7 +75,10 @@ export default function LegalPage({ doc }: { doc: LegalDoc }) {
                 {CONTACT.email}
               </a>
               <a href={CONTACT.phoneHref} className="font-medium underline underline-offset-4">
-                {CONTACT.phoneDisplay}
+                {CONTACT.phoneDisplay} (India)
+              </a>
+              <a href={CONTACT.phoneUsHref} className="font-medium underline underline-offset-4">
+                {CONTACT.phoneUsDisplay} (USA)
               </a>
             </address>
           </section>

@@ -25,7 +25,7 @@ export const LEGAL_DOCS: LegalDoc[] = [
         heading: 'Who we are',
         blocks: [
           `${NAME} is the trading name of an independent freelance software and automation practice based in India. For personal data collected through this website, ${NAME} is the "data fiduciary" under the Digital Personal Data Protection Act, 2023 (DPDP Act), which means we decide why and how that data is used and are responsible for it.`,
-          `You can reach us about anything in this policy at ${CONTACT.email} or ${CONTACT.phoneDisplay}.`,
+          `You can reach us about anything in this policy at ${CONTACT.email}, ${CONTACT.phoneDisplay} (India) or ${CONTACT.phoneUsDisplay} (USA).`,
         ],
       },
       {

@@ -41,7 +41,10 @@ export default function Footer() {
             {CONTACT.email}
           </a>
           <a href={CONTACT.phoneHref} className={linkClass}>
-            {CONTACT.phoneDisplay}
+            {CONTACT.phoneDisplay} (India)
+          </a>
+          <a href={CONTACT.phoneUsHref} className={linkClass}>
+            {CONTACT.phoneUsDisplay} (USA)
           </a>
         </address>
         <nav aria-label="Legal">
