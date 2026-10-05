@@ -183,7 +183,8 @@ export default function ContactSection() {
           { icon: Mail, label: CONTACT.email, href: `mailto:${CONTACT.email}` },
           { icon: Phone, label: `${CONTACT.phoneDisplay} · India`, href: CONTACT.phoneHref },
           { icon: Phone, label: `${CONTACT.phoneUsDisplay} · USA`, href: CONTACT.phoneUsHref },
-          { icon: MessageCircle, label: `WhatsApp ${CONTACT.phoneDisplay}`, href: CONTACT.whatsappHref },
+          { icon: MessageCircle, label: `WhatsApp ${CONTACT.phoneDisplay} · India`, href: CONTACT.whatsappHref },
+          { icon: MessageCircle, label: `WhatsApp ${CONTACT.phoneUsDisplay} · USA`, href: CONTACT.whatsappUsHref },
         ].map(({ icon: Icon, label, href }) => (
           <li key={href} className="border-b border-ink/15">
             <a

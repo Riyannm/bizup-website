@@ -5,6 +5,7 @@ export const CONTACT = {
   whatsappHref: 'https://wa.me/919182464926',
   phoneUsDisplay: '+1 (469) 348-3250',
   phoneUsHref: 'tel:+14693483250',
+  whatsappUsHref: 'https://wa.me/14693483250',
 };
 
 // Shown in the footer and on the legal pages. Empty fields are left out.
