@@ -30,9 +30,9 @@ export const ABOUT_TEXT =
   "At BizUp, you talk directly to the person building your project. No middlemen, no waiting. We keep you updated, make decisions quickly, and build software that fits the way your business works.";
 
 export const ABOUT_FACTS = [
-  { label: 'Based', value: 'India · remote-first' },
+  { label: 'Based', value: 'Remote-first' },
   { label: 'Response time', value: 'Within 1 business day' },
-  { label: 'Focus', value: 'Small & growing businesses' },
+  { label: 'Focus', value: 'Businesses of every kind' },
   { label: 'Engagement', value: 'Direct, no hand-offs' },
 ];
 
@@ -147,7 +147,7 @@ export const FAQS = [
   },
   {
     q: 'Do you work with businesses outside your city?',
-    a: "Yes. BizUp is based in India and remote-first, so discovery calls, demos, and handover all happen online wherever you're located.",
+    a: "Yes. BizUp is remote-first, so discovery calls, demos, and handover all happen online wherever you're located.",
   },
   {
     q: "I don't have a design ready — do I need one?",
