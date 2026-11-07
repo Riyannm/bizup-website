@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>BizUp social posts</title>
+<!-- Source for the PNGs in this folder. Re-render with: node marketing/social/render.mjs -->
+<style>
+  @font-face { font-family: Kanit; font-weight: 300; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-300-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 400; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-400-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 500; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-500-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 600; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-600-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 900; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-900-normal.woff2') format('woff2'); }
+
+  :root { --navy: #0A1B33; --blue: #1F6FEB; --sky: #4FC3FF; --violet: #7A4BE0; --cream: #F6F1E7; --sun: #FFD84D; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #444; font-family: Kanit, sans-serif; display: flex; flex-wrap: wrap; gap: 40px; padding: 40px; }
+
+  .post { position: relative; width: 1080px; height: 1350px; overflow: hidden; flex: none; padding: 72px; display: flex; flex-direction: column; }
+  .logo { height: 78px; align-self: flex-start; }
+  .handle { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font-size: 30px; font-weight: 600; }
+  .handle span:last-child { font-weight: 400; opacity: 0.8; }
+  h1 { font-weight: 900; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.02em; }
+
+  /* A: the file */
+  #a { background: var(--cream); color: var(--navy); }
+  #a h1 { font-size: 92px; margin-top: 54px; }
+  #a .file { align-self: center; margin-top: 50px; transform: rotate(-5deg); width: 430px; }
+  #a .sheet { height: 420px; border-radius: 28px; background: #1D9F5C; box-shadow: 18px 22px 0 var(--navy); padding: 34px; position: relative; }
+  #a .sheet::before { content: ''; position: absolute; top: 0; right: 0; border-style: solid; border-width: 0 96px 96px 0; border-color: transparent var(--cream) transparent transparent; }
+  #a .sheet::after { content: ''; position: absolute; top: 0; right: 0; width: 96px; height: 96px; background: #14774A; border-bottom-left-radius: 22px; }
+  #a .x { font-size: 120px; font-weight: 900; color: #fff; line-height: 1; }
+  #a .grid { margin-top: 26px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  #a .grid i { height: 34px; background: rgba(255, 255, 255, 0.28); border-radius: 5px; }
+  #a .grid i.r { background: #FF6B5E; }
+  #a .name { margin-top: 44px; text-align: center; font: 600 25px/1.2 Consolas, monospace; background: var(--navy); color: #fff; padding: 12px 18px; border-radius: 12px; white-space: nowrap; margin-left: -70px; margin-right: -70px; }
+  #a .punch { margin-top: 64px; font-size: 104px; }
+  #a .punch em { font-style: normal; color: var(--blue); }
+
+  /* B: lock screen */
+  #b { background: radial-gradient(120% 80% at 70% 10%, #3a2a8f 0%, #141034 45%, #07060f 100%); color: #fff; }
+  #b h1 { font-size: 96px; margin-top: 44px; }
+  #b h1 em { font-style: normal; color: var(--sky); }
+  #b .phone { align-self: center; margin-top: 44px; width: 560px; flex: 1; margin-bottom: 40px; border-radius: 70px 70px 0 0; border: 12px solid #2a2850; border-bottom: 0; background: linear-gradient(180deg, #1c1747, #0d0b24); padding: 46px 30px 0; margin-bottom: -72px; }
+  #b .clock { text-align: center; font-size: 150px; font-weight: 300; line-height: 1; }
+  #b .date { text-align: center; font-size: 28px; opacity: 0.75; margin-top: 4px; }
+  #b .n { margin-top: 20px; border-radius: 30px; background: rgba(255, 255, 255, 0.13); border: 1px solid rgba(255, 255, 255, 0.16); padding: 20px 24px; display: flex; gap: 18px; align-items: center; }
+  #b .n:first-of-type { margin-top: 36px; }
+  #b .ic { width: 62px; height: 62px; border-radius: 16px; flex: none; display: grid; place-items: center; font-size: 30px; font-weight: 900; color: var(--navy); }
+  #b .n b { display: block; font-size: 27px; font-weight: 600; }
+  #b .n p { font-size: 24px; opacity: 0.8; font-weight: 300; }
+  #b .handle { position: absolute; left: 0; right: 0; bottom: 0; background: #07060f; padding: 34px 72px; }
+
+  /* C: chaos to one app */
+  #c { background: linear-gradient(150deg, #4A22B0 0%, #172A82 100%); color: #fff; }
+  #c h1 { font-size: 118px; margin-top: 44px; }
+  #c .notes { position: relative; height: 430px; margin-top: 30px; }
+  #c .note { position: absolute; width: 380px; padding: 30px 32px 36px; border-radius: 10px; color: var(--navy); font-size: 46px; font-weight: 600; line-height: 1.08; box-shadow: 0 22px 34px rgba(10, 27, 51, 0.35); }
+  #c .note small { display: block; font-size: 23px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.65; margin-bottom: 10px; }
+  #c .n1 { left: 0; top: 30px; background: #B9F3C9; transform: rotate(-7deg); }
+  #c .n2 { left: 290px; top: 150px; background: var(--sun); transform: rotate(4deg); z-index: 2; }
+  #c .n3 { right: 0; top: 0; background: #FFC2D1; transform: rotate(8deg); }
+  #c .one { margin-top: 44px; background: var(--navy); border-radius: 44px; padding: 40px 46px; display: flex; align-items: center; gap: 34px; }
+  #c .one .arrow { font-size: 100px; font-weight: 900; color: var(--sun); line-height: 1; }
+  #c .one b { font-size: 64px; font-weight: 900; text-transform: uppercase; line-height: 1; display: block; }
+  #c .one p { font-size: 32px; font-weight: 300; margin-top: 10px; opacity: 0.9; }
+
+  /* D: checklist */
+  #d { background: #fff; color: var(--navy); }
+  #d .kicker { margin-top: 44px; align-self: flex-start; background: var(--blue); color: #fff; font-size: 30px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 10px 26px; border-radius: 99px; }
+  #d h1 { font-size: 88px; margin-top: 22px; }
+  #d h1 em { font-style: normal; color: var(--blue); }
+  #d ul { list-style: none; margin-top: 36px; display: flex; flex-direction: column; gap: 16px; }
+  #d li { display: flex; align-items: center; gap: 26px; background: #EEF4FF; border-radius: 26px; padding: 21px 28px; font-size: 35px; font-weight: 500; line-height: 1.15; }
+  #d li i { flex: none; width: 58px; height: 58px; border-radius: 16px; background: var(--blue); position: relative; }
+  #d li i::after { content: ''; position: absolute; left: 20px; top: 9px; width: 15px; height: 29px; border: solid #fff; border-width: 0 7px 7px 0; transform: rotate(45deg); }
+  #d .score { margin-top: 30px; font-size: 44px; font-weight: 900; text-transform: uppercase; }
+  #d .score em { font-style: normal; background: var(--sun); padding: 0 14px; border-radius: 10px; }
+
+  /* E: website should work */
+  #e { background: var(--sun); color: var(--navy); }
+  #e h1 { font-size: 124px; margin-top: 50px; }
+  #e h1 em { font-style: normal; color: var(--blue); }
+  #e .sub { font-size: 42px; font-weight: 400; line-height: 1.25; margin-top: 30px; max-width: 860px; }
+  #e .stage { position: relative; flex: 1; }
+  #e .btn { position: absolute; left: 40px; top: 190px; background: var(--navy); color: #fff; font-size: 84px; font-weight: 900; text-transform: uppercase; padding: 40px 84px; border-radius: 999px; box-shadow: 0 16px 0 var(--blue); transform: rotate(-4deg); }
+  #e .cursor { position: absolute; left: 560px; top: 330px; width: 160px; }
+  #e .toast { position: absolute; right: 0; top: 50px; background: #fff; border-radius: 34px; padding: 26px 36px; font-size: 36px; font-weight: 500; box-shadow: 0 18px 30px rgba(10, 27, 51, 0.22); transform: rotate(5deg); display: flex; gap: 16px; align-items: center; }
+  #e .toast i { width: 20px; height: 20px; border-radius: 50%; background: #1D9F5C; }
+  #e .spark { position: absolute; background: var(--navy); width: 8px; height: 36px; border-radius: 9px; }
+</style>
+</head>
+<body>
+
+<section class="post" id="a" data-name="bizup-post-1-final-final">
+  <img class="logo" src="../../brand/bizup-logo-horizontal-light-bg.svg" alt="BizUp Technologies" />
+  <h1>If your business runs on this file&hellip;</h1>
+  <div class="file">
+    <div class="sheet"><div class="x">X</div><div class="grid"><i></i><i></i><i></i><i></i><i></i><i class="r"></i><i></i><i></i><i></i><i></i><i></i><i class="r"></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="name">Sales_FINAL_v7_new(2)_USE THIS.xlsx</div>
+  </div>
+  <h1 class="punch">&hellip;<em>we should talk.</em></h1>
+  <div class="handle"><span>bizuptechnologies.com</span><span>Custom apps &amp; automation</span></div>
+</section>
+
+<section class="post" id="b" data-name="bizup-post-2-2am">
+  <img class="logo" src="../../public/logo-horizontal.svg" alt="BizUp Technologies" />
+  <h1>You: asleep.<br /><em>Your software: working.</em></h1>
+  <div class="phone">
+    <div class="clock">2:07</div>
+    <div class="date">Tuesday night</div>
+    <div class="n"><span class="ic" style="background:#6EE7B7">R</span><div><b>Daily report ready</b><p>Yesterday&rsquo;s sales, sent to your inbox.</p></div></div>
+    <div class="n"><span class="ic" style="background:#FFD84D">!</span><div><b>Low stock alert</b><p>3 items need reordering.</p></div></div>
+    <div class="n"><span class="ic" style="background:#4FC3FF">B</span><div><b>New booking</b><p>Confirmed automatically.</p></div></div>
+  </div>
+  <div class="handle"><span>bizuptechnologies.com</span><span>Business automation</span></div>
+</section>
+
+<section class="post" id="c" data-name="bizup-post-3-sound-familiar">
+  <img class="logo" src="../../public/logo-horizontal.svg" alt="BizUp Technologies" />
+  <h1>Sound<br />familiar?</h1>
+  <div class="notes">
+    <div class="note n1"><small>Orders</small>on WhatsApp</div>
+    <div class="note n2"><small>Stock</small>in a notebook</div>
+    <div class="note n3"><small>Sales</small>in your head</div>
+  </div>
+  <div class="one"><span class="arrow">→</span><div><b>One app.</b><p>Everything in one place, built around how you work.</p></div></div>
+  <div class="handle"><span>bizuptechnologies.com</span><span>+91 91824 64926</span></div>
+</section>
+
+<section class="post" id="d" data-name="bizup-post-4-five-signs">
+  <img class="logo" src="../../brand/bizup-logo-horizontal-light-bg.svg" alt="BizUp Technologies" />
+  <span class="kicker">Save this post</span>
+  <h1>5 signs you&rsquo;ve outgrown <em>spreadsheets</em></h1>
+  <ul>
+    <li><i></i>Nobody knows which file is the latest</li>
+    <li><i></i>You retype the same numbers every week</li>
+    <li><i></i>One wrong click breaks the whole sheet</li>
+    <li><i></i>Reports take hours instead of seconds</li>
+    <li><i></i>You find the mistake after it matters</li>
+  </ul>
+  <p class="score">Ticked 3 or more? <em>Message us.</em></p>
+  <div class="handle"><span>bizuptechnologies.com</span><span>+91 91824 64926</span></div>
+</section>
+
+<section class="post" id="e" data-name="bizup-post-5-website-works">
+  <img class="logo" src="../../brand/bizup-logo-horizontal-light-bg.svg" alt="BizUp Technologies" />
+  <h1>Your website shouldn&rsquo;t just <em>sit there.</em></h1>
+  <p class="sub">It should take bookings, answer questions and bring you enquiries.</p>
+  <div class="stage">
+    <span class="toast"><i></i>New enquiry received</span>
+    <span class="btn">Book now</span>
+    <i class="spark" style="left:150px;top:150px;transform:rotate(-30deg)"></i>
+    <i class="spark" style="left:250px;top:120px;transform:rotate(-8deg)"></i>
+    <i class="spark" style="left:350px;top:124px;transform:rotate(14deg)"></i>
+    <svg class="cursor" viewBox="0 0 24 24"><path d="M4 2l15 9-6.5 1.6L16 20l-3 1.4-3.4-7.5L5 18.5z" fill="#fff" stroke="#0A1B33" stroke-width="1.6" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="handle"><span>bizuptechnologies.com</span><span>Websites that work for you</span></div>
+</section>
+
+</body>
+</html>

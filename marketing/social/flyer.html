@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>BizUp flyer</title>
+<!-- Source for bizup-flyer.png. Re-render with: node marketing/social/render.mjs flyer.html -->
+<style>
+  @font-face { font-family: Kanit; font-weight: 300; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-300-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 400; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-400-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 500; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-500-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 600; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-600-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 900; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-900-normal.woff2') format('woff2'); }
+
+  :root { --bg: #050914; --sky: #4FC3FF; --blue: #2E8BFF; --violet: #9B6BFF; --mint: #5EEAD4; --pink: #FF7AC6; --line: rgba(79, 195, 255, 0.55); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #333; font-family: Kanit, sans-serif; padding: 40px; }
+
+  .post {
+    position: relative; width: 1080px; height: 1620px; overflow: hidden; color: #fff; padding: 36px 40px 0;
+    background:
+      radial-gradient(700px 420px at 85% 4%, rgba(46, 139, 255, 0.38), transparent 70%),
+      radial-gradient(600px 500px at 0% 42%, rgba(155, 107, 255, 0.28), transparent 70%),
+      radial-gradient(700px 500px at 100% 78%, rgba(46, 139, 255, 0.25), transparent 70%),
+      var(--bg);
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(79, 195, 255, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(79, 195, 255, 0.07) 1px, transparent 1px); background-size: 54px 54px; }
+  .post > *:not(.grid-bg) { position: relative; }
+
+  .glow { border: 2px solid var(--line); border-radius: 30px; background: rgba(8, 16, 36, 0.86); box-shadow: 0 0 26px rgba(46, 139, 255, 0.45), inset 0 0 26px rgba(46, 139, 255, 0.12); }
+  .lights { outline: 5px dotted rgba(79, 195, 255, 0.85); outline-offset: -14px; }
+  .grad { background: linear-gradient(180deg, #ffffff 0%, #9ED8FF 55%, #4FA6FF 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .silver { background: linear-gradient(180deg, #ffffff 0%, #C9D6E6 60%, #8FA3BD 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .up { text-transform: uppercase; }
+
+  /* top */
+  .top { display: flex; gap: 26px; align-items: stretch; }
+  .badge { width: 330px; flex: none; padding: 34px 24px 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; }
+  .badge img { width: 262px; }
+  .badge span { font-size: 17px; font-weight: 600; letter-spacing: 0.14em; color: #06122B; background: linear-gradient(90deg, var(--sky), #B9E6FF); padding: 6px 20px; border-radius: 99px; white-space: nowrap; }
+  .head { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .head small { font-size: 29px; font-weight: 600; font-style: italic; letter-spacing: 0.04em; line-height: 1.15; }
+  .head small em { color: var(--sky); font-style: italic; }
+  .head h1 { white-space: nowrap; font-size: 74px; font-weight: 900; font-style: italic; line-height: 0.92; letter-spacing: -0.02em; margin-top: 10px; filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.5)); }
+  .ribbon { margin-top: 18px; align-self: flex-start; font-size: 22px; font-weight: 600; font-style: italic; letter-spacing: 0.05em; padding: 9px 22px; border-radius: 12px; border: 2px solid var(--line); background: rgba(8, 16, 36, 0.9); white-space: nowrap; }
+  .ribbon i { color: var(--sky); font-style: normal; }
+
+  /* showcase */
+  .show { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .dev { border-radius: 26px; padding: 5px; }
+  .dev .scr { height: 396px; border-radius: 21px; background: linear-gradient(180deg, #0B1630, #060B1A); padding: 16px 14px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
+  .dev h3 { font-size: 27px; font-weight: 900; font-style: italic; text-align: center; letter-spacing: 0.02em; }
+  .dev .cap { text-align: center; white-space: nowrap; font-size: 18px; font-weight: 500; padding: 10px 4px 8px; line-height: 1.15; }
+  .d1 { background: linear-gradient(180deg, var(--sky), var(--blue)); box-shadow: 0 0 26px rgba(79, 195, 255, 0.7); }
+  .d2 { background: linear-gradient(180deg, #FFC46B, #FF7A45); box-shadow: 0 0 26px rgba(255, 150, 80, 0.6); }
+  .d3 { background: linear-gradient(180deg, var(--mint), #1FA98C); box-shadow: 0 0 26px rgba(94, 234, 212, 0.6); }
+  .d4 { background: linear-gradient(180deg, var(--pink), var(--violet)); box-shadow: 0 0 26px rgba(255, 122, 198, 0.6); }
+  .d1 h3 { color: var(--sky); } .d2 h3 { color: #FFC46B; } .d3 h3 { color: var(--mint); } .d4 h3 { color: var(--pink); }
+  .pillbox { border-radius: 14px; padding: 9px 10px; text-align: center; border: 2px solid rgba(255, 255, 255, 0.22); background: rgba(255, 255, 255, 0.07); }
+  .pillbox small { display: block; font-size: 13px; letter-spacing: 0.12em; opacity: 0.75; }
+  .pillbox b { font-size: 29px; font-weight: 900; line-height: 1.05; }
+  .bar { height: 11px; border-radius: 9px; background: rgba(255, 255, 255, 0.16); }
+  .row { display: flex; align-items: center; gap: 9px; background: rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 9px 10px; font-size: 16px; line-height: 1.15; }
+  .row i { width: 22px; height: 22px; border-radius: 7px; flex: none; }
+  .cols { display: flex; align-items: flex-end; gap: 8px; flex: 1; min-height: 0; }
+  .cols i { flex: 1; border-radius: 7px 7px 0 0; background: linear-gradient(180deg, var(--mint), #157F6C); }
+  .cta-mini { align-self: center; font-size: 15px; font-weight: 600; padding: 7px 18px; border-radius: 99px; color: #06122B; }
+  .note { text-align: center; font-size: 15px; opacity: 0.55; margin-top: -10px; }
+
+  /* benefits */
+  .ben { display: grid; grid-template-columns: repeat(5, 1fr); padding: 28px 22px 24px; }
+  .ben div { text-align: center; padding: 0 9px; border-left: 1px solid rgba(79, 195, 255, 0.3); }
+  .ben div:first-child { border-left: 0; }
+  .ben svg { width: 62px; height: 62px; stroke: var(--sky); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 8px rgba(79, 195, 255, 0.8)); }
+  .ben b { display: block; font-size: 22px; font-weight: 600; line-height: 1.08; margin-top: 8px; }
+  .ben b em { display: block; font-style: normal; color: var(--sky); }
+  .ben p { font-size: 16.5px; font-weight: 300; line-height: 1.22; margin-top: 7px; opacity: 0.9; }
+
+  /* stat + cta */
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .stat { padding: 24px 26px; display: flex; align-items: center; gap: 20px; }
+  .stat svg { width: 120px; height: 120px; flex: none; stroke: var(--sky); fill: none; stroke-width: 1.1; filter: drop-shadow(0 0 10px rgba(79, 195, 255, 0.9)); }
+  .stat .big { font-size: 84px; font-weight: 900; line-height: 0.85; }
+  .stat .mid { font-size: 36px; font-weight: 900; font-style: italic; line-height: 1; margin-top: 6px; }
+  .stat .tag { display: inline-block; margin-top: 10px; font-size: 20px; font-weight: 600; font-style: italic; letter-spacing: 0.04em; padding: 5px 16px; border-radius: 10px; background: linear-gradient(90deg, var(--blue), var(--violet)); white-space: nowrap; }
+  .cta { padding: 20px 24px 24px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+  .cta small { font-size: 25px; font-weight: 600; font-style: italic; line-height: 1.05; }
+  .cta .box { margin-top: 12px; padding: 12px 10px 16px; }
+  .cta .l1 { white-space: nowrap; font-size: 34px; font-weight: 900; font-style: italic; line-height: 1; }
+  .cta .l2 { font-size: 62px; font-weight: 900; font-style: italic; line-height: 0.95; }
+  .cta .tag { display: inline-block; margin-top: -14px; font-size: 20px; font-weight: 600; font-style: italic; padding: 5px 18px; border-radius: 10px; background: linear-gradient(90deg, var(--blue), var(--violet)); position: relative; }
+
+  /* contact */
+  .contact { display: flex; align-items: center; gap: 22px; padding: 16px 22px; }
+  .contact .item { display: flex; align-items: center; gap: 16px; }
+  .contact .ic { width: 70px; height: 70px; border-radius: 50%; flex: none; display: grid; place-items: center; background: linear-gradient(180deg, var(--sky), var(--blue)); box-shadow: 0 0 18px rgba(79, 195, 255, 0.8); }
+  .contact .ic svg { width: 36px; height: 36px; stroke: #06122B; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .contact small { display: block; font-size: 17px; font-weight: 600; font-style: italic; letter-spacing: 0.04em; color: var(--sky); }
+  .contact b { font-size: 34px; font-weight: 600; line-height: 1.05; white-space: nowrap; }
+  .contact .sep { width: 1px; align-self: stretch; background: rgba(79, 195, 255, 0.35); }
+  .contact .qr { margin-left: auto; width: 118px; height: 118px; border-radius: 12px; background: #fff; padding: 5px; flex: none; }
+  .contact .qr img { width: 100%; height: 100%; display: block; }
+
+  .strip { margin: 0 -40px; padding: 13px 0 15px; text-align: center; font-size: 21px; font-weight: 600; letter-spacing: 0.2em; color: var(--sky); background: rgba(3, 6, 14, 0.9); border-top: 1px solid rgba(79, 195, 255, 0.3); margin-top: auto; }
+  .strip i { color: #fff; font-style: normal; margin: 0 14px; }
+</style>
+</head>
+<body>
+
+<section class="post" data-name="bizup-flyer">
+  <div class="grid-bg"></div>
+
+  <div class="top">
+    <div class="badge glow lights">
+      <img src="../../public/logo-horizontal.svg" alt="BizUp Technologies" />
+      <span class="up">Software &amp; automation</span>
+    </div>
+    <div class="head">
+      <small class="up">Websites. Apps. Automation.<br /><em>Built around your business.</em></small>
+      <h1 class="up"><span class="grad">Less work.</span><br /><span class="silver">More growth.</span></h1>
+      <span class="ribbon up"><i>★</i> Custom software for small businesses <i>★</i></span>
+    </div>
+  </div>
+
+  <div class="show">
+    <div class="dev d1"><div class="scr">
+      <h3 class="up">Websites</h3>
+      <div class="pillbox" style="border-color:rgba(79,195,255,.6)"><small class="up">Your business</small><b>ONLINE</b></div>
+      <div class="bar" style="width:92%"></div><div class="bar" style="width:70%"></div>
+      <span class="cta-mini" style="background:var(--sky)">Book now</span>
+      <div class="row"><i style="background:var(--sky)"></i>Service pages</div>
+      <div class="row"><i style="background:var(--sky)"></i>Online booking</div>
+      <div class="row"><i style="background:var(--sky)"></i>Enquiry forms</div>
+      
+    </div><p class="cap">Sites that bring enquiries</p></div>
+
+    <div class="dev d2"><div class="scr">
+      <h3 class="up">Mobile apps</h3>
+      <div class="pillbox" style="border-color:rgba(255,196,107,.6)"><small class="up">Today&rsquo;s orders</small><b>28</b></div>
+      <div class="row"><i style="background:#FFC46B"></i>#1042 · Packed</div>
+      <div class="row"><i style="background:#FFC46B"></i>#1043 · On the way</div>
+      <div class="row"><i style="background:#FFC46B"></i>#1044 · New</div>
+      
+      <span class="cta-mini" style="background:#FFC46B">Add order</span>
+    </div><p class="cap">Tools your team uses</p></div>
+
+    <div class="dev d3"><div class="scr">
+      <h3 class="up">Dashboards</h3>
+      <div class="pillbox" style="border-color:rgba(94,234,212,.6)"><small class="up">Sales this week</small><b>₹1,84,200</b></div>
+      <div class="cols"><i style="height:45%"></i><i style="height:62%"></i><i style="height:50%"></i><i style="height:78%"></i><i style="height:66%"></i><i style="height:100%"></i></div>
+      <div class="row"><i style="background:var(--mint)"></i>Store 1 · up</div>
+      <div class="row"><i style="background:var(--mint)"></i>Store 2 · steady</div>
+    </div><p class="cap">All numbers, one place</p></div>
+
+    <div class="dev d4"><div class="scr">
+      <h3 class="up">Automation</h3>
+      <div class="pillbox" style="border-color:rgba(255,122,198,.6)"><small class="up">Daily report</small><b>SENT 7:00</b></div>
+      <div class="row"><i style="background:var(--pink)"></i>Low stock alert</div>
+      <div class="row"><i style="background:var(--pink)"></i>Booking confirmed</div>
+      <div class="row"><i style="background:var(--pink)"></i>Invoice created</div>
+      
+      <span class="cta-mini" style="background:var(--pink)">Runs itself</span>
+    </div><p class="cap">Work that runs itself</p></div>
+  </div>
+  <p class="note">Screens are illustrations with sample data</p>
+
+  <div class="ben glow lights">
+    <div><svg viewBox="0 0 24 24"><path d="M3 20h18M6 20V11M11 20V7M16 20v-6M21 20V4"/><path d="M4 8l5-4 4 3 6-5"/></svg><b class="up">Save time<em>Every day</em></b><p>Replace retyping and spreadsheets.</p></div>
+    <div><svg viewBox="0 0 24 24"><path d="M3 10l1.5-5h15L21 10"/><path d="M4 10v10h16V10"/><path d="M9 20v-6h6v6"/><path d="M3 10a3 3 0 006 0 3 3 0 006 0 3 3 0 006 0"/></svg><b class="up">Perfect for<em>Any business</em></b><p>Built to fit how you already work.</p></div>
+    <div><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 01-11.5 7.2L4 20l1-4.6A8 8 0 1121 12z"/><path d="M9 11h6M9 14h4"/></svg><b class="up">Talk direct<em>No middlemen</em></b><p>You speak to the person building it.</p></div>
+    <div><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.500-.5z"/></svg><b class="up">Launch<em>&amp; support</em></b><p>Setup, training and fixes after go-live.</p></div>
+    <div><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M8.500 12l2.500 2.500 4.500-5"/></svg><b class="up">You own it<em>Once paid</em></b><p>Code, accounts and data are yours.</p></div>
+  </div>
+
+  <div class="duo">
+    <div class="stat glow">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18M5 7h14M5 17h14"/></svg>
+      <div><div class="big grad">100%</div><div class="mid up silver">Remote</div><span class="tag up">Clients anywhere</span></div>
+    </div>
+    <div class="cta glow">
+      <small class="up silver">Ready to fix<br />what&rsquo;s slow?</small>
+      <div class="box glow lights"><div class="l1 up grad">Call or WhatsApp</div><div class="l2 up grad">Today!</div></div>
+      <div><span class="tag up">Free 20-minute call</span></div>
+    </div>
+  </div>
+
+  <div class="contact glow">
+    <div class="item"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.500 1.500a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg></span><div><small class="up">Call or WhatsApp</small><b>+1 (469) 348-3250</b></div></div>
+    <span class="sep"></span>
+    <div class="item"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><div><small class="up">Website</small><b style="font-size:27px">bizuptechnologies.com</b></div></div>
+    <span class="qr"><img src="qr-site.svg" alt="QR code to bizuptechnologies.com" /></span>
+  </div>
+
+  <div class="strip up">Websites <i>◆</i> Apps <i>◆</i> Automation</div>
+</section>
+
+</body>
+</html>

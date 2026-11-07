@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>BizUp flyers, set 2</title>
+<!-- Source for bizup-flyer-websites / -automation / -process .png. Re-render with: node marketing/social/render.mjs flyers2.html -->
+<style>
+  @font-face { font-family: Kanit; font-weight: 300; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-300-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 400; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-400-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 500; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-500-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 600; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-600-normal.woff2') format('woff2'); }
+  @font-face { font-family: Kanit; font-weight: 900; src: url('../../node_modules/@fontsource/kanit/files/kanit-latin-900-normal.woff2') format('woff2'); }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #333; font-family: Kanit, sans-serif; padding: 40px; display: flex; flex-wrap: wrap; gap: 40px; }
+
+  /* Each flyer sets --acc (accent), --acc2 (deeper accent) and --rgb (accent as r,g,b for glows). */
+  .post {
+    --bg: #050914;
+    position: relative; width: 1080px; height: 1620px; overflow: hidden; flex: none; color: #fff; padding: 36px 40px 0;
+    background:
+      radial-gradient(700px 420px at 85% 4%, rgba(var(--rgb), 0.34), transparent 70%),
+      radial-gradient(600px 500px at 0% 45%, rgba(var(--rgb), 0.2), transparent 70%),
+      radial-gradient(700px 500px at 100% 80%, rgba(46, 139, 255, 0.24), transparent 70%),
+      var(--bg);
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .orange { --acc: #FFB25C; --acc2: #FF7A45; --rgb: 255, 150, 80; }
+  .pink { --acc: #FF8BD0; --acc2: #9B6BFF; --rgb: 200, 110, 255; }
+  .mint { --acc: #5EEAD4; --acc2: #1FA98C; --rgb: 70, 220, 190; }
+
+  .grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(var(--rgb), 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--rgb), 0.07) 1px, transparent 1px); background-size: 54px 54px; }
+  .post > *:not(.grid-bg) { position: relative; }
+  .glow { border: 2px solid rgba(var(--rgb), 0.6); border-radius: 30px; background: rgba(8, 14, 32, 0.88); box-shadow: 0 0 26px rgba(var(--rgb), 0.42), inset 0 0 26px rgba(var(--rgb), 0.1); }
+  .lights { outline: 5px dotted rgba(var(--rgb), 0.9); outline-offset: -14px; }
+  .grad { background: linear-gradient(180deg, #ffffff 0%, var(--acc) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .silver { background: linear-gradient(180deg, #ffffff 0%, #C9D6E6 60%, #8FA3BD 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .up { text-transform: uppercase; }
+  .acc { color: var(--acc); }
+  .tagpill { display: inline-block; font-size: 20px; font-weight: 600; font-style: italic; letter-spacing: 0.04em; padding: 5px 18px; border-radius: 10px; color: #06122B; background: linear-gradient(90deg, var(--acc), var(--acc2)); white-space: nowrap; }
+
+  /* top */
+  .top { display: flex; gap: 26px; align-items: stretch; }
+  .badge { width: 330px; flex: none; padding: 34px 24px 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+  .badge img { width: 262px; }
+  .badge span { font-size: 17px; font-weight: 600; letter-spacing: 0.14em; color: #06122B; background: linear-gradient(90deg, var(--acc), #fff); padding: 6px 18px; border-radius: 99px; white-space: nowrap; }
+  .head { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .head small { font-size: 27px; font-weight: 600; font-style: italic; letter-spacing: 0.04em; line-height: 1.15; }
+  .head h1 { font-weight: 900; font-style: italic; line-height: 0.94; letter-spacing: -0.02em; margin-top: 10px; white-space: nowrap; filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.5)); }
+  .ribbon { margin-top: 16px; align-self: flex-start; font-size: 21px; font-weight: 600; font-style: italic; letter-spacing: 0.05em; padding: 9px 20px; border-radius: 12px; border: 2px solid rgba(var(--rgb), 0.6); background: rgba(8, 14, 32, 0.9); white-space: nowrap; }
+
+  /* shared bits */
+  .row { display: flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 10px 12px; font-size: 18px; line-height: 1.15; }
+  .row i { width: 22px; height: 22px; border-radius: 7px; flex: none; background: var(--acc); }
+  .note { text-align: center; font-size: 15px; opacity: 0.55; margin-top: -10px; }
+  .ico { stroke: var(--acc); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 8px rgba(var(--rgb), 0.8)); }
+
+  .ben { display: grid; padding: 26px 20px 24px; }
+  .ben div { text-align: center; padding: 0 10px; border-left: 1px solid rgba(var(--rgb), 0.3); }
+  .ben div:first-child { border-left: 0; }
+  .ben svg { width: 58px; height: 58px; }
+  .ben b { display: block; font-size: 22px; font-weight: 600; line-height: 1.08; margin-top: 8px; }
+  .ben b em { display: block; font-style: normal; color: var(--acc); }
+  .ben p { font-size: 16.5px; font-weight: 300; line-height: 1.22; margin-top: 7px; opacity: 0.9; }
+
+  .cta { padding: 20px 24px 22px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+  .cta small { font-size: 25px; font-weight: 600; font-style: italic; line-height: 1.05; }
+  .cta .box { margin-top: 12px; padding: 12px 10px 16px; }
+  .cta .l1 { font-size: 34px; font-weight: 900; font-style: italic; line-height: 1; white-space: nowrap; }
+  .cta .l2 { font-size: 62px; font-weight: 900; font-style: italic; line-height: 0.95; }
+  .cta .tagpill { margin-top: -14px; position: relative; }
+
+  .contact { display: flex; align-items: center; gap: 22px; padding: 16px 22px; }
+  .contact .item { display: flex; align-items: center; gap: 16px; }
+  .contact .ic { width: 70px; height: 70px; border-radius: 50%; flex: none; display: grid; place-items: center; background: linear-gradient(180deg, var(--acc), var(--acc2)); box-shadow: 0 0 18px rgba(var(--rgb), 0.8); }
+  .contact .ic svg { width: 36px; height: 36px; stroke: #06122B; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .contact small { display: block; font-size: 17px; font-weight: 600; font-style: italic; letter-spacing: 0.04em; color: var(--acc); }
+  .contact b { font-size: 33px; font-weight: 600; line-height: 1.05; white-space: nowrap; }
+  .contact .sep { width: 1px; align-self: stretch; background: rgba(var(--rgb), 0.35); }
+  .contact .qr { margin-left: auto; width: 118px; height: 118px; border-radius: 12px; background: #fff; padding: 5px; flex: none; }
+  .contact .qr img { width: 100%; height: 100%; display: block; }
+  .strip { margin: auto -40px 0; padding: 13px 0 15px; text-align: center; font-size: 21px; font-weight: 600; letter-spacing: 0.2em; color: var(--acc); background: rgba(3, 6, 14, 0.9); border-top: 1px solid rgba(var(--rgb), 0.3); }
+  .strip i { color: #fff; font-style: normal; margin: 0 14px; }
+
+  /* ---- A: websites ---- */
+  .stage { display: grid; grid-template-columns: 1fr 250px; gap: 20px; }
+  .browser { border-radius: 26px; padding: 5px; background: linear-gradient(180deg, var(--acc), var(--acc2)); box-shadow: 0 0 28px rgba(var(--rgb), 0.65); }
+  .browser .in { height: 100%; border-radius: 21px; background: linear-gradient(180deg, #0B1630, #060B1A); overflow: hidden; display: flex; flex-direction: column; }
+  .bar3 { display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+  .bar3 i { width: 13px; height: 13px; border-radius: 50%; background: rgba(255, 255, 255, 0.3); }
+  .bar3 span { margin-left: 14px; flex: 1; font-size: 16px; padding: 5px 16px; border-radius: 99px; background: rgba(255, 255, 255, 0.09); opacity: 0.85; }
+  .site { padding: 24px 26px 26px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
+  .site h2 { font-size: 44px; font-weight: 900; font-style: italic; line-height: 0.98; }
+  .site p { font-size: 19px; font-weight: 300; opacity: 0.85; line-height: 1.25; }
+  .btns { display: flex; gap: 12px; }
+  .btns span { font-size: 18px; font-weight: 600; padding: 10px 24px; border-radius: 99px; }
+  .btns .p { background: var(--acc); color: #06122B; }
+  .btns .g { border: 2px solid rgba(255, 255, 255, 0.4); }
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: auto; }
+  .tiles div { border-radius: 16px; background: rgba(255, 255, 255, 0.07); padding: 14px; font-size: 17px; line-height: 1.15; }
+  .tiles svg { width: 30px; height: 30px; display: block; margin-bottom: 8px; }
+  .phone { border-radius: 40px; padding: 5px; background: linear-gradient(180deg, #4FC3FF, #2E8BFF); box-shadow: 0 0 26px rgba(79, 195, 255, 0.6); }
+  .phone .in { height: 100%; border-radius: 35px; background: linear-gradient(180deg, #0B1630, #060B1A); padding: 18px 14px; display: flex; flex-direction: column; gap: 10px; }
+  .phone .notch { width: 70px; height: 9px; border-radius: 9px; background: rgba(255, 255, 255, 0.25); align-self: center; margin-bottom: 4px; }
+  .phone h3 { font-size: 23px; font-weight: 900; font-style: italic; line-height: 1; }
+  .phone .row { font-size: 15.5px; padding: 9px 10px; }
+  .phone .row i { background: #4FC3FF; width: 18px; height: 18px; }
+  .phone .go { margin-top: auto; text-align: center; font-size: 16px; font-weight: 600; padding: 9px; border-radius: 99px; background: #4FC3FF; color: #06122B; }
+  .get { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .list { padding: 22px 26px; }
+  .list h3 { font-size: 27px; font-weight: 900; font-style: italic; margin-bottom: 10px; }
+  .list li { list-style: none; display: flex; gap: 12px; align-items: center; font-size: 21px; padding: 5px 0; }
+  .list li::before { content: '✓'; color: var(--acc); font-weight: 900; font-size: 22px; }
+
+  /* ---- B: before / after ---- */
+  .vs { display: grid; grid-template-columns: 1fr 76px 1fr; align-items: stretch; }
+  .col { border-radius: 26px; padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 11px; }
+  .col h3 { font-size: 31px; font-weight: 900; font-style: italic; text-align: center; margin-bottom: 4px; }
+  .before { border: 2px dashed rgba(255, 255, 255, 0.32); background: rgba(255, 255, 255, 0.04); }
+  .before h3 { color: #A9B6CC; }
+  .before .row { background: rgba(255, 255, 255, 0.05); color: #C4CEDF; }
+  .before .row i { background: transparent; border-radius: 0; width: 22px; height: 22px; position: relative; }
+  .before .row i::before, .before .row i::after { content: ''; position: absolute; left: 9px; top: 0; width: 4px; height: 22px; border-radius: 3px; background: #FF6B7A; transform: rotate(45deg); }
+  .before .row i::after { transform: rotate(-45deg); }
+  .after { padding: 5px; background: linear-gradient(180deg, var(--acc), var(--acc2)); box-shadow: 0 0 28px rgba(var(--rgb), 0.65); }
+  .after .in { border-radius: 21px; background: linear-gradient(180deg, #0B1630, #060B1A); padding: 17px 17px 19px; display: flex; flex-direction: column; gap: 11px; height: 100%; }
+  .after .row i { position: relative; border-radius: 50%; }
+  .after .row i::after { content: ''; position: absolute; left: 7px; top: 3px; width: 6px; height: 11px; border: solid #06122B; border-width: 0 3px 3px 0; transform: rotate(45deg); }
+  .arrow { display: grid; place-items: center; font-size: 62px; font-weight: 900; color: var(--acc); filter: drop-shadow(0 0 12px rgba(var(--rgb), 0.9)); }
+  .trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .mini { padding: 20px 18px; text-align: center; }
+  .mini small { display: block; font-size: 16px; letter-spacing: 0.12em; opacity: 0.75; }
+  .mini b { display: block; font-size: 38px; font-weight: 900; line-height: 1.05; margin: 4px 0 8px; }
+  .mini p { font-size: 17px; font-weight: 300; line-height: 1.2; opacity: 0.9; }
+  .spark { display: flex; align-items: flex-end; justify-content: center; gap: 6px; height: 46px; margin-top: 10px; }
+  .spark i { width: 14px; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--acc), var(--acc2)); }
+
+  /* ---- C: process ---- */
+  .steps { display: flex; flex-direction: column; gap: 16px; }
+  .step { display: flex; align-items: center; gap: 24px; padding: 20px 28px; }
+  .step .n { font-size: 112px; font-weight: 900; font-style: italic; line-height: 0.82; width: 150px; flex: none; }
+  .step h3 { font-size: 34px; font-weight: 900; font-style: italic; line-height: 1; }
+  .step p { font-size: 20px; font-weight: 300; line-height: 1.25; margin-top: 6px; opacity: 0.92; }
+  .step .chip { margin-left: auto; flex: none; }
+  .chips { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  .chips span { font-size: 20px; font-weight: 500; padding: 9px 22px; border-radius: 99px; border: 2px solid rgba(var(--rgb), 0.6); background: rgba(8, 14, 32, 0.9); }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .stat { padding: 22px 26px; display: flex; align-items: center; gap: 20px; }
+  .stat svg { width: 118px; height: 118px; flex: none; stroke-width: 1.1; }
+  .stat .big { font-size: 92px; font-weight: 900; line-height: 0.85; }
+  .stat .mid { font-size: 33px; font-weight: 900; font-style: italic; line-height: 1; margin: 6px 0 10px; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<!-- ================= A. WEBSITES ================= -->
+<section class="post orange" data-name="bizup-flyer-websites">
+  <div class="grid-bg"></div>
+  <div class="top">
+    <div class="badge glow lights"><img src="../../public/logo-horizontal.svg" alt="BizUp Technologies" /><span class="up">Website design</span></div>
+    <div class="head">
+      <small class="up">Fast. Mobile-friendly.<br /><span class="acc">Built to bring enquiries.</span></small>
+      <h1 class="up" style="font-size:66px"><span class="grad">Your business.</span><br /><span class="silver">Open 24/7.</span></h1>
+      <span class="ribbon up"><span class="acc">★</span> Websites for small businesses <span class="acc">★</span></span>
+    </div>
+  </div>
+
+  <div class="stage" style="height:470px">
+    <div class="browser"><div class="in">
+      <div class="bar3"><i></i><i></i><i></i><span>your-business.com</span></div>
+      <div class="site">
+        <h2 class="up"><span class="grad">Fresh. Local.</span><br />Delivered today.</h2>
+        <p>A clear headline, your services, and one obvious button.</p>
+        <div class="btns"><span class="p">Book now</span><span class="g">See prices</span></div>
+        <div class="tiles">
+          <div><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Online booking</div>
+          <div><svg class="ico" viewBox="0 0 24 24"><path d="M4 5h2l2 11h10l2-8H7"/><circle cx="9" cy="20" r="1.500"/><circle cx="17" cy="20" r="1.500"/></svg>Online store</div>
+          <div><svg class="ico" viewBox="0 0 24 24"><path d="M21 12a8 8 0 01-11.500 7.200L4 20l1-4.600A8 8 0 1121 12z"/></svg>Enquiry forms</div>
+        </div>
+      </div>
+    </div></div>
+    <div class="phone"><div class="in">
+      <span class="notch"></span>
+      <h3 class="up">Looks great on phones</h3>
+      <div class="row"><i></i>Tap to call</div>
+      <div class="row"><i></i>Map &amp; hours</div>
+      <div class="row"><i></i>Menu / services</div>
+      <div class="row"><i></i>Reviews link</div>
+      <span class="go">Book now</span>
+    </div></div>
+  </div>
+  <p class="note">Screens are illustrations</p>
+
+  <div class="ben glow lights" style="grid-template-columns:repeat(4,1fr)">
+    <div><svg class="ico" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg><b class="up">Loads fast<em>On any phone</em></b><p>Built light, so visitors don't leave.</p></div>
+    <div><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.300-4.300"/></svg><b class="up">Ready for<em>Google</em></b><p>Set up so search engines can find you.</p></div>
+    <div><svg class="ico" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.500 3.500a2.100 2.100 0 013 3L7 19l-4 1 1-4z"/></svg><b class="up">Clear &amp;<em>Simple</em></b><p>Visitors find what they need in seconds.</p></div>
+    <div><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M8.500 12l2.500 2.500 4.500-5"/></svg><b class="up">Yours<em>Once paid</em></b><p>Domain, code and content belong to you.</p></div>
+  </div>
+
+  <div class="get">
+    <div class="list glow">
+      <h3 class="up grad">What you get</h3>
+      <ul><li>Home, services and contact pages</li><li>Booking or enquiry form</li><li>Works on phone, tablet, desktop</li><li>Help after launch</li></ul>
+    </div>
+    <div class="cta glow">
+      <small class="up silver">Need a website<br />that works?</small>
+      <div class="box glow lights"><div class="l1 up grad">Call or message</div><div class="l2 up grad">Today!</div></div>
+      <div><span class="tagpill up">Free 20-minute call</span></div>
+    </div>
+  </div>
+
+  <div class="contact glow">
+    <div class="item"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.500 1.500a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg></span><div><small class="up">Call or message</small><b>+1 (469) 348-3250</b></div></div>
+    <span class="sep"></span>
+    <div class="item"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><div><small class="up">Website</small><b style="font-size:27px">bizuptechnologies.com</b></div></div>
+    <span class="qr"><img src="qr-site.svg" alt="QR code to bizuptechnologies.com" /></span>
+  </div>
+  <div class="strip up">Websites <i>◆</i> Apps <i>◆</i> Automation</div>
+</section>
+
+<!-- ================= B. AUTOMATION ================= -->
+<section class="post pink" data-name="bizup-flyer-automation">
+  <div class="grid-bg"></div>
+  <div class="top">
+    <div class="badge glow lights"><img src="../../public/logo-horizontal.svg" alt="BizUp Technologies" /><span class="up">Business automation</span></div>
+    <div class="head">
+      <small class="up">Reports. Alerts. Stock.<br /><span class="acc">Handled automatically.</span></small>
+      <h1 class="up" style="font-size:62px"><span class="grad">Stop doing it</span><br /><span class="silver">by hand.</span></h1>
+      <span class="ribbon up"><span class="acc">★</span> Software that runs itself <span class="acc">★</span></span>
+    </div>
+  </div>
+
+  <div class="vs">
+    <div class="col before">
+      <h3 class="up">Before</h3>
+      <div class="row"><i></i>Sales in three spreadsheets</div>
+      <div class="row"><i></i>Orders lost in group chats</div>
+      <div class="row"><i></i>Stock counted by hand</div>
+      <div class="row"><i></i>Reports typed every week</div>
+      <div class="row"><i></i>Mistakes found too late</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="col after"><div class="in">
+      <h3 class="up grad">After</h3>
+      <div class="row"><i></i>One dashboard for everything</div>
+      <div class="row"><i></i>Every order in one list</div>
+      <div class="row"><i></i>Low-stock alerts sent to you</div>
+      <div class="row"><i></i>Reports that build themselves</div>
+      <div class="row"><i></i>Numbers you can trust</div>
+    </div></div>
+  </div>
+
+  <div class="trio">
+    <div class="mini glow"><small class="up">Daily report</small><b class="grad">7:00 AM</b><p>In your inbox before you start the day.</p></div>
+    <div class="mini glow"><small class="up">Sales this week</small><b class="grad">$18,420</b><div class="spark"><i style="height:40%"></i><i style="height:58%"></i><i style="height:48%"></i><i style="height:72%"></i><i style="height:64%"></i><i style="height:100%"></i></div></div>
+    <div class="mini glow"><small class="up">Low stock</small><b class="grad">3 items</b><p>Flagged before you run out.</p></div>
+  </div>
+  <p class="note">Figures are illustrations with sample data</p>
+
+  <div class="ben glow lights" style="grid-template-columns:repeat(4,1fr)">
+    <div><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><b class="up">Hours back<em>Every week</em></b><p>Less retyping and chasing numbers.</p></div>
+    <div><svg class="ico" viewBox="0 0 24 24"><path d="M3 20h18M6 20V11M11 20V7M16 20v-6M21 20V4"/></svg><b class="up">Live<em>Numbers</em></b><p>See sales and stock as they change.</p></div>
+    <div><svg class="ico" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0112 0c0 6 2 7 2 7H4s2-1 2-7z"/><path d="M10 20a2 2 0 004 0"/></svg><b class="up">Alerts<em>Not surprises</em></b><p>Know about problems early.</p></div>
+    <div><svg class="ico" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.500"/><path d="M2.500 20c0-3.500 3-5.500 6.500-5.500s6.500 2 6.500 5.500"/><path d="M17 8l2 2 3-4"/></svg><b class="up">Right access<em>Per person</em></b><p>Each role sees only what it needs.</p></div>
+  </div>
+
+  <div class="cta glow" style="padding:22px 24px 24px">
+    <small class="up silver">Tell us what&rsquo;s slow. We&rsquo;ll tell you what it takes to fix it.</small>
+    <div class="box glow lights" style="align-self:center;padding:12px 60px 16px"><div class="l1 up grad">Call or message today!</div></div>
+    <div><span class="tagpill up">Free 20-minute call · No obligation</span></div>
+  </div>
+
+  <div class="contact glow">
+    <div class="item"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.500 1.500a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg></span><div><small class="up">Call or message</small><b>+1 (469) 348-3250</b></div></div>
+    <span class="sep"></span>
+    <div class="item"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><div><small class="up">Website</small><b style="font-size:27px">bizuptechnologies.com</b></div></div>
+    <span class="qr"><img src="qr-site.svg" alt="QR code to bizuptechnologies.com" /></span>
+  </div>
+  <div class="strip up">Dashboards <i>◆</i> Alerts <i>◆</i> Reports</div>
+</section>
+
+<!-- ================= C. PROCESS ================= -->
+<section class="post mint" data-name="bizup-flyer-process">
+  <div class="grid-bg"></div>
+  <div class="top">
+    <div class="badge glow lights"><img src="../../public/logo-horizontal.svg" alt="BizUp Technologies" /><span class="up">How it works</span></div>
+    <div class="head">
+      <small class="up">No black box. No hand-offs.<br /><span class="acc">You see it being built.</span></small>
+      <h1 class="up" style="font-size:66px"><span class="grad">From idea</span><br /><span class="silver">to launch.</span></h1>
+      <span class="ribbon up"><span class="acc">★</span> Three simple steps <span class="acc">★</span></span>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step glow"><span class="n grad">01</span><div><h3 class="up">Tell us what&rsquo;s slow</h3><p>A short call to map what is manual today and what version one needs to do.</p></div><span class="tagpill up chip">Free call</span></div>
+    <div class="step glow"><span class="n grad">02</span><div><h3 class="up">Watch it take shape</h3><p>You see working screens early and often, and decide what changes.</p></div><span class="tagpill up chip">Built in the open</span></div>
+    <div class="step glow"><span class="n grad">03</span><div><h3 class="up">Launch, with support</h3><p>We go live, train your team, and stay on for fixes and new features.</p></div><span class="tagpill up chip">We stay on</span></div>
+  </div>
+
+  <div class="chips up"><span>Websites</span><span>Web apps</span><span>Mobile apps</span><span>Dashboards</span><span>Booking systems</span></div>
+
+  <div class="ben glow lights" style="grid-template-columns:repeat(4,1fr)">
+    <div><svg class="ico" viewBox="0 0 24 24"><path d="M21 12a8 8 0 01-11.500 7.200L4 20l1-4.600A8 8 0 1121 12z"/><path d="M9 11h6M9 14h4"/></svg><b class="up">Talk direct<em>No middlemen</em></b><p>You speak to the person building it.</p></div>
+    <div><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg><b class="up">Pay by<em>Milestone</em></b><p>Agreed up front, before work starts.</p></div>
+    <div><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><b class="up">Replies in<em>1 business day</em></b><p>No waiting a week for an answer.</p></div>
+    <div><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M8.500 12l2.500 2.500 4.500-5"/></svg><b class="up">You own it<em>Once paid</em></b><p>Code, accounts and data are yours.</p></div>
+  </div>
+
+  <div class="duo">
+    <div class="stat glow">
+      <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.500 2"/></svg>
+      <div><div class="big grad">20</div><div class="mid up silver">Minute call</div><span class="tagpill up">Free · No obligation</span></div>
+    </div>
+    <div class="cta glow">
+      <small class="up silver">Got an idea<br />or a problem?</small>
+      <div class="box glow lights"><div class="l1 up grad">Call or message</div><div class="l2 up grad">Today!</div></div>
+    </div>
+  </div>
+
+  <div class="contact glow">
+    <div class="item"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.500 1.500a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg></span><div><small class="up">Call or message</small><b>+1 (469) 348-3250</b></div></div>
+    <span class="sep"></span>
+    <div class="item"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><div><small class="up">Website</small><b style="font-size:27px">bizuptechnologies.com</b></div></div>
+    <span class="qr"><img src="qr-site.svg" alt="QR code to bizuptechnologies.com" /></span>
+  </div>
+  <div class="strip up">Understand <i>◆</i> Build <i>◆</i> Support</div>
+</section>
+
+</body>
+</html>
